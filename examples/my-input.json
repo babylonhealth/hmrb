@@ -1,0 +1,20 @@
+[
+    [
+      {"text": "I", "lemma": "-PRN-", "pos": "PRON"},
+      {"text": "love", "lemma": "love", "pos": "VERB"},
+      {"text": "gorillas", "lemma": "gorilla", "pos": "NOUN"},
+      {"text": ".", "lemma": ".", "pos": "PUNCT"}
+    ],
+    [
+      {"text": "Peter", "lemma": "Peter", "pos": "PROPN"},
+      {"text": "loves", "lemma": "love", "pos": "VERB"},
+      {"text": "gorillas", "lemma": "gorilla", "pos": "NOUN"},
+      {"text": ".", "lemma": ".", "pos": "PUNCT"}
+    ],
+    [
+      {"text": "Jane", "lemma": "Jane", "pos": "PROPN"},
+      {"text": "loves", "lemma": "love", "pos": "VERB"},
+      {"text": "Tarzan", "lemma": "Tarzan", "pos": "PROPN"},
+      {"text": ".", "lemma": ".", "pos": "PUNCT"}
+    ]
+]

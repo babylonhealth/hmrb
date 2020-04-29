@@ -1,0 +1,44 @@
+[
+    [{
+        "name": "var 1",
+        "pattern": [
+        {
+            "GROUP": [
+                {"LEMMA": "a", "OP": "?"},
+                {
+                "GROUP": [
+                    {"LEMMA": "load"},
+                    {"LEMMA": "lot"}
+                ],
+                "UNION": true
+                },
+                {"LEMMA": "of"}
+            ],
+            "OP": "?"
+            },
+            {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}
+        ],
+        "data": "fluffy sheep sequence"
+    }],
+    [{
+        "name": "var 2",
+        "pattern": [
+        {
+            "GROUP": [
+                {"LEMMA": "a"},
+                {
+                "GROUP": [
+                    {"LEMMA": "load"},
+                    {"LEMMA": "lot"}
+                ],
+                "UNION": true
+                },
+                {"LEMMA": "of"}
+            ],
+            "OP": "?"
+            },
+            {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}
+        ],
+        "data": "fluffy sheep sequence"
+    }]
+]

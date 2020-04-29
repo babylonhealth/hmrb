@@ -1,0 +1,9 @@
+[report]
+exclude_lines =
+    raise NotImplementedError
+    pragma: no cover
+[run]
+omit =
+    .venv/*
+    tests/*
+    setup.py

@@ -1,0 +1,4 @@
+sphinx==2.3.0
+sphinxcontrib-napoleon==0.7
+sphinx-rtd-theme==0.4.3
+sphinx-autobuild==0.7.1

@@ -1,0 +1,76 @@
+################################
+name: var reference
+purpose: test if referencing works
+loads: true
+segment_types: VL
+outcomes: success
+inputs: [{"att": "var_1_value"}, {"att": "block_1_value"}]
+================================
+Var var_name:
+(
+    (att: "var_1_value")
+)
+Law named_law:
+(
+    $var_name
+    (att: "block_1_value")
+)
+################################
+name: bad var reference
+purpose: test if referencing unkown vars fails
+loads: false
+segment_types: VL
+outcomes: fail
+inputs: [{"att": "var_1_value"}, {"att": "block_1_value"}]
+================================
+Var var_name:
+(
+    (att: "var_1_value")
+)
+Law named_law:
+(
+    $bad_var_ref
+    (att: "block_1_value")
+)
+################################
+name: duplicate var declaration
+purpose: test if declaring two laws with the same name will fail
+loads: false
+segment_types: VVL
+outcomes: fail
+inputs: [{"att": "var_1_value"}, {"att": "block_1_value"}]
+================================
+Var var_name:
+(
+    (att: "var_1_value")
+)
+Var var_name:
+(
+    (att: "var_1_value")
+)
+Law named_law:
+(
+    $var_name
+    (att: "block_1_value")
+)
+################################
+name: duplicate named law declaration
+purpose: test if declaring two laws with the same name will fail
+loads: false
+segment_types: VVL
+outcomes: fail
+inputs: [{"att": "var_1_value"}, {"att": "block_1_value"}]
+================================
+Var var_name:
+(
+    (att: "var_1_value")
+)
+Law named_law:
+(
+    (att: "var_1_value")
+)
+Law named_law:
+(
+    $var_name
+    (att: "block_1_value")
+)

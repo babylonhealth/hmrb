@@ -1,0 +1,594 @@
+[
+    {
+    "json_grammar": [
+        {
+            "name": "simple rule",
+            "pattern": [
+                {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"},
+                {"ORTH": "love", "LEMMA": "love", "POS": "VERB"},
+                {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ"},
+                {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}
+            ],
+            "data": "fluffy sheep"
+        }
+        ],
+    "internal": [
+        [],
+        [
+            [
+                {"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}},
+                {"key": {"ORTH": "love", "LEMMA": "love", "POS": "VERB"}},
+                {"key": {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ"}},
+                {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "fluffy sheep"}}
+            ]
+        ]
+        ]
+    },
+    {
+    "json_grammar": [
+        {
+            "name": "less simple rule",
+            "pattern": [
+                {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"},
+                {"ORTH": "love", "LEMMA": "love", "POS": "VERB"},
+                {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ", "OP": "?"},
+                {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}
+            ],
+            "data": "optional fluffy sheep"
+        }
+    ],
+    "internal": [
+        [
+            [
+                [
+                    {"key": {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ"}, "vars": [{"DEF": -2558568723485897404, "LENGTH": 1}]}
+                ]
+            ]
+        ],
+        [
+            [
+                {"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}},
+                {"key": {"ORTH": "love", "LEMMA": "love", "POS": "VERB"}},
+                {"vars": [{"REF": -2558568723485897404, "LENGTH": 1, "MIN": 0, "MAX": 1}]},
+                {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "optional fluffy sheep"}}
+            ]
+        ]
+    ]
+    },
+    {
+    "json_grammar": [
+        {
+        "name": "simple union rule",
+        "pattern": [
+            {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"},
+            {
+                "GROUP":[
+                    {"ORTH": "love", "LEMMA": "love", "POS": "VERB"},
+                    {"ORTH": "like", "LEMMA": "like", "POS": "VERB"}
+                ],
+                "UNION": true
+            },
+            {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ", "OP": "?"},
+            {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}
+        ],
+        "data": "fluffy sheep union"
+        }
+    ],
+    "internal": [
+        [
+            [
+                [
+                    {"key": {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ"}, "vars": [{"DEF": -2558568723485897404, "LENGTH": 1}]}
+                ]
+            ]
+        ],
+        [
+            [
+                {"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}},
+                {"key": {"ORTH": "love", "LEMMA": "love", "POS": "VERB"}},
+                {"vars": [{"REF": -2558568723485897404, "LENGTH": 1, "MIN": 0, "MAX": 1}]},
+                {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "fluffy sheep union"}}
+            ],
+            [
+                {"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}},
+                {"key": {"ORTH": "like", "LEMMA": "like", "POS": "VERB"}},
+                {"vars": [{"REF": -2558568723485897404, "LENGTH": 1, "MIN": 0, "MAX": 1}]},
+                {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "fluffy sheep union"}}
+            ]
+        ]
+    ]
+    },
+    {
+        "json_grammar": [
+            {
+                "name": "nested union rule",
+                "pattern": [
+                {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"},
+                {
+                    "GROUP":[
+                        {"ORTH": "love", "LEMMA": "love", "POS": "VERB"},
+                        {
+                            "GROUP": [
+                                {"ORTH": "adore", "LEMMA": "adore", "POS": "VERB"},
+                                {"ORTH": "fancy", "LEMMA": "fancy", "POS": "VERB"}
+                            ],
+                            "UNION": true},
+                        {"ORTH": "like", "LEMMA": "like", "POS": "VERB"}
+                    ],
+                    "UNION": true
+                },
+                {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ", "OP": "?"},
+                {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}
+                ],
+                "data": "fluffy sheep nested union"
+            }
+        ],
+        "internal": [
+        [
+            [
+                [
+                    {"key": {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ"}, "vars": [{"DEF": -2558568723485897404, "LENGTH": 1}]}
+                ]
+            ]
+        ],
+        [
+            [
+                {"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}},
+                {"key": {"ORTH": "adore", "LEMMA": "adore", "POS": "VERB"}},
+                {"vars": [{"REF": -2558568723485897404, "LENGTH": 1, "MIN": 0, "MAX": 1}]},
+                {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "fluffy sheep nested union"}}
+            ],
+            [
+                {"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}},
+                {"key": {"ORTH": "like", "LEMMA": "like", "POS": "VERB"}},
+                {"vars": [{"REF": -2558568723485897404, "LENGTH": 1, "MIN": 0, "MAX": 1}]},
+                {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "fluffy sheep nested union"}}
+            ],
+            [
+                {"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}},
+                {"key": {"ORTH": "love", "LEMMA": "love", "POS": "VERB"}},
+                {"vars": [{"REF": -2558568723485897404, "LENGTH": 1, "MIN": 0, "MAX": 1}]},
+                {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "fluffy sheep nested union"}}
+            ],
+            [
+                {"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}},
+                {"key": {"ORTH": "fancy", "LEMMA": "fancy", "POS": "VERB"}},
+                {"vars": [{"REF": -2558568723485897404, "LENGTH": 1, "MIN": 0, "MAX": 1}]},
+                {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "fluffy sheep nested union"}}
+            ]
+        ]
+    ]
+    },
+    {
+        "json_grammar": [
+        {
+            "name": "double nested union rule",
+            "pattern": [
+            {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"},
+            {
+                "GROUP":[
+                {"ORTH": "love", "LEMMA": "love", "POS": "VERB"},
+                {
+                    "GROUP": [
+                    {"ORTH": "adore", "LEMMA": "adore", "POS": "VERB"},
+                    {"ORTH": "fancy", "LEMMA": "fancy", "POS": "VERB"},
+                    {
+                        "GROUP": [
+                        {"ORTH": "appreciate", "LEMMA": "appreciate", "POS": "VERB"},
+                        {"ORTH": "cherish", "LEMMA": "cherish", "POS": "VERB"}
+                        ],
+                        "UNION": true
+                    }
+                    ],
+                    "UNION": true
+                },
+                {"ORTH": "like", "LEMMA": "like", "POS": "VERB"}
+                ],
+                "UNION": true
+            },
+            {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ", "OP": "?"},
+            {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}
+            ],
+            "data": "fluffy sheep nested union"
+        }
+        ],
+        "internal": [
+        [
+            [
+                [
+                    {"key": {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ"}, "vars": [{"DEF": -2558568723485897404, "LENGTH": 1}]}
+                ]
+            ]
+        ],
+        [
+            [
+                {"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}},
+                {"key": {"ORTH": "love", "LEMMA": "love", "POS": "VERB"}},
+                {"vars": [{"REF": -2558568723485897404, "LENGTH": 1, "MIN": 0, "MAX": 1}]},
+                {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "fluffy sheep nested union"}}
+            ],
+            [
+                {"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}},
+                {"key": {"ORTH": "adore", "LEMMA": "adore", "POS": "VERB"}},
+                {"vars": [{"REF": -2558568723485897404, "LENGTH": 1, "MIN": 0, "MAX": 1}]},
+                {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "fluffy sheep nested union"}}
+            ],
+            [
+                {"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}},
+                {"key": {"ORTH": "appreciate", "LEMMA": "appreciate", "POS": "VERB"}},
+                {"vars": [{"REF": -2558568723485897404, "LENGTH": 1, "MIN": 0, "MAX": 1}]},
+                {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "fluffy sheep nested union"}}
+            ],
+            [
+                {"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}},
+                {"key": {"ORTH": "like", "LEMMA": "like", "POS": "VERB"}},
+                {"vars": [{"REF": -2558568723485897404, "LENGTH": 1, "MIN": 0, "MAX": 1}]},
+                {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "fluffy sheep nested union"}}
+            ],
+            [
+                {"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}},
+                {"key": {"ORTH": "cherish", "LEMMA": "cherish", "POS": "VERB"}},
+                {"vars": [{"REF": -2558568723485897404, "LENGTH": 1, "MIN": 0, "MAX": 1}]},
+                {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "fluffy sheep nested union"}}
+            ],
+            [
+                {"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}},
+                {"key": {"ORTH": "fancy", "LEMMA": "fancy", "POS": "VERB"}},
+                {"vars": [{"REF": -2558568723485897404, "LENGTH": 1, "MIN": 0, "MAX": 1}]},
+                {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "fluffy sheep nested union"}}
+            ]
+        ]
+    ]
+    },
+    {
+        "json_grammar": [
+        {
+            "name": "simple sequence rule",
+            "pattern": [
+            {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"},
+            {
+                "GROUP":[
+                {"ORTH": "absolutely", "LEMMA": "absolutely", "POS": "ADV"},
+                {"ORTH": "love", "LEMMA": "love", "POS": "VERB"}
+                ]
+            },
+            {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ", "OP": "?"},
+            {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}
+            ],
+            "data": "fluffy sheep sequence"
+        }
+        ],
+        "internal": [
+        [
+            [
+                [
+                    {"key": {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ"}, "vars":[{"DEF": -2558568723485897404, "LENGTH": 1}]}
+                ]
+            ]
+        ],
+        [
+            [
+                {"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}},
+                {"key": {"ORTH": "absolutely", "LEMMA": "absolutely", "POS": "ADV"}},
+                {"key": {"ORTH": "love", "LEMMA": "love", "POS": "VERB"}},
+                {"vars": [{"REF":-2558568723485897404, "LENGTH": 1, "MIN": 0, "MAX": 1}]},
+                {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "fluffy sheep sequence"}}
+            ]
+        ]
+    ]
+    },
+    {
+        "json_grammar": [
+        {
+            "name": "nested sequence rule",
+            "pattern": [
+            {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"},
+            {
+                "GROUP":[
+                {
+                    "GROUP":[
+                    {"ORTH": "most", "LEMMA": "most", "POS": "ADV"},
+                    {"ORTH": "definitely", "LEMMA": "definitely", "POS": "ADV"}
+                    ]
+                },
+                {"ORTH": "absolutely", "LEMMA": "absolutely", "POS": "ADV"},
+                {"ORTH": "love", "LEMMA": "love", "POS": "VERB"}
+                ]
+            },
+            {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ", "OP": "?"},
+            {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}
+            ],
+            "data": "fluffy sheep nested sequence"
+        }
+        ],
+        "internal": [
+        [
+            [
+                [
+                    {"key": {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ"}, "vars": [{"DEF": -2558568723485897404, "LENGTH": 1}]}
+                ]
+            ]
+        ],
+        [
+            [
+                {"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}},
+                {"key": {"ORTH": "most", "LEMMA": "most", "POS": "ADV"}},
+                {"key": {"ORTH": "definitely", "LEMMA": "definitely", "POS": "ADV"}},
+                {"key": {"ORTH": "absolutely", "LEMMA": "absolutely", "POS": "ADV"}},
+                {"key": {"ORTH": "love", "LEMMA": "love", "POS": "VERB"}},
+                {"vars": [{"REF":-2558568723485897404, "LENGTH": 1, "MIN": 0, "MAX": 1}]},
+                {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "fluffy sheep nested sequence"}}
+            ]
+        ]
+    ]
+    },
+    {
+        "json_grammar": [
+        {
+            "name": "star sequence rule",
+            "pattern": [
+            {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"},
+            {
+                "GROUP":[
+                {"ORTH": "absolutely", "LEMMA": "absolutely", "POS": "ADV"},
+                {"ORTH": "love", "LEMMA": "love", "POS": "VERB"}
+                ],
+                "OP": "*"
+            },
+            {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ", "OP": "?"},
+            {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}
+            ],
+            "data": "fluffy sheep sequence"
+        }
+        ],
+        "internal": [
+        [
+            [
+                [
+                    {"key": {"ORTH": "absolutely", "LEMMA": "absolutely", "POS": "ADV"}, "vars": [{"DEF": -3689023300316496749, "LENGTH": 2}]},
+                    {"key": {"ORTH": "love", "LEMMA": "love", "POS": "VERB"}}
+                ]
+            ],
+            [
+                [
+                    {"key": {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ"}, "vars": [{"DEF": -2558568723485897404, "LENGTH": 1}]}
+                ]
+            ]
+        ],
+        [
+            [
+                {"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}},
+                {"vars": [{"REF":-3689023300316496749, "LENGTH": 2, "MIN": 0, "MAX": 10000000000}]},
+                {"vars": [{"REF":-2558568723485897404, "LENGTH": 1, "MIN": 0, "MAX": 1}]},
+                {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "fluffy sheep sequence"}}
+            ]
+        ]
+    ]
+    },
+    {
+        "json_grammar": [
+            {
+            "name": "plus sequence rule",
+            "pattern": [
+                {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"},
+                {
+                "GROUP":[
+                    {"ORTH": "absolutely", "LEMMA": "absolutely", "POS": "ADV"},
+                    {"ORTH": "love", "LEMMA": "love", "POS": "VERB"}
+                ],
+                "OP": "+"
+                },
+                {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ", "OP": "?"},
+                {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}
+            ],
+            "data": "fluffy sheep sequence"
+            }
+        ],
+        "internal": [
+        [
+            [
+                [
+                    {"key": {"ORTH": "absolutely", "LEMMA": "absolutely", "POS": "ADV"}, "vars": [{"DEF": -3689023300316496749, "LENGTH": 2}]},
+                    {"key": {"ORTH": "love", "LEMMA": "love", "POS": "VERB"}}
+                ]
+            ],
+            [
+                [
+                    {"key": {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ"}, "vars": [{"DEF": -2558568723485897404, "LENGTH": 1}]}
+                ]
+            ]
+        ],
+        [
+            [
+                {"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}},
+                {"vars": [{"REF":-3689023300316496749, "LENGTH": 2, "MIN": 1, "MAX": 10000000000}]},
+                {"vars": [{"REF":-2558568723485897404, "LENGTH": 1, "MIN": 0, "MAX": 1}]},
+                {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "fluffy sheep sequence"}}
+            ]
+        ]
+    ]
+    },
+    {
+        "json_grammar": [
+        {
+            "name": "plus nested optional sequence rule with star",
+            "pattern": [
+            {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"},
+            {
+                "GROUP":[
+                {"ORTH": "absolutely", "LEMMA": "absolutely", "POS": "ADV"},
+                {"ORTH": "love", "LEMMA": "love", "POS": "VERB", "OP": "?"},
+                {
+                    "GROUP":[
+                    {"ORTH": "love", "LEMMA": "love", "POS": "VERB"}
+                    ],
+                    "OP": "+"
+                },
+                {
+                    "GROUP":[
+                    {"ORTH": "love", "LEMMA": "love", "POS": "VERB"}
+                    ],
+                    "OP": "*"
+                }
+                ],
+                "OP": "?"
+            },
+            {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ", "OP": "?"},
+            {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}
+            ],
+            "data": "fluffy sheep sequence"
+        }
+        ],
+        "internal": [
+        [
+            [
+                [
+                    {"key": {"ORTH": "love", "LEMMA": "love", "POS": "VERB"}, "vars": [{"DEF": 6755193739395169876, "LENGTH": 1}]}
+                ]
+            ],
+            [
+                [
+                    {"key": {"ORTH": "absolutely", "LEMMA": "absolutely", "POS": "ADV"}, "vars": [{"DEF": 6010320327101446513, "LENGTH": 4}]},
+                    {"vars": [{"REF": 6755193739395169876, "LENGTH": 1, "MIN": 0, "MAX": 1}]},
+                    {"vars": [{"REF": 6755193739395169876, "LENGTH": 1, "MIN": 1, "MAX": 10000000000}]},
+                    {"vars": [{"REF": 6755193739395169876, "LENGTH": 1, "MIN": 0, "MAX": 10000000000}]}
+                ]
+            ],
+            [
+                [
+                    {"key": {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ"}, "vars": [{"DEF": -2558568723485897404, "LENGTH": 1}]}
+                ]
+            ]
+        ],
+        [
+            [
+                {"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}},
+                {"vars": [{"REF": 6010320327101446513, "LENGTH": 4, "MIN": 0, "MAX": 1}]},
+                {"vars": [{"REF": -2558568723485897404, "LENGTH": 1, "MIN": 0, "MAX": 1}]},
+                {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "fluffy sheep sequence"}}
+            ]
+        ]
+    ]
+    },
+    {
+        "json_grammar": [
+        {
+            "name": "nested optional groups",
+            "pattern": [
+            {"LEMMA": "like"},
+            {
+                "GROUP": [
+                    {"LEMMA": "much"},
+                    {"LEMMA": "way"},
+                    {
+                        "GROUP": [
+                        {"LEMMA": "a"},
+                        {"LEMMA": "lot"}
+                        ]
+                    }
+                ],
+                "UNION": true,
+                "OP": "?"
+            },
+            {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ", "OP": "?"},
+            {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}
+            ],
+            "data": "fluffy sheep sequence"
+        }
+        ],
+        "internal": [
+        [
+            [
+                [
+                    {"key": {"LEMMA": "much"}, "vars": [{"DEF": 5478216508001226327, "LENGTH": 1}]}
+                ],
+                [
+                    {"key": {"LEMMA": "way"}, "vars": [{"DEF": 5478216508001226327, "LENGTH": 1}]}
+                ],
+                [
+                    {"key": {"LEMMA": "a"}, "vars": [{"DEF": 5478216508001226327, "LENGTH": 1}]},
+                    {"key": {"LEMMA": "lot"}}
+                ]
+            ],
+            [
+                [
+                    {"key": {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ"}, "vars": [{"DEF": -2558568723485897404, "LENGTH": 1}]}
+                ]
+            ]
+        ],
+        [
+            [
+                {"key": {"LEMMA": "like"}},
+                {"vars": [{"REF": 5478216508001226327, "LENGTH": 1, "MIN": 0, "MAX": 1}]},
+                {"vars": [{"REF": -2558568723485897404, "LENGTH": 1, "MIN": 0, "MAX": 1}]},
+                {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "fluffy sheep sequence"}}
+            ]
+        ]
+    ]
+    },
+    {
+        "json_grammar": [
+        {
+            "name": "double vars",
+            "pattern": [
+            {
+                "GROUP": [
+                    {"LEMMA": "a", "OP": "?"},
+                    {
+                    "GROUP": [
+                        {"LEMMA": "load"},
+                        {"LEMMA": "lot"}
+                    ],
+                    "UNION": true
+                    },
+                    {"LEMMA": "of"}
+                ],
+                "OP": "?"
+                },
+                {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ", "OP": "?"},
+                {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}
+            ],
+            "data": "fluffy sheep sequence"
+        }],
+        "internal": [
+        [
+            [
+                [
+                    {"key": {"LEMMA": "a"}, "vars": [{"DEF": -4805186346956635211, "LENGTH": 1}]}
+                ]
+            ],
+            [
+                [
+                    {"key": {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ"}, "vars": [{"DEF": -2558568723485897404, "LENGTH": 1}]}
+                ]
+            ],
+            [
+                [
+                    {"vars": [{"DEF": -3678934369763474885, "LENGTH": 3}, {"REF": -4805186346956635211, "LENGTH": 1, "MIN": 0, "MAX": 1}]},
+                    {"key": {"LEMMA": "load"}},
+                    {"key": {"LEMMA": "of"}}
+                ]
+            ],
+            [
+                [
+                    {"vars": [{"DEF": -1747958515901015344, "LENGTH": 3}, {"REF": -4805186346956635211, "LENGTH": 1, "MIN": 0, "MAX": 1}]},
+                    {"key": {"LEMMA": "lot"}},
+                    {"key": {"LEMMA": "of"}}
+                ]
+            ]
+        ],
+        [
+            [
+                {"vars": [{"REF": -3678934369763474885, "LENGTH": 3, "MIN": 0, "MAX": 1}]},
+                {"vars": [{"REF": -2558568723485897404, "LENGTH": 1, "MIN": 0, "MAX": 1}]},
+                {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "fluffy sheep sequence"}}
+            ],
+            [
+                {"vars": [{"REF": -1747958515901015344, "LENGTH": 3, "MIN": 0, "MAX": 1}]},
+                {"vars": [{"REF": -2558568723485897404, "LENGTH": 1, "MIN": 0, "MAX": 1}]},
+                {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "fluffy sheep sequence"}}
+            ]
+        ]
+    ]
+    }
+]

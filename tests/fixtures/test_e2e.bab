@@ -1,0 +1,1054 @@
+################################
+name: 1. beginning
+purpose: test if the label is detected correctly in the beginning
+output: {"[0,3]": [{"callback": "my_callback", "package": "beginning", "_": {"labels": {"beginning": [0, 1]}}}]}
+input: [{"lemma": "John"}, {"lemma": "like"}, {"lemma": "water"}]
+================================
+Law:
+    - callback: "my_callback"
+    - package: "beginning"
+(
+    beginning -> (lemma: "John")
+    (lemma: "like")
+    (lemma: regex("water"))
+)
+################################
+name: 2. verb
+purpose: test if the label is detected correctly in the middle
+output: {"[0, 3]": [{"callback": "my_callback", "package": "verb", "_": {"labels": {"verb": [1, 2]}}}]}
+input: [{"lemma": "John"}, {"lemma": "like"}, {"lemma": "water"}]
+================================
+Law:
+    - callback: "my_callback"
+    - package: "verb"
+(
+    (lemma: "John")
+    verb -> (lemma: "like")
+    (lemma: regex("water"))
+)
+################################
+name: 3. end
+purpose: test if the label is detected correctly in the end
+output: {"[0, 3]": [{"callback": "my_callback", "package": "end", "_": {"labels": {"end": [2, 3]}}}]}
+input: [{"lemma": "John"}, {"lemma": "like"}, {"lemma": "water"}]
+================================
+Law:
+    - callback: "my_callback"
+    - package: "end"
+(
+    (lemma: "John")
+    (lemma: "like")
+    end -> (lemma: "water")
+)
+################################
+name: 4. end_regex
+purpose: test if the label is detected correctly from a regex at the end of the rule
+output: {"[0, 3]": [{"callback": "my_callback", "package": "end_regex", "_": {"labels": {"end": [2, 3]}}}]}
+input: [{"lemma": "John"}, {"lemma": "like"}, {"lemma": "water"}]
+================================
+Law:
+    - callback: "my_callback"
+    - package: "end_regex"
+(
+    (lemma: "John")
+    (lemma: "like")
+    end -> (lemma: regex("water"))
+)
+################################
+name: 5. mid_regex
+purpose: test if the label is detected correctly from a regex in the middle of the rule
+output: {"[0, 3]": [{"callback": "my_callback", "package": "mid_regex", "_": {"labels": {"mid": [1, 2]}}}]}
+input: [{"lemma": "John"}, {"lemma": "like"}, {"lemma": "water"}]
+================================
+Law:
+    - callback: "my_callback"
+    - package: "mid_regex"
+(
+    (lemma: "John")
+    mid -> (lemma: regex("like"))
+    (lemma: "water")
+)
+################################
+name: 6. cardinal
+purpose: test if the a simple regex match is extracted correctly
+output: {"[1, 2]": [{"callback": "my_callback", "package": "number_cardinal"}]}
+input: [{"lemma": "be"}, {"lemma": "20"}, {"lemma": "year"}, {"lemma": "old"}]
+================================
+Law number_cardinal:
+    - callback: "my_callback"
+    - package: "number_cardinal"
+(
+    (lemma: regex("^[0-9]+([\.,][0-9]+)?$"))
+)
+################################
+name: 7. length
+purpose: test labelled ragexes
+output: {"[1, 4]": [{"callback": "my_callback", "package": "length", "_": {"labels": {"cardinal": [1, 2], "unit": [2, 3]}}}]}
+input: [{"lemma": "have"}, {"lemma": "20"}, {"lemma": "cm"}, {"lemma": "tall"}, {"lemma": "sloth"}]
+================================
+Law length:
+    - callback: "my_callback"
+    - package: "length"
+(
+    cardinal -> (lemma: regex("^[0-9]+([\.,][0-9]+)?$"))
+    unit -> (lemma: "cm")
+    (lemma: "tall")
+)
+################################
+name: 8. number_ordinal
+purpose: test multiple labels and labelled macros
+output: {"[3, 4]": [{"callback": "parse_number_cardinal"}],"[3, 5]": [{"callback": "parse_number_ordinal", "_": {"labels": {"cardinal": [3, 4], "particle": [4, 5]}}}]}
+input: [{"lemma": "That"}, {"lemma": "was"}, {"lemma": "the"}, {"lemma": "21"}, {"lemma": "st"}, {"lemma": "time"}]
+================================
+Law number_cardinal:
+    - callback: "parse_number_cardinal"
+(
+    (lemma: regex("^[0-9]+([\.,][0-9]+)?$"))
+)
+
+Law number_ordinal:
+    - callback: "parse_number_ordinal"
+(
+    cardinal -> $number_cardinal
+    particle -> (lemma: regex("^(st|nd|rd|th)$"))
+)
+################################
+name: 9. number_ordinal
+purpose: test labels longer than 1 token
+output: {"[3, 5]": [{"callback": "parse_number_cardinal"}, {"callback": "parse_number_ordinal", "_": {"labels": {"cardinal": [3, 5]}}}]}
+input: [{"lemma": "That"}, {"lemma": "was"}, {"lemma": "the"}, {"lemma": "21"}, {"lemma": "21"}]
+================================
+Law number_cardinal:
+    - callback: "parse_number_cardinal"
+(
+    (lemma: regex("^[0-9]+([\.,][0-9]+)?$"))
+    (lemma: regex("^[0-9]+([\.,][0-9]+)?$"))
+)
+
+Law number_ordinal:
+    - callback: "parse_number_ordinal"
+(
+    cardinal -> $number_cardinal
+)
+################################
+name: 10. written_ordinal
+purpose: test gazetteer attributes
+output: {"[1, 2]": [{"callback": "parse_written_ordinal"}]}
+input: [{"lemma": "the"}, {"lemma": "first", "written_ordinal": "true"}, {"lemma": "time"}]
+================================
+Law written_ordinal:
+    - callback: "parse_written_ordinal"
+(
+    (
+        (written_ordinal: "true")
+        or
+        (written_number: "true")
+    )
+)
+################################
+name: 11. block_union
+purpose: test block union (i.e. between block and not between units)
+output: {"[1, 3]": [{"callback": "block_union"}]}
+input: [{"lemma": "the"}, {"lemma": "first"}, {"lemma": "time"}]
+================================
+Law block_union:
+    - callback: "block_union"
+(
+    (
+        (
+            (lemma: "first")
+            (lemma: "time")
+        )
+        or
+        (
+            (lemma: "second")
+            (lemma: "time")
+        )
+    )
+)
+################################
+name: 12. block_union_nonfinal
+purpose: test union on a non-final block
+output: {"[1, 3]": [{"callback": "block_union_nonfinal"}]}
+input: [{"lemma": "the"}, {"lemma": "first"}, {"lemma": "time"}]
+================================
+Law block_union_nonfinal:
+    - callback: "block_union_nonfinal"
+(
+    (
+        (lemma: "first")
+        or
+        (lemma: "second")
+    )
+    (lemma: "time")
+)
+################################
+name: 13. block_union_disjunct
+purpose: test union on a non-final block
+output: {"[1, 2]": [{"callback": "block_union_disjunct"}]}
+input: [{"lemma": "the"}, {"lemma": "second"}, {"lemma": "time"}]
+================================
+Law block_union_disjunct:
+    - callback: "block_union_disjunct"
+(
+    (
+        (lemma: "first")
+        or
+        (lemma: "second")
+    )
+)
+################################
+name: 14. block_union_macros
+purpose: test union on macros
+output: {"[1, 3]": [{"callback": "block_union_macros", "_": {"labels": {"first": [1, 2]}}}, {"callback": "first_time", "_": {"labels": {"first": [1, 2]}}}]}
+input: [{"lemma": "the"}, {"lemma": "first"}, {"lemma": "time"}]
+================================
+Law first_time:
+    - callback: "first_time"
+(
+    first -> (lemma: "first")
+    (lemma: "time")
+)
+
+Law second_time:
+    - callback: "second_time"
+(
+    second -> (lemma: "second")
+    (lemma: "time")
+)
+
+Law block_union_macros:
+    - callback: "block_union_macros"
+(
+    (
+        $first_time
+        or
+        $second_time
+    )
+)
+################################
+name: 15. multi_unit_macros
+purpose: test labels on multi-unit macros
+output: {"[1, 3]": [{"callback": "multi_unit_macros", "_": {"labels": {"first_time": [1, 3]}}}, {"callback": "first_time"}]}
+input: [{"lemma": "the"}, {"lemma": "first"}, {"lemma": "time"}]
+================================
+Law first_time:
+    - callback: "first_time"
+(
+    (lemma: "first")
+    (lemma: "time")
+)
+
+Law multi_unit_macros:
+    - callback: "multi_unit_macros"
+(
+    first_time -> $first_time
+)
+################################
+name: 16. day
+purpose: test nested union (without labels)
+output: {"[1, 4]": [{"callback": "parse_day"}, {"callback": "parse_written_ordinal"}], "[3, 4]": [{"callback": "parse_day"}, {"callback": "parse_written_ordinal"}]}
+input: [{"lemma": "the"}, {"written_number": "true"}, {"lemma": "-"}, {"written_ordinal": "true"}, {"lemma": "time"}]
+================================
+Law written_ordinal:
+    - callback: "parse_written_ordinal"
+(
+    (
+        (written_ordinal: "true")
+        or
+        (
+            (written_number: "true")
+            optional (lemma: "-")
+            (written_ordinal: "true")
+        )
+    )
+)
+
+Law day:
+    - callback: "parse_day"
+(
+    (
+        (lemma: "any")
+        or
+        $written_ordinal
+    )
+)
+################################
+name: 17. rule_final_labels
+purpose: check labels at the end of a rule are returned
+output: {"[1, 3]": [{"callback": "rule_final_labels", "_": {"labels": {"label2": [1, 2], "label3": [2, 3]}}}]}
+input: [{"lemma": "the"}, {"lemma": "2"}, {"lemma": "3"}, {"lemma": "time"}]
+================================
+Law rule_final_labels:
+    - callback: "rule_final_labels"
+(
+    label2 -> (lemma: "2")
+    label3 -> (lemma: "3")
+)
+################################
+name: 18. number_ordinal
+purpose: test labels longer than 1 token
+output: {"[2, 4]": [{"callback": "parse_number_cardinal"}]}
+input: [{"lemma": "That"}, {"lemma": "was"}, {"lemma": "10"}, {"lemma": "21"}]
+================================
+Law number_cardinal:
+    - callback: "parse_number_cardinal"
+(
+    (lemma: regex("[0-9]+"))
+    (lemma: "21"))
+)
+################################
+name: 19. day
+purpose: test multiple rule matches are appended correctly
+output: {"[1, 2]": [{"callback": "parse_day", "_": {"labels": {"digit": [1, 2]}}}, {"callback": "parse_written_ordinal", "_": {"labels": {"digit": [1, 2]}}}]}
+input: [{"lemma": "the"}, {"lemma": "1"}, {"lemma": "time"}]
+================================
+Law written_ordinal_law:
+    - callback: "parse_written_ordinal"
+(
+    digit -> (lemma: "1")
+)
+
+Law day:
+    - callback: "parse_day"
+(
+    (
+        any -> (lemma: "any")
+        or
+        $written_ordinal_law
+    )
+)
+################################
+name: 20. false_label_matches
+purpose: test false incomplete label matches
+output: {"[1, 4]": [{"callback": "parse_written_ordinal", "_": {"labels": {"digit21": [1, 2], "digit22": [3, 4]}}}]}
+input: [{"lemma": "the"}, {"lemma": "twenty"}, {"lemma": "-"}, {"lemma": "first"}, {"lemma": "time"}]
+================================
+Law false_label_matches:
+    - callback: "parse_written_ordinal"
+(
+    digit21 -> (lemma: "twenty")
+    optional (lemma: "-")
+    digit22 -> (lemma: "first")
+)
+################################
+name: 21
+output: {"[1, 2]": [{"callback": "number_cardinal_callback", "_": {"labels": {"cardinal": [1, 2]}}}]}
+input: [{"lemma": "the"}, {"lemma": "2,5"}, {"lemma": "litres"}]
+================================
+Law number_cardinal:
+    - callback: "number_cardinal_callback"
+(
+    cardinal -> (lemma: regex("^[0-9]+([\.,][0-9]+)?$"))
+)
+################################
+name: 22
+output: {"[1, 3]": [{"callback": "parse_number_ordinal", "_": {"labels": {"cardinal": [1, 2], "particle": [2, 3]}}}], "[1, 2]": [{"callback": "number_cardinal_callback", "_": {"labels": {"cardinal": [1, 2]}}}]}
+input: [{"lemma": "July"}, {"lemma": "23"}, {"lemma": "rd"}]
+================================
+Law number_cardinal:
+    - callback: "number_cardinal_callback"
+(
+    cardinal -> (lemma: regex("^[0-9]+([\.,][0-9]+)?$"))
+)
+
+Law number_ordinal:
+    - callback: "parse_number_ordinal"
+(
+    cardinal -> $number_cardinal
+    particle -> (lemma: regex("^(st|nd|rd|th)$"))
+)
+################################
+name: 23
+output: {"[1, 2]": [{"callback": "parse_cardinal_with_period", "_": {"labels": {"number": [1, 2]}}}]}
+input: [{"lemma": "July"}, {"lemma": "23."}]
+================================
+Law cardinal_with_period:
+    - callback: "parse_cardinal_with_period"
+(
+    number -> (lemma: regex("^[0-9]+\.$"))
+)
+################################
+name: 24
+output: {"[1, 2]": [{"callback": "parse_written_ordinal", "_": {"labels": {"digit1": [1, 2]}}}]}
+input: [{"lemma": "the"}, {"written_ordinal": "true"}, {"lemma": "time"}]
+================================
+Law written_ordinal:
+    - callback: "parse_written_ordinal"
+(
+    (
+        digit1 -> (written_ordinal: "true")
+        or
+        (
+            digit1 -> (written_number: "true")
+            optional (lemma: "-")
+            digit2 -> (written_ordinal: "true")
+        )
+    )
+)
+################################
+name: 25
+output: {"[1, 4]": [{"callback": "parse_written_ordinal", "_": {"labels": {"digit21": [1, 2], "digit22": [3, 4]}}}], "[3, 4]": [{"callback": "parse_written_ordinal", "_": {"labels": {"digit11": [3, 4]}}}]}
+input: [{"lemma": "the"}, {"written_number": "true"}, {"lemma": "-"}, {"written_ordinal": "true"}, {"lemma": "time"}]
+================================
+Law written_ordinal:
+    - callback: "parse_written_ordinal"
+(
+    (
+        digit11 -> (written_ordinal: "true")
+        or
+        (
+            digit21 -> (written_number: "true")
+            optional (lemma: "-")
+            digit22 -> (written_ordinal: "true")
+        )
+    )
+)
+################################
+name: 26
+output: {"[1, 2]": [{"callback": "parse_day", "_": {"labels": {"number": [1, 2]}}}, {"callback": "parse_cardinal_with_period", "_": {"labels": {"number": [1, 2]}}}]}
+input: [{"lemma": "July"}, {"lemma": "23."}]
+================================
+Law number_cardinal:
+    - callback: "number_cardinal_callback"
+(
+    cardinal -> (lemma: regex("^[0-9]+([\.,][0-9]+)?$"))
+)
+
+Law number_ordinal:
+    - callback: "parse_number_ordinal"
+(
+    cardinal -> $number_cardinal
+    particle -> (lemma: regex("^(st|nd|rd|th)$"))
+)
+
+Law cardinal_with_period:
+    - callback: "parse_cardinal_with_period"
+(
+    number -> (lemma: regex("^[0-9]+\.$"))
+)
+
+Law written_ordinal:
+    - callback: "parse_written_ordinal"
+(
+    (
+        digit11 -> (written_ordinal: "true")
+        or
+        (
+            digit21 -> (written_number: "true")
+            optional (lemma: "-")
+            digit22 -> (written_ordinal: "true")
+        )
+    )
+)
+
+Law day:
+    - callback: "parse_day"
+(
+    (
+        $number_cardinal
+        or
+        $number_ordinal
+        or
+        $cardinal_with_period
+        or
+        $written_ordinal
+    )
+)
+################################
+name: 27
+output: {"[1, 2]": [{"callback": "parse_day", "_": {"labels": {"n_cardinal": [1, 2]}}}, {"callback": "number_cardinal_callback", "_": {"labels": {"n_cardinal": [1, 2]}}}]}
+input: [{"lemma": "July"}, {"lemma": "23"}, {"lemma": "daytime"}]
+================================
+Law number_cardinal:
+    - callback: "number_cardinal_callback"
+(
+    n_cardinal -> (lemma: regex("^[0-9]+([\.,][0-9]+)?$"))
+)
+
+Law number_ordinal:
+    - callback: "parse_number_ordinal"
+(
+    o_cardinal -> $number_cardinal
+    particle -> (lemma: regex("^(st|nd|rd|th)$"))
+)
+
+Law cardinal_with_period:
+    - callback: "parse_cardinal_with_period"
+(
+    number -> (lemma: regex("^[0-9]+\\.$"))
+)
+
+Law written_ordinal:
+    - callback: "parse_written_ordinal"
+(
+    (
+        digit11 -> (written_ordinal: "true")
+        or
+        (
+            digit21 -> (written_number: "true")
+            optional (lemma: "-")
+            digit22 -> (written_ordinal: "true")
+        )
+    )
+)
+
+Law day:
+    - callback: "parse_day"
+(
+    (
+        $number_cardinal
+        or
+        $number_ordinal
+        or
+        $cardinal_with_period
+        or
+        $written_ordinal
+    )
+)
+################################
+name: 28
+output: {"[1, 2]": [{"callback": "parse_day", "_": {"labels": {"number": [1, 2]}}}, {"callback": "parse_cardinal_with_period", "_": {"labels": {"number": [1, 2]}}}]}
+input: [{"lemma": "July"}, {"lemma": "23."}]
+================================
+Law number_cardinal:
+    - callback: "number_cardinal_callback"
+(
+    n_cardinal -> (lemma: regex("^[0-9]+([\.,][0-9]+)?$"))
+)
+
+Law number_ordinal:
+    - callback: "parse_number_ordinal"
+(
+    o_cardinal -> $number_cardinal
+    particle -> (lemma: regex("^(st|nd|rd|th)$"))
+)
+
+Law cardinal_with_period:
+    - callback: "parse_cardinal_with_period"
+(
+    number -> (lemma: regex("^[0-9]+\.$"))
+)
+
+Law written_ordinal:
+    - callback: "parse_written_ordinal"
+(
+    (
+        digit11 -> (written_ordinal: "true")
+        or
+        (
+            digit21 -> (written_number: "true")
+            optional (lemma: "-")
+            digit22 -> (written_ordinal: "true")
+        )
+    )
+)
+
+Law day:
+    - callback: "parse_day"
+(
+    (
+        $number_cardinal
+        or
+        $number_ordinal
+        or
+        $cardinal_with_period
+        or
+        $written_ordinal
+    )
+)
+################################
+name: 29
+output: {"[1, 2]": [{"callback": "parse_day", "_": {"labels": {"digit11": [1, 2]}}}, {"callback": "parse_written_ordinal", "_": {"labels": {"digit11": [1, 2]}}}]}
+input: [{"lemma": "July"}, {"written_ordinal": "true"}]
+================================
+Law number_cardinal:
+    - callback: "number_cardinal_callback"
+(
+    n_cardinal -> (lemma: regex("^[0-9]+([\.,][0-9]+)?$"))
+)
+
+Law number_ordinal:
+    - callback: "parse_number_ordinal"
+(
+    o_cardinal -> $number_cardinal
+    particle -> (lemma: regex("^(st|nd|rd|th)$"))
+)
+
+Law cardinal_with_period:
+    - callback: "parse_cardinal_with_period"
+(
+    number -> (lemma: regex("^[0-9]+\.$"))
+)
+
+Law written_ordinal:
+    - callback: "parse_written_ordinal"
+(
+    (
+        digit11 -> (written_ordinal: "true")
+        or
+        (
+            digit21 -> (written_number: "true")
+            optional (lemma: "-")
+            digit22 -> (written_ordinal: "true")
+        )
+    )
+)
+
+Law day:
+    - callback: "parse_day"
+(
+    (
+        $number_cardinal
+        or
+        $number_ordinal
+        or
+        $cardinal_with_period
+        or
+        $written_ordinal
+    )
+)
+################################
+name: 30
+output: {"[0, 1]": [{"callback": "parse_number_cardinal"}], "[2, 3]": [{"callback": "parse_number_cardinal"}], "[0, 3]": [{"callback": "parse_value_unit_value_unit"}]}
+input: [{"lemma": "6"}, {"unit": "True"}, {"lemma": "2"}]
+================================
+Law number_cardinal:
+    - callback: "parse_number_cardinal"
+(
+    (lemma: regex("^[0-9]+([\\.,][0-9]+)?$"))
+)
+
+Law value_unit_value_unit:
+    - callback: "parse_value_unit_value_unit"
+(
+    $number_cardinal
+    (unit: "True")
+    $number_cardinal
+    optional (unit: "True")
+)
+################################
+name: 31
+output: {"[0, 1]": [{"callback": "parse_number_cardinal"}], "[0, 3]": [{"callback": "parse_value_unit_value_unit", "_": {"labels": {"cardinal2": [2, 3], "cardinal1": [0, 1], "unit1": [1, 2]}}}], "[0, 4]": [{"callback": "parse_value_unit_value_unit", "_": {"labels": {"unit2": [3, 4], "cardinal2": [2, 3], "cardinal1": [0, 1], "unit1": [1, 2]}}}], "[0, 2]": [{"callback": "parse_value_unit", "_": {"labels": {"unit": [1, 2], "cardinal": [0, 1]}}}], "[2, 3]": [{"callback": "parse_number_cardinal"}], "[2, 4]": [{"callback": "parse_value_unit", "_": {"labels": {"unit": [3, 4], "cardinal": [2, 3]}}}]}
+input: [{"lemma": "2"}, {"unit": "True"}, {"lemma": "6"}, {"unit": "True"}]
+================================
+
+Law number_cardinal:
+    - callback: "parse_number_cardinal"
+(
+    (lemma: regex("^[0-9]+([\\.,][0-9]+)?$"))
+)
+
+Law value_unit:
+    - callback: "parse_value_unit"
+(
+    cardinal -> $number_cardinal
+    unit -> (unit: "True")
+)
+
+Law value_unit_value_unit:
+    - callback: "parse_value_unit_value_unit"
+(
+    cardinal1 -> $number_cardinal
+    unit1 -> (unit: "True")
+    cardinal2 -> $number_cardinal
+    unit2 -> optional (unit: "True")
+)
+################################
+name: 32. Test optional label
+output: {"[0, 1]": [{"package": "test optional label"}]}
+input: [{"lemma": "one"}, {"lemma": "two"}, {"lemma": "three"}, {"lemma": "four"}]
+================================
+Law:
+    - package: "test optional label"
+(
+    (lemma: "one")
+    two -> optional (lemma: "three")
+)
+################################
+name: 33. Test multiple labels
+output: {"[0, 2]": [{"package": "test multiple labels" , "_": {"labels": {"two": [1, 2]}}}], "[0, 3]": [{"package": "test multiple labels", "_": {"labels": {"two": [1, 3]}}}]}
+input: [{"lemma": "one"}, {"lemma": "two"}, {"lemma": "two"}, {"lemma": "three"}]
+================================
+Law:
+    - package: "test multiple labels"
+(
+    (lemma: "one")
+    two -> 1 to 3 (lemma: "two")
+)
+################################
+name: 34. Test sequence optionals
+output: {"[0, 3]": [{"package": "test optional sequence"}], "[0, 4]": [{"package": "test optional sequence"}], "[0, 5]": [{"package": "test optional sequence"}], "[1, 3]": [{"package": "test optional sequence"}], "[1, 4]": [{"package": "test optional sequence"}], "[1, 5]": [{"package": "test optional sequence"}], "[2, 3]": [{"package": "test optional sequence"}], "[2, 4]": [{"package": "test optional sequence"}], "[2, 5]": [{"package": "test optional sequence"}]}
+input: [{"lemma": ":"}, {"lemma": ":"}, {"lemma": "2001:db8:1:ab9:C0A8:102"}, {"lemma": ":"}, {"lemma": ":"}]
+================================
+Law:
+    - package: "test optional sequence"
+(
+    optional (lemma: ":")
+    optional (lemma: ":")
+    (lemma: regex("^([0-9a-fA-F]{1,4}:){1,6}[0-9a-fA-f]{1,4}$"))
+    optional (lemma: ":")
+    optional (lemma: ":")
+)
+
+################################
+name: 35. Test sequence optionals equivalent
+output: {"[0, 3]": [{"package": "test optional sequence"}], "[0, 4]": [{"package": "test optional sequence"}], "[0, 5]": [{"package": "test optional sequence"}], "[1, 3]": [{"package": "test optional sequence"}], "[1, 4]": [{"package": "test optional sequence"}], "[1, 5]": [{"package": "test optional sequence"}], "[2, 3]": [{"package": "test optional sequence"}], "[2, 4]": [{"package": "test optional sequence"}], "[2, 5]": [{"package": "test optional sequence"}]}
+input: [{"lemma": ":"}, {"lemma": ":"}, {"lemma": "2001:db8:1:ab9:C0A8:102"}, {"lemma": ":"}, {"lemma": ":"}]
+================================
+Law:
+    - package: "test optional sequence"
+(
+    0 to 2 (lemma: ":")
+    (lemma: regex("^([0-9a-fA-F]{1,4}:){1,6}[0-9a-fA-f]{1,4}$"))
+    0 to 2 (lemma: ":")
+)
+
+################################
+name: 36. Test regex sequence
+output: {"[0, 5]" : [{"package": "test regex sequence"}]}
+input: [{"lemma": "GB12"}, {"lemma": "34X5"}, {"lemma": "678A"}, {"lemma": "9012"}, {"lemma": "3456"}]
+================================
+Law:
+    - package: "test regex sequence"
+(
+    (lemma: regex("^[A-Za-z]{2}[0-9]{2}$"))
+    (lemma: regex("^[A-Za-z0-9]{4}$"))
+    (lemma: regex("^[A-Za-z0-9]{4}$"))
+    (lemma: regex("^[A-Za-z0-9]{4}$"))
+    (lemma: regex("^[A-Za-z0-9]{2,4}$"))
+)
+
+################################
+name: 37. Test regex sequence equivalent
+output: {"[0, 5]" : [{"package": "test regex sequence"}]}
+input: [{"lemma": "GB12"}, {"lemma": "34X5"}, {"lemma": "678A"}, {"lemma": "9012"}, {"lemma": "3456"}]
+================================
+Law:
+    - package: "test regex sequence"
+(
+    (lemma: regex("^[A-Za-z]{2}[0-9]{2}$"))
+    3 to 3 (lemma: regex("^[A-Za-z0-9]{4}$"))
+    (lemma: regex("^[A-Za-z0-9]{2,4}$"))
+)
+
+################################
+name: 38. Test number sequence
+output: {"[0, 5]": [{"package": "test number sequence"}]}
+input: [{"lemma": "1234"}, {"lemma": "-"}, {"lemma": "123456"}, {"lemma": "-"}, {"lemma": "abcd"}]
+================================
+Law:
+    - package: "test number sequence"
+(
+    (lemma: regex("^[a-z0-9]{2}[a-z0-9]*$"))
+    2 to 10 (
+        (lemma: "-")
+        (lemma: regex("^[a-z0-9]{2}[a-z0-9]*$"))
+    )
+)
+
+################################
+name: 39. Test number sequence 2
+output: {"[0, 5]": [{"package": "test number sequence"}]}
+input: [{"lemma": "1234"}, {"lemma": "-"}, {"lemma": "123456"}, {"lemma": "-"}, {"lemma": "abcd"}]
+================================
+Law:
+    - package: "test number sequence"
+(
+    2 to 10 (
+        (lemma: regex("^[a-z0-9]{2}[a-z0-9]*$"))
+        (lemma: "-")
+    )
+    (lemma: regex("^[a-z0-9]{2}[a-z0-9]*$"))
+)
+
+################################
+name: 40. Test word sequence
+output: {}
+input: [{"lemma": "word"}, {"lemma": "word"}, {"lemma": "word"}, {"lemma": "word"}]
+================================
+Law:
+    - package: "test sequence"
+(
+    2 to 10 (
+        (lemma: regex("^[a-z0-9]{2}[a-z0-9]*$"))
+        (lemma: "-")
+    )
+    (lemma: regex("^[a-z0-9]{2}[a-z0-9]*$"))
+)
+
+################################
+name: 41. Repeated variables test
+output: {"[0, 11]": [{"package": "test sequence"}]}
+input: [{"lemma": "AF"}, {"lemma": ":"}, {"lemma": "92"}, {"lemma": ":"}, {"lemma": "11"}, {"lemma": ":"}, {"lemma": "14"}, {"lemma": ":"}, {"lemma": "22"}, {"lemma": ":"}, {"lemma": "01"}]
+================================
+Var hex:
+(
+    (lemma: regex("^[A-Fa-f0-9]{2}$"))
+)
+
+Var hex_sep:
+(
+    (
+        (lemma: "-")
+        or
+        (lemma: ":")
+    )
+)
+
+Law:
+     - package: "test sequence"
+(
+     $hex
+     $hex_sep
+     $hex
+     $hex_sep
+     $hex
+     $hex_sep
+     $hex
+     $hex_sep
+     $hex
+     $hex_sep
+     $hex
+)
+################################
+name: 42. Repeated variables test 2
+output: {"[0, 11]": [{"package": "test sequence"}]}
+input: [{"lemma": "AF"}, {"lemma": ":"}, {"lemma": "92"}, {"lemma": ":"}, {"lemma": "11"}, {"lemma": ":"}, {"lemma": "14"}, {"lemma": ":"}, {"lemma": "22"}, {"lemma": ":"}, {"lemma": "01"}]
+================================
+Var hex:
+(
+    (lemma: regex("^[A-Fa-f0-9]{2}$"))
+)
+
+Var hex_sep:
+(
+    (
+        (lemma: "-")
+        or
+        (lemma: ":")
+    )
+)
+
+Law:
+     - package: "test sequence"
+(
+    5 to 5 (
+        $hex
+        $hex_sep
+    )
+    $hex
+)
+################################
+name: 43. Optional variable test
+output: {"[3, 4]": [{"package": "optional variable"}]}
+input: [{"lemma": "I"}, {"lemma": "live"}, {"lemma": "in"}, {"lemma": "street"}]
+================================
+Var num_uk:
+(
+    (lemma: regex("^[0-9]+$"))
+)
+
+Law:
+    - package: "optional variable"
+(
+    optional $num_uk
+    (lemma: "street")
+)
+################################
+name: 44. Optional variable test 2
+output: {"[0, 4]": [{"package": "optional variable", "_": {"labels": {"age": [0, 1]}}}]}
+input: [{"writtennumber": "True"}, {"lemma": "year"}, {"lemma": "of"}, {"lower": "age"}]
+================================
+Var written_cardinal:
+(
+    (
+        (writtennumber: "True")
+        or
+        (
+           (writtennumber: "True")
+           optional (lemma: "-")
+           (writtennumber: "True")
+        )
+    )
+)
+
+Law:
+    - package: "optional variable"
+(
+    age -> $written_cardinal
+    (lemma: "year")
+    (lemma: "of")
+    (lower: "age")
+)
+################################
+name: 45. Optional variable test 3
+output: {"[0, 4]": [{"package": "optional variable", "_": {"labels": {"age": [0, 1]}}}]}
+input: [{"writtennumber": "True"}, {"lemma": "year"}, {"lemma": "of"}, {"lower": "age"}]
+================================
+Var written_cardinal:
+(
+    (
+        (
+           (writtennumber: "True")
+           optional (lemma: "-")
+           (writtennumber: "True")
+        )
+        or
+        (writtennumber: "True")
+    )
+)
+
+Law:
+    - package: "optional variable"
+(
+    age -> $written_cardinal
+    (lemma: "year")
+    (lemma: "of")
+    (lower: "age")
+)
+################################
+name: 48. Optional within optional variable
+output: {"[3, 6]": [{"package": "optional variable"}], "[5, 6]": [{"package": "optional variable"}]}
+input: [{"lemma": "I"}, {"lemma": "live"}, {"lemma": "in"},{"lemma": "10"}, {"lemma": ","}, {"lemma": "street"}]
+================================
+Var num_uk:
+(
+    (lemma: regex("^[0-9]+$"))
+    optional (lemma: ",")
+)
+
+Law:
+    - package: "optional variable"
+(
+    optional $num_uk
+    (lemma: "street")
+)
+################################
+name: 49. Optional variable test 4
+output: {"[0, 1]": [{"package": "optional variable"}]}
+input: [{"lemma": "AA123456789"}]
+================================
+Law:
+    - package: "optional variable"
+(
+    optional (lemma: regex("^[0-9a-zA-z]$"))
+    (lemma: regex("^(?=.*[0-9])([a-zA-Z0-9-]{4}[a-zA-Z0-9-]*)$"))
+    optional (lemma: regex("^[0-9a-zA-z]$"))
+)
+################################
+name: 51. Optional variable test 5
+output: {"[0, 1]": [{"package": "A"}]}
+input: [{"lemma": "a"}]
+================================
+Var b:
+(
+    (lemma: "b")
+)
+Var c:
+(
+    (lemma: "c")
+)
+
+Law:
+    - package: "A"
+(
+    (lemma: "a")
+    optional $b
+    optional $c
+)
+################################
+name: 52. Rich value types
+output: {"[0, 3]": [{"package": "A"}]}
+input: [{"lemma": "John", "foo": true, "word_pos": 0, "person_score": 0.99}, {"lemma": "like", "word_pos": 1}, {"lemma": "water", "word_pos": 2}]
+================================
+Law:
+    - package: "A"
+(
+    (lemma: "John", foo: true, word_pos: 0, person_score: 0.99)
+    (lemma: "like", word_pos: 1)
+    (lemma: "water", word_pos: 2)
+)
+################################
+name: 53. backslash before end quote
+output: {"[0, 1]": [{"package": "A"}]}
+input: [{"lemma": "\\"}]
+================================
+Law:
+    - package: "A"
+(
+    (lemma: "\\")
+)
+################################
+name: 54. escaped backslash in regex
+output: {"[0, 1]": [{"package": "A"}]}
+input: [{"lemma": "10\\10"}]
+================================
+Law:
+    - package: "A"
+(
+    (lemma: regex("10\\\\10"))
+)
+################################
+name: 55. final labelled optionals not matched twice
+output: {"[0, 1]": [{"package": "A"}]}
+input: [{"lemma": "a"}]
+================================
+Law:
+    - package: "A"
+(
+    (lemma: "a")
+    b -> optional (lemma: "b")
+)
+################################
+name: 55. Optional variable with optional start
+output: {"[0, 3]": [{"package": "A"}]}
+input: [{"lemma": "a"}, {"lemma": "b"}, {"lemma": "c"}]
+================================
+Var num_eu:
+(
+    optional (lemma: ",")
+    (lemma: "b")
+)
+
+Law:
+    - package: "A"
+(
+    (lemma: "a")
+    optional $num_eu
+    (lemma: "c")
+)
+################################
+name: 60. Optional variable with optional start
+output: {"[0, 3]": [{"_": {"labels": {"age": [2, 3]}}, "package": "A"}]}
+input: [{"lemma": "born"}, {"lemma": "in"}, {"lemma": "1992"}]
+================================
+Law:
+    - package: "A"
+(
+    (lemma: "born")
+    optional (lemma: "in")
+    optional (lemma: "the")
+    optional (lemma: "year")
+    age -> (
+        (lemma: regex("[0-9]{2}")) or
+        (lemma: regex("[12][90][0-9]{2}"))
+    )
+)
+################################
+name: 65. Test of labels before optional struct
+output: {"[0, 1]": [{"callback": "parse_fraction", "_": {"labels": {"fraction": [0, 1]}}}]}
+input: [{"lower": "third", "fraction": true}]
+================================
+Law:
+    - callback: "parse_fraction"
+(
+    fraction -> (fraction: True)
+    optional (
+        (lemma: "of")
+        (
+            (lemma: "a") or
+            (lemma: "an")
+        )
+    )
+)

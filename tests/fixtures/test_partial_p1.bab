@@ -1,0 +1,4 @@
+Var num_uk:
+(
+    (lemma: regex("^[0-9]+$"))
+)

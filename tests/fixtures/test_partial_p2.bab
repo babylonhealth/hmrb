@@ -1,0 +1,6 @@
+Law:
+    - package: "partial rule variable"
+(
+    optional $num_uk
+    (lemma: "street")
+)

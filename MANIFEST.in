@@ -1,0 +1,6 @@
+include HISTORY.rst
+include requirements.txt
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]
+recursive-exclude * *.pyx
+recursive-exclude * *.so

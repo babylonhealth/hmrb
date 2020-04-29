@@ -1,0 +1,758 @@
+{
+    "rules_simple": {
+        "rules" : [
+            [],
+            [
+                [
+                {"key": {"POS": "NN"}},
+                {"key": {"LEMMA": "be"}, "data": {"package": "simple_1"}}
+                ],
+                [
+                {"key": {"ORTH": "i"}},
+                {"key": {"LEMMA": "be"}},
+                {"key": {"ORTH": "a"}},
+                {"key": {"LOWER": "gorilla"}, "data": {"package": "simple_2"}}
+                ]
+            ]
+          ],
+        "test_pairs": [
+            {
+                "input": [
+                    {"ORTH": "i", "LEMMA": "i", "LOWER": "i", "UPPER": "I"},
+                    {"ORTH": "am", "LEMMA": "be", "LOWER": "am", "UPPER": "AM", "POS": "VERB"},
+                    {"ORTH": "a", "LEMMA": "a", "LOWER": "a", "UPPER": "A"},
+                    {"ORTH": "gorilla", "LEMMA": "gorilla", "LOWER": "gorilla", "UPPER": "GORILLA"}
+                  ],
+                "expected": "{\"(0, 4)\": [{\"package\": \"simple_2\"}]}"
+            },
+            {
+                "input": [
+                    {"ORTH": "i", "LEMMA": "i", "LOWER": "i", "UPPER": "I"},
+                    {"ORTH": "am", "LEMMA": "be", "LOWER": "am", "UPPER": "AM"},
+                    {"ORTH": "an", "LEMMA": "an", "LOWER": "an", "UPPER": "AN"},
+                    {"ORTH": "ape", "LEMMA": "ape", "LOWER": "ape", "UPPER": "APE"}
+                  ],
+                "expected": "{}"
+            },
+            {
+                "input": [
+                    {"ORTH": "i", "LEMMA": "i", "LOWER": "i", "UPPER": "I", "POS":"NN"},
+                    {"ORTH": "am", "LEMMA": "be", "LOWER": "am", "UPPER": "AM"}
+                  ],
+                "expected": "{\"(0, 2)\": [{\"package\": \"simple_1\"}]}"
+            }
+        ]
+    },
+    "rules_overlap": {
+        "rules" : [
+            [],
+              [
+                [
+                  {"key": {"ORTH": "i"}},
+                  {"key": {"POS": "VERB"}},
+                  {"key": {"ORTH": "a"}},
+                  {"key": {"LOWER": "gorilla"}, "data": {"package": "overlap_1"}}
+                ],
+                [
+                  {"key": {"ORTH": "i"}},
+                  {"key": {"LEMMA": "be"}},
+                  {"key": {"ORTH": "a"}},
+                  {"key": {"LOWER": "gorilla"}, "data": {"package": "overlap_2"}}
+                ]
+              ]
+          ],
+        "test_pairs": [
+            {
+                "input": [
+                    {"ORTH": "i", "LEMMA": "i", "LOWER": "i", "UPPER": "I"},
+                    {"ORTH": "am", "LEMMA": "be", "LOWER": "am", "UPPER": "AM", "POS": "VERB"},
+                    {"ORTH": "a", "LEMMA": "a", "LOWER": "a", "UPPER": "A"},
+                    {"ORTH": "gorilla", "LEMMA": "gorilla", "LOWER": "gorilla", "UPPER": "GORILLA"}
+                  ],
+                "expected": "{\"(0, 4)\": [{\"package\": \"overlap_2\"}, {\"package\": \"overlap_1\"}]}"
+            },
+            {
+                "input": [
+                    {"ORTH": "i", "LEMMA": "i", "LOWER": "i", "UPPER": "I"},
+                    {"ORTH": "am", "LEMMA": "be", "LOWER": "am", "UPPER": "AM"},
+                    {"ORTH": "an", "LEMMA": "an", "LOWER": "an", "UPPER": "AN"},
+                    {"ORTH": "ape", "LEMMA": "ape", "LOWER": "ape", "UPPER": "APE"}
+                  ],
+                "expected": "{}"
+            },
+            {
+                "input": [
+                    {"ORTH": "i", "LEMMA": "i", "LOWER": "i", "UPPER": "I", "POS":"NN"},
+                    {"ORTH": "am", "LEMMA": "be", "LOWER": "am", "UPPER": "AM"}
+                  ],
+                "expected": "{}"
+            }
+        ]
+    },
+    "rules_att_mix": {
+        "rules" : [
+            [],
+            [
+                [
+                  {"key": {"ORTH": "i"}},
+                  {"key": {"ORTH": "am"}},
+                  {"key": {"ORTH": "here"}, "data": {"package": "att_mix_1"}}
+                ],
+                [
+                  {"key": {"ORTH": "i"}},
+                  {"key": {"LEMMA": "be"}},
+                  {"key": {"ORTH": "here"}, "data": {"package": "att_mix_2"}}
+                ],
+                [
+                  {"key": {"ORTH": "i"}},
+                  {"key": {"POS": "VERB"}},
+                  {"key": {"ORTH": "here"}, "data": {"package": "att_mix_3"}}
+                ],
+                [
+                  {"key": {"ORTH": "i"}},
+                  {"key": {"POS": "VERB"}},
+                  {"key": {"ORTH": "somewhere"}, "data": {"package": "att_mix_4"}}
+                ],
+                [
+                  {"key": {"ORTH": "i"}},
+                  {"key": {"ORTH": "lay", "LEMMA": "lie"}},
+                  {"key": {"ORTH": "here"}, "data": {"package": "att_mix_5"}}
+                ],
+                [
+                  {"key": {"ORTH": "i"}},
+                  {"key": {"ORTH": "lay", "LEMMA": "lay"}},
+                  {"key": {"ORTH": "here"}, "data": {"package": "att_mix_6"}}
+                ],
+                [
+                  {"key": {"ORTH": "i"}},
+                  {"key": {"ORTH": "lay"}},
+                  {"key": {"ORTH": "here"}, "data": {"package": "att_mix_7"}}
+                ]
+              ]
+
+          ],
+        "test_pairs": [
+            {
+                "input": [
+                    {"ORTH": "i", "LEMMA": "i", "LOWER": "i", "UPPER": "I", "POS": "PRON"},
+                    {"ORTH": "am", "LEMMA": "be", "LOWER": "am", "UPPER": "AM", "POS": "VERB"},
+                    {"ORTH": "here", "LEMMA": "here", "LOWER": "here", "UPPER": "HERE", "POS": "ADV"}
+                  ],
+                "expected": "{\"(0, 3)\": [{\"package\": \"att_mix_2\"}, {\"package\": \"att_mix_3\"}, {\"package\": \"att_mix_1\"}]}"
+            },
+            {
+                "input": [
+                    {"ORTH": "i", "LEMMA": "i", "LOWER": "i", "UPPER": "I", "POS": "PRON"},
+                    {"ORTH": "lay", "LEMMA": "lie", "LOWER": "lay", "UPPER": "LAY", "POS": "VERB"},
+                    {"ORTH": "here", "LEMMA": "here", "LOWER": "here", "UPPER": "HERE", "POS": "ADV"}
+                  ],
+                "expected": "{\"(0, 3)\": [{\"package\": \"att_mix_5\"}, {\"package\": \"att_mix_7\"}, {\"package\": \"att_mix_3\"}]}"
+            }
+        ]
+    },
+    "vars": {
+        "rules" : [
+            [
+                [[
+                    {"key": {"ORTH": "have"}, "vars": [{"LENGTH": 3, "DEF": "130426ebe486a92775811ccbf70f185a"}]},
+                    {"key": {"ORTH": "a"}},
+                    {"key": {"ORTH": "gorilla"}, "data": {"package":"door_1"}}
+                ]],
+                [[
+                    {"key": {"ORTH": "at"}, "vars": [{"DEF": "LOCATION", "LENGTH": 3}]},
+                    {"key": {"LOWER": "the"}},
+                    {"key": {"LOWER": "zoo"}}
+                ]],
+                [[
+                    {"key": {"ORTH": "have"}, "vars": [{"LENGTH": 6, "DEF": "cb7d0d7e722689d89b51fa4af492277e"}]},
+                    {"key": {"ORTH": "an"}},
+                    {"key": {"ORTH": "ape"}},
+                    {"vars": [{"REF": "LOCATION", "LENGTH": 3}]}
+                ]],
+                [[
+                    {"key": {"ORTH": "have"}, "vars": [{"LENGTH": 3, "DEF": "4b0af9976eccda7f2d3f8a82372d29d5"}]},
+                    {"key": {"ORTH": "a"}},
+                    {"key": {"ORTH": "gorilla"}}
+                ]],
+                [[
+                    {"key": {"ORTH": "very"}, "vars": [{"LENGTH": 1, "DEF": "a146dfbb08475bbff0bf1909786c013b"}]}
+                ]],
+                [
+                 [
+                    {"key": {"ORTH": "have"}, "vars": [{"LENGTH": 3, "DEF": "2c38fcaff6ba9c03ad1b6f852da982f2"}]},
+                    {"key": {"ORTH": "a"}},
+                    {"vars": [{"REF": "a146dfbb08475bbff0bf1909786c013b", "LENGTH": 1, "MIN": 1, "MAX": 999}]}
+                 ],
+                 [
+                    {"key": {"ORTH": "have"}, "vars": [{"LENGTH": 2, "DEF": "2c38fcaff6ba9c03ad1b6f852da982f2"}]},
+                    {"key": {"ORTH": "a"}, "data": {"_": {"var_end": true}}}
+                ]],
+                [[
+                    {"key": {"ORTH": "have"}, "vars": [{"DEF": "5c2786d0f9ce2584726063e66d7fb736", "LENGTH": 3}]},
+                    {"key": {"ORTH": "a"}},
+                    {"key": {"ORTH": "large"}}
+                ]],
+                [[
+                    {"key": {"ORTH": "gorilla"}, "vars": [{"DEF": "84093ea46dabccb5589c020f400d6418", "LENGTH": 1}]}
+                ]],
+                [[
+                    {"key": {"LEMMA": "at"}, "vars": [{"DEF": "0f0118324d9f11c89a36c65f0b13e48d", "LENGTH": 3}]},
+                    {"key": {"LEMMA": "the"}},
+                    {"key": {"LEMMA": "zoo"}, "data": {"_": {"var_end": true}}}
+                 ],[
+                    {"key": {"LEMMA": "in"}, "vars": [{"DEF": "0f0118324d9f11c89a36c65f0b13e48d", "LENGTH": 3}]},
+                    {"key": {"LEMMA": "the"}},
+                    {"key": {"LEMMA": "jungle"}, "data": {"_": {"var_end": true}}}
+                ]]
+            ],
+            [
+                [
+                    {"key": {"ORTH": "you"}},
+                    {"vars": [{"REF": "130426ebe486a92775811ccbf70f185a", "LENGTH": 3}]}
+                ],
+                [
+                    {"key": {"ORTH": "i"}},
+                    {"vars": [{"REF": "cb7d0d7e722689d89b51fa4af492277e", "LENGTH": 6}], "data": {"package": "door_2"}}
+                ],
+                [
+                    {"key": {"ORTH": "i"}},
+                    {"vars":[{"REF": "4b0af9976eccda7f2d3f8a82372d29d5", "LENGTH": 3}]},
+                    {"vars":[{"REF": "LOCATION", "LENGTH": 3}]}
+                ],
+                [
+                    {"key": {"ORTH": "i"}},
+                    {"vars": [{"REF": "2c38fcaff6ba9c03ad1b6f852da982f2", "LENGTH": 2}]},
+                    {"key": {"ORTH": "large"}},
+                    {"key": {"ORTH": "gorilla"}, "data": {"package": "door_4"}}
+                ],
+                [
+                    {"key": {"ORTH": "i"}},
+                    {"vars": [{"REF": "2c38fcaff6ba9c03ad1b6f852da982f2", "LENGTH": 2}]},
+                    {"key": {"ORTH": "large"}},
+                    {"key": {"ORTH": "orangutan"}, "data": {"package": "door_5"}}
+                ],
+                [
+                    {"key": {"ORTH": "i"}},
+                    {"vars": [{"REF": "2c38fcaff6ba9c03ad1b6f852da982f2", "LENGTH": 2}]},
+                    {"key": {"ORTH": "orangutan"}, "data": {"package": "door_5"}}
+                ],
+                [
+                    {"key": {"ORTH": "i"}},
+                    {"vars": [{"REF": "5c2786d0f9ce2584726063e66d7fb736", "LENGTH": 3}]},
+                    {"vars": [{"REF": "84093ea46dabccb5589c020f400d6418", "LENGTH": 1, "MIN": 3,
+                        "MAX": 999}], "data": {"package": "door_3"}}
+                ],
+                [
+                    {"key": {"LEMMA": "have"}},
+                    {"key": {"LEMMA": "a"}},
+                    {"key": {"LEMMA": "lot"}},
+                    {"key": {"LEMMA": "of"}},
+                    {"key": {"LEMMA": "chimpanzee"}, "data": {"package": "door_6"}}
+                ],
+                [
+                    {"key": {"LEMMA": "have"}},
+                    {"key": {"LEMMA": "chimpanzee"}, "data": {"package": "door_6"}}
+                ],
+                [
+                    {"key": {"LEMMA": "i"}},
+                    {"vars": [{"REF": "4b0af9976eccda7f2d3f8a82372d29d5", "LENGTH": 3}]},
+                    {"vars": [{"REF": "0f0118324d9f11c89a36c65f0b13e48d", "LENGTH": 3}], "data": {"package": "door_7"}}
+                ],
+                [
+                    {"key": {"LEMMA": "i"}},
+                    {"vars": [{"REF": "4b0af9976eccda7f2d3f8a82372d29d5", "LENGTH": 3}]},
+                    {"key": {"LEMMA": "at"}},
+                    {"key": {"LEMMA": "the"}},
+                    {"key": {"LEMMA": "zoo"}, "data": {"package": "door_8"}}
+                ],
+                [
+                    {"key": {"LEMMA": "i"}},
+                    {"vars": [{"REF": "4b0af9976eccda7f2d3f8a82372d29d5", "LENGTH": 3}]},
+                    {"key": {"LEMMA": "in"}},
+                    {"key": {"LEMMA": "the"}},
+                    {"key": {"LEMMA": "jungle"}, "data": {"package": "door_8"}}
+                ],
+                [
+                    {"key": {"LEMMA": "i"}},
+                    {"vars": [{"REF": "4b0af9976eccda7f2d3f8a82372d29d5", "LENGTH": 3}], "data": {"package": "door_8"}}
+                ],
+                [
+                    {"key": {"LEMMA": "i"}},
+                    {"vars": [{"REF": "4b0af9976eccda7f2d3f8a82372d29d5", "LENGTH": 3}]},
+                    {"key": {"LEMMA": "at"}},
+                    {"key": {"LEMMA": "the"}},
+                    {"key": {"LEMMA": "zoo"}, "data": {"package": "door_9"}}
+                ],
+                [
+                    {"key": {"LEMMA": "i"}},
+                    {"vars": [{"REF": "4b0af9976eccda7f2d3f8a82372d29d5", "LENGTH": 3}]},
+                    {"key": {"LEMMA": "in"}},
+                    {"key": {"LEMMA": "the"}},
+                    {"key": {"LEMMA": "jungle"}, "data": {"package": "door_9"}}
+                ],
+                 [
+                    {"key": {"LEMMA": "i"}},
+                    {"vars": [{"REF": "4b0af9976eccda7f2d3f8a82372d29d5", "LENGTH": 3}]},
+                    {"key": {"LEMMA": "at"}},
+                    {"key": {"LEMMA": "the"}},
+                    {"key": {"LEMMA": "zoo"}},
+                    {"key": {"LEMMA": "at"}},
+                    {"key": {"LEMMA": "the"}},
+                    {"key": {"LEMMA": "zoo"}, "data": {"package": "door_9"}}
+                ],
+                [
+                    {"key": {"LEMMA": "i"}},
+                    {"vars": [{"REF": "4b0af9976eccda7f2d3f8a82372d29d5", "LENGTH": 3}]},
+                    {"key": {"LEMMA": "in"}},
+                    {"key": {"LEMMA": "the"}},
+                    {"key": {"LEMMA": "jungle"}},
+                    {"key": {"LEMMA": "in"}},
+                    {"key": {"LEMMA": "the"}},
+                    {"key": {"LEMMA": "jungle"}, "data": {"package": "door_9"}}
+                ],
+                [
+                    {"key": {"LEMMA": "i"}},
+                    {"vars": [{"REF": "4b0af9976eccda7f2d3f8a82372d29d5", "LENGTH": 3}]},
+                    {"key": {"LEMMA": "in"}},
+                    {"key": {"LEMMA": "the"}},
+                    {"key": {"LEMMA": "jungle"}},
+                    {"key": {"LEMMA": "at"}},
+                    {"key": {"LEMMA": "the"}},
+                    {"key": {"LEMMA": "zoo"}, "data": {"package": "door_9"}}
+                ],
+                [
+                    {"key": {"LEMMA": "i"}},
+                    {"vars": [{"REF": "4b0af9976eccda7f2d3f8a82372d29d5", "LENGTH": 3}]},
+                    {"key": {"LEMMA": "at"}},
+                    {"key": {"LEMMA": "the"}},
+                    {"key": {"LEMMA": "zoo"}},
+                    {"key": {"LEMMA": "in"}},
+                    {"key": {"LEMMA": "the"}},
+                    {"key": {"LEMMA": "jungle"}, "data": {"package": "door_9"}}
+                ],
+                [
+                    {"key": {"LEMMA": "i"}},
+                    {"vars": [{"REF": "4b0af9976eccda7f2d3f8a82372d29d5", "LENGTH": 3}], "data": {"package": "door_9"}}
+                ]
+            ]
+        ],
+        "test_pairs": [
+            {
+                "id": 0,
+                "input": [
+                    {"ORTH": "i", "LEMMA": "i", "LOWER": "i", "UPPER": "I", "POS": "PRON"},
+                    {"ORTH": "have", "LEMMA": "have", "LOWER": "have", "UPPER": "HAVE", "POS": "VERB"},
+                    {"ORTH": "an", "LEMMA": "a", "LOWER": "an", "UPPER": "AN", "POS": "ADV"},
+                    {"ORTH": "ape", "LEMMA": "ape", "LOWER": "ape", "UPPER": "APE", "POS": "ADV"},
+                    {"ORTH": "at", "LEMMA": "at", "LOWER": "at", "UPPER": "AT", "POS": "ADV"},
+                    {"ORTH": "the", "LEMMA": "the", "LOWER": "the", "UPPER": "THE", "POS": "ADV"},
+                    {"ORTH": "zoo", "LEMMA": "zoo", "LOWER": "zoo", "UPPER": "ZOO", "POS": "ADV"}
+                  ],
+                "expected": "{\"(0, 7)\": [{\"package\": \"door_2\"}]}"
+            },
+            {
+                "id": 1,
+                "input": [
+                    {"ORTH": "i", "LEMMA": "i", "LOWER": "i", "UPPER": "I", "POS": "PRON"},
+                    {"ORTH": "have", "LEMMA": "have", "LOWER": "have", "UPPER": "HAVE", "POS": "VERB"},
+                    {"ORTH": "a", "LEMMA": "a", "LOWER": "a", "UPPER": "A", "POS": "ADV"},
+                    {"ORTH": "gorilla", "LEMMA": "gorilla", "LOWER": "gorilla", "UPPER": "GORILLA", "POS": "ADV"},
+                    {"ORTH": "at", "LEMMA": "at", "LOWER": "at", "UPPER": "AT", "POS": "ADV"},
+                    {"ORTH": "the", "LEMMA": "the", "LOWER": "the", "UPPER": "THE", "POS": "ADV"},
+                    {"ORTH": "zoo", "LEMMA": "zoo", "LOWER": "zoo", "UPPER": "ZOO", "POS": "ADV"}
+                  ],
+                "expected": "{\"(0, 4)\": [{\"package\": \"door_8\"}, {\"package\": \"door_9\"}], \"(0, 7)\": [{\"package\": \"door_8\"}, {\"package\": \"door_7\"}, {\"package\": \"door_9\"}]}"
+            },
+            {
+                "id": 2,
+                "input": [
+                    {"ORTH": "i", "LEMMA": "i", "LOWER": "i", "UPPER": "I", "POS": "PRON"},
+                    {"ORTH": "have", "LEMMA": "have", "LOWER": "have", "UPPER": "HAVE", "POS": "PRON"},
+                    {"ORTH": "a", "LEMMA": "a", "LOWER": "a", "UPPER": "A", "POS": "PRON"},
+                    {"ORTH": "orangutan", "LEMMA": "orangutan", "LOWER": "orangutan", "UPPER": "ORANGUTAN", "POS": "PRON"}
+                  ],
+                "expected": "{\"(0, 4)\": [{\"package\": \"door_5\"}]}"
+            },
+            {
+                "id": 3,
+                "input": [
+                    {"ORTH": "i", "LEMMA": "i", "LOWER": "i", "UPPER": "I", "POS": "PRON"},
+                    {"ORTH": "have", "LEMMA": "have", "LOWER": "have", "UPPER": "HAVE", "POS": "PRON"},
+                    {"ORTH": "a", "LEMMA": "a", "LOWER": "a", "UPPER": "A", "POS": "PRON"},
+                    {"ORTH": "large", "LEMMA": "large", "LOWER": "large", "UPPER": "LARGE", "POS": "PRON"},
+                    {"ORTH": "gorilla", "LEMMA": "gorilla", "LOWER": "gorilla", "UPPER": "GORILLA", "POS": "PRON"}
+                  ],
+                "expected": "{\"(0, 5)\": [{\"package\": \"door_4\"}]}"
+            },
+            {
+                "id": 4,
+                "input": [
+                    {"ORTH": "i", "LEMMA": "i", "LOWER": "i", "UPPER": "I", "POS": "PRON"},
+                    {"ORTH": "have", "LEMMA": "have", "LOWER": "have", "UPPER": "HAVE", "POS": "PRON"},
+                    {"ORTH": "a", "LEMMA": "a", "LOWER": "a", "UPPER": "A", "POS": "PRON"},
+                    {"ORTH": "very", "LEMMA": "very", "LOWER": "very", "UPPER": "VERY", "POS": "PRON"},
+                    {"ORTH": "very", "LEMMA": "very", "LOWER": "very", "UPPER": "VERY", "POS": "PRON"},
+                    {"ORTH": "very", "LEMMA": "very", "LOWER": "very", "UPPER": "VERY", "POS": "PRON"},
+                    {"ORTH": "large", "LEMMA": "large", "LOWER": "large", "UPPER": "LARGE", "POS": "PRON"},
+                    {"ORTH": "gorilla", "LEMMA": "gorilla", "LOWER": "gorilla", "UPPER": "GORILLA", "POS": "PRON"}
+                  ],
+                "expected": "{\"(0, 8)\": [{\"package\": \"door_4\"}]}"
+            },
+            {
+                "id": 5,
+                "input": [
+                    {"ORTH": "i", "LEMMA": "i", "LOWER": "i", "UPPER": "I", "POS": "PRON"},
+                    {"ORTH": "have", "LEMMA": "have", "LOWER": "have", "UPPER": "HAVE", "POS": "PRON"},
+                    {"ORTH": "a", "LEMMA": "a", "LOWER": "a", "UPPER": "A", "POS": "PRON"},
+                    {"ORTH": "very", "LEMMA": "very", "LOWER": "very", "UPPER": "VERY", "POS": "PRON"},
+                    {"ORTH": "large", "LEMMA": "large", "LOWER": "large", "UPPER": "LARGE", "POS": "PRON"},
+                    {"ORTH": "gorilla", "LEMMA": "gorilla", "LOWER": "gorilla", "UPPER": "GORILLA", "POS": "PRON"}
+                  ],
+                "expected": "{\"(0, 6)\": [{\"package\": \"door_4\"}]}"
+            },
+            {
+                "id": 6,
+                "input": [
+                    {"ORTH": "i", "LEMMA": "i", "LOWER": "i", "UPPER": "I", "POS": "PRON"},
+                    {"ORTH": "have", "LEMMA": "have", "LOWER": "have", "UPPER": "HAVE", "POS": "PRON"},
+                    {"ORTH": "a", "LEMMA": "a", "LOWER": "a", "UPPER": "A", "POS": "PRON"},
+                    {"ORTH": "large", "LEMMA": "large", "LOWER": "large", "UPPER": "LARGE", "POS": "PRON"},
+                    {"ORTH": "gorilla", "LEMMA": "gorilla", "LOWER": "gorilla", "UPPER": "GORILLA", "POS": "PRON"},
+                    {"ORTH": "gorilla", "LEMMA": "gorilla", "LOWER": "gorilla", "UPPER": "GORILLA", "POS": "PRON"},
+                    {"ORTH": "gorilla", "LEMMA": "gorilla", "LOWER": "gorilla", "UPPER": "GORILLA", "POS": "PRON"}
+                  ],
+                "expected": "{\"(0, 5)\": [{\"package\": \"door_4\"}], \"(0, 7)\": [{\"package\": \"door_3\"}]}"
+            },
+            {
+                "id": 7,
+                "input": [
+                    {"ORTH": "i", "LEMMA": "i", "LOWER": "i", "UPPER": "I", "POS": "PRON"},
+                    {"ORTH": "have", "LEMMA": "have", "LOWER": "have", "UPPER": "HAVE", "POS": "PRON"},
+                    {"ORTH": "chimpanzee", "LEMMA": "chimpanzee", "LOWER": "chimpanzee", "UPPER": "CHIMPANZEE", "POS": "PRON"}
+                ],
+                "expected": "{\"(1, 3)\": [{\"package\": \"door_6\"}]}"
+            },
+            {
+                "id": 8,
+                "input": [
+                    {"ORTH": "i", "LEMMA": "i", "LOWER": "i", "UPPER": "I", "POS": "PRON"},
+                    {"ORTH": "have", "LEMMA": "have", "LOWER": "have", "UPPER": "HAVE", "POS": "VERB"},
+                    {"ORTH": "a", "LEMMA": "a", "LOWER": "a", "UPPER": "A", "POS": "ADV"},
+                    {"ORTH": "gorilla", "LEMMA": "gorilla", "LOWER": "gorilla", "UPPER": "GORILLA", "POS": "ADV"},
+                    {"ORTH": "in", "LEMMA": "in", "LOWER": "in", "UPPER": "IN", "POS": "ADV"},
+                    {"ORTH": "the", "LEMMA": "the", "LOWER": "the", "UPPER": "THE", "POS": "ADV"},
+                    {"ORTH": "jungle", "LEMMA": "jungle", "LOWER": "jungle", "UPPER": "JUNGLE", "POS": "ADV"}
+                  ],
+                "expected": "{\"(0, 4)\": [{\"package\": \"door_8\"}, {\"package\": \"door_9\"}], \"(0, 7)\": [{\"package\": \"door_8\"}, {\"package\": \"door_7\"}, {\"package\": \"door_9\"}]}"
+            },
+            {
+                "id": 9,
+                "input": [
+                    {"ORTH": "i", "LEMMA": "i", "LOWER": "i", "UPPER": "I", "POS": "PRON"},
+                    {"ORTH": "have", "LEMMA": "have", "LOWER": "have", "UPPER": "HAVE", "POS": "VERB"},
+                    {"ORTH": "a", "LEMMA": "a", "LOWER": "a", "UPPER": "A", "POS": "ADV"},
+                    {"ORTH": "gorilla", "LEMMA": "gorilla", "LOWER": "gorilla", "UPPER": "GORILLA", "POS": "ADV"},
+                    {"ORTH": "in", "LEMMA": "in", "LOWER": "in", "UPPER": "IN", "POS": "ADV"},
+                    {"ORTH": "my", "LEMMA": "my", "LOWER": "my", "UPPER": "MY", "POS": "ADV"},
+                    {"ORTH": "apartment", "LEMMA": "apartment", "LOWER": "apartment", "UPPER": "APARTMENT", "POS": "ADV"}
+                  ],
+                "expected": "{\"(0, 4)\": [{\"package\": \"door_8\"}, {\"package\": \"door_9\"}]}"
+            }
+        ]
+    },
+    "sets": {
+        "rules" : [
+            [
+                [
+                    [
+                        {"key": {"ORTH": ["dogs"], "POS": "N"}, "vars": [{"LENGTH": 1, "DEF": "9878c43931593682a4222d28452d3290"}]}
+                    ]
+                ]
+            ],
+            [
+                [
+                  {"key": {"ORTH": "i"}},
+                  {"key": {"LEMMA": "be"}},
+                  {"key": {"ORTH": "a"}},
+                  {"key": {"ORTH": ["apes", "cats"], "POS": "N"}, "data": {"package": "sets_1"}}
+                ],
+                [
+                  {"key": {"ORTH": "i"}},
+                  {"key": {"LEMMA": "see"}},
+                  {"key": {"ORTH": "a"}},
+                  {"key": {"ORTH": ["apes", "cats"], "POS": "N"}, "data": {"package": "sets_2"}}
+                ],
+                [
+                  {"key": {"ORTH": "i"}},
+                  {"key": {"LEMMA": "see"}},
+                  {"key": {"ORTH": "a"}},
+                  {"key": {"ORTH": ["apes", "cats"], "POS": "N"}},
+                  {"key": {"ORTH": "and"}},
+                  {"key": {"ORTH": ["apes", "cats"], "POS": "N"}, "data": {"package": "sets_3"}}
+                ],
+                [
+                  {"key": {"ORTH": "i"}},
+                  {"key": {"LEMMA": "see"}},
+                  {"key": {"ORTH": "a"}},
+                  {"key": {"ORTH": ["dogs"], "POS": "N"}},
+                  {"key": {"ORTH": ["dogs"], "POS": "N"}, "data": {"package": "sets_4"}}
+                ],
+                [
+                  {"key": {"ORTH": "i"}},
+                  {"key": {"LEMMA": "see"}},
+                  {"key": {"ORTH": "a"}},
+                  {"key": {"ORTH": ["dogs"], "POS": "N"}, "data": {"package": "sets_4"}}
+                ]
+            ]
+          ],
+        "test_pairs": [
+            {
+                "input": [
+                    {"ORTH": "i", "LEMMA": "i", "LOWER": "i", "UPPER": "I", "POS": "PRON"},
+                    {"ORTH": "am", "LEMMA": "be", "LOWER": "am", "UPPER": "AM", "POS": "VERB"},
+                    {"ORTH": "a", "LEMMA": "a", "LOWER": "a", "UPPER": "A", "POS": "ADV"},
+                    {"ORTH": "gorilla", "LEMMA": "gorilla", "LOWER": "gorilla", "UPPER": "GORILLA", "POS": "N"}
+                  ],
+                "expected": "{\"(0, 4)\": [{\"package\": \"sets_1\"}]}"
+            },
+            {
+                "input": [
+                    {"ORTH": "i", "LEMMA": "i", "LOWER": "i", "UPPER": "I", "POS": "PRON"},
+                    {"ORTH": "am", "LEMMA": "be", "LOWER": "am", "UPPER": "AM", "POS": "VERB"},
+                    {"ORTH": "a", "LEMMA": "a", "LOWER": "a", "UPPER": "A", "POS": "ADV"},
+                    {"ORTH": "banana", "LEMMA": "banana", "LOWER": "banana", "UPPER": "BANANA", "POS": "ADV"}
+                  ],
+                "expected": "{}"
+            },
+            {
+                "input": [
+                    {"ORTH": "i", "LEMMA": "i", "LOWER": "i", "UPPER": "I", "POS": "PRON"},
+                    {"ORTH": "am", "LEMMA": "be", "LOWER": "am", "UPPER": "AM", "POS": "VERB"},
+                    {"ORTH": "a", "LEMMA": "a", "LOWER": "a", "UPPER": "A", "POS": "ADV"},
+                    {"ORTH": "tiger", "LEMMA": "tiger", "LOWER": "tiger", "UPPER": "TIGER", "POS": "N"}
+                ],
+                "expected": "{\"(0, 4)\": [{\"package\": \"sets_1\"}]}"
+            },
+            {
+                "input": [
+                    {"ORTH": "i", "LEMMA": "i", "LOWER": "i", "UPPER": "I", "POS": "PRON"},
+                    {"ORTH": "see", "LEMMA": "see", "LOWER": "see", "UPPER": "SEE", "POS": "VERB"},
+                    {"ORTH": "a", "LEMMA": "a", "LOWER": "a", "UPPER": "A", "POS": "ADV"},
+                    {"ORTH": "tiger", "LEMMA": "tiger", "LOWER": "tiger", "UPPER": "TIGER", "POS": "N"},
+                    {"ORTH": "and", "LEMMA": "and", "LOWER": "and", "UPPER": "AND", "POS": "ADV"},
+                    {"ORTH": "lion", "LEMMA": "lion", "LOWER": "lion", "UPPER": "LION", "POS": "N"}
+                ],
+                "expected": "{\"(0, 4)\": [{\"package\": \"sets_2\"}], \"(0, 6)\": [{\"package\": \"sets_3\"}]}"
+            },
+            {
+                "input": [
+                    {"ORTH": "i", "LEMMA": "i", "LOWER": "i", "UPPER": "I", "POS": "PRON"},
+                    {"ORTH": "see", "LEMMA": "see", "LOWER": "see", "UPPER": "SEE", "POS": "VERB"},
+                    {"ORTH": "a", "LEMMA": "a", "LOWER": "a", "UPPER": "A", "POS": "ADV"},
+                    {"ORTH": "spaniel", "LEMMA": "spaniel", "LOWER": "spaniel", "UPPER": "SPANIEL", "POS": "N"}
+                ],
+                "expected": "{\"(0, 4)\": [{\"package\": \"sets_4\"}]}"
+            }
+        ]
+    },
+    "callbacks": {
+        "rules" : [
+            [],
+            [
+                [
+                  {"key": {"LEMMA": "i"}},
+                  {"key": {"LEMMA": "be"}, "data": {"package": "callback_1", "callback": "clb_1"}}
+                ],
+                [
+                  {"key": {"ORTH": "i"}},
+                  {"key": {"LEMMA": "be"}},
+                  {"key": {"ORTH": "a"}},
+                  {"key": {"LOWER": "gorilla"}, "data": {"package": "callback_2", "callback": "exception_clb"}}
+                ],
+                [
+                  {"key": {"ORTH": "i"}},
+                  {"key": {"LEMMA": "be"}},
+                  {"key": {"ORTH": "an"}},
+                  {"key": {"LOWER": "ape"}, "data": {"package": "callback_3"}, "callback": "unknown_clb"}
+                ]
+              ]
+          ],
+        "test_pairs": [
+            {
+                "input": [
+                    {"ORTH": "i", "LEMMA": "i", "LOWER": "i", "UPPER": "I", "POS": "PRON"},
+                    {"ORTH": "am", "LEMMA": "be", "LOWER": "am", "UPPER": "AM", "POS": "VERB"},
+                    {"ORTH": "a", "LEMMA": "a", "LOWER": "a", "UPPER": "A", "POS": "ADV"},
+                    {"ORTH": "gorilla", "LEMMA": "gorilla", "LOWER": "gorilla", "UPPER": "GORILLA", "POS": "N"}
+                  ],
+                "expected": "{\"(0, 2)\": [{\"package\": \"callback_1-fired\", \"callback\": \"clb_1\"}], \"(0, 4)\": [{\"package\": \"callback_2\", \"callback\": \"exception_clb\"}]}"
+            },
+            {
+                "input": [
+                    {"ORTH": "i", "LEMMA": "i", "LOWER": "i", "UPPER": "I"},
+                    {"ORTH": "am", "LEMMA": "be", "LOWER": "am", "UPPER": "AM"},
+                    {"ORTH": "an", "LEMMA": "an", "LOWER": "an", "UPPER": "AN"},
+                    {"ORTH": "ape", "LEMMA": "ape", "LOWER": "ape", "UPPER": "APE"}
+                  ],
+                "expected": "{\"(0, 2)\": [{\"package\": \"callback_1-fired\", \"callback\": \"clb_1\"}], \"(0, 4)\": [{\"package\": \"callback_3\"}]}"
+            },
+            {
+                "input": [
+                    {"ORTH": "i", "LEMMA": "i", "LOWER": "i", "UPPER": "I", "POS":"NN"},
+                    {"ORTH": "am", "LEMMA": "be", "LOWER": "am", "UPPER": "AM"}
+                  ],
+                "expected": "{\"(0, 2)\": [{\"package\": \"callback_1-fired\", \"callback\": \"clb_1\"}]}"
+            }
+        ]
+    },
+    "regex": {
+        "rules" : [
+            [],
+            [
+                [
+                  {"key": {"LEMMA": "i"}},
+                  {"key": {"LEMMA": "be"}},
+                  {"key": {"ORTH": "a"}},
+                  {"key": {"LEMMA": {"regex": "go.*la"}}, "data": {"package": "regex_1"}}
+                ],
+                [
+                  {"key": {"LEMMA": "i"}},
+                  {"key": {"LEMMA": "be"}},
+                  {"key": {"ORTH": "an"}},
+                  {"key": {"LEMMA": {"regex": "ora.*tan"}, "POS": "N"}, "data": {"package": "regex_2"}}
+                ],
+                [
+                  {"key": {"LEMMA": "i"}},
+                  {"key": {"LEMMA": "be"}},
+                  {"key": {"ORTH": "a"}},
+                  {"key": {"LEMMA": {"regex": "[regit]{5}"}, "POS": {"regex": "ADJ|N"}}, "data": {"package": "regex_3"}}
+                ]
+            ]
+          ],
+        "test_pairs": [
+            {
+                "input": [
+                    {"ORTH": "i", "LEMMA": "i", "LOWER": "i", "UPPER": "I", "POS": "PRON"},
+                    {"ORTH": "am", "LEMMA": "be", "LOWER": "am", "UPPER": "AM", "POS": "VERB"},
+                    {"ORTH": "a", "LEMMA": "a", "LOWER": "a", "UPPER": "A", "POS": "ADV"},
+                    {"ORTH": "gorilla", "LEMMA": "gorilla", "LOWER": "gorilla", "UPPER": "GORILLA", "POS": "N"}
+                  ],
+                "expected": "{\"(0, 4)\": [{\"package\": \"regex_1\"}]}"
+            },
+            {
+                "input": [
+                    {"ORTH": "i", "LEMMA": "i", "LOWER": "i", "UPPER": "I", "POS": "PRON"},
+                    {"ORTH": "am", "LEMMA": "be", "LOWER": "am", "UPPER": "AM", "POS": "VERB"},
+                    {"ORTH": "an", "LEMMA": "an", "LOWER": "an", "UPPER": "AN", "POS": "ADV"},
+                    {"ORTH": "orangutan", "LEMMA": "orangutan", "LOWER": "orangutan", "UPPER": "ORANGUTAN", "POS": "N"}
+                  ],
+                "expected": "{\"(0, 4)\": [{\"package\": \"regex_2\"}]}"
+            },
+            {
+                "input": [
+                    {"ORTH": "i", "LEMMA": "i", "LOWER": "i", "UPPER": "I", "POS": "PRON"},
+                    {"ORTH": "am", "LEMMA": "be", "LOWER": "am", "UPPER": "AM", "POS": "VERB"},
+                    {"ORTH": "an", "LEMMA": "an", "LOWER": "an", "UPPER": "AN", "POS": "ADV"},
+                    {"ORTH": "orangutan", "LEMMA": "orangutan", "LOWER": "orangutan", "UPPER": "ORANGUTAN", "POS": "VERB"}
+                  ],
+                "expected": "{}"
+            },
+            {
+                "input": [
+                    {"ORTH": "i", "LEMMA": "i", "LOWER": "i", "UPPER": "I", "POS": "PRON"},
+                    {"ORTH": "am", "LEMMA": "be", "LOWER": "am", "UPPER": "AM", "POS": "VERB"},
+                    {"ORTH": "a", "LEMMA": "a", "LOWER": "a", "UPPER": "A", "POS": "ADV"},
+                    {"ORTH": "tiger", "LEMMA": "tiger", "LOWER": "tiger", "UPPER": "TIGER", "POS": "N"}
+                  ],
+                "expected": "{\"(0, 4)\": [{\"package\": \"regex_3\"}]}"
+            }
+        ]
+    },
+    "labels": {
+        "rules": [
+            [
+                [[
+                    {"key": {"ORTH": "at"}, "vars": [{"DEF": "LOCATION", "LENGTH": 3}], "data": {"_": {"labels": ["location_B"]}}},
+                    {"key": {"LOWER": "the"}},
+                    {"key": {"LOWER": "bar"}, "data": {"_": {"labels": ["location_E"]}}}
+                ]]
+            ],
+            [
+                [
+                    {"key": {"ORTH": "i"}},
+                    {"key": {"LEMMA": "be"}, "data": {"_": {"labels": ["be_B", "be_E", "be_2_E", "be_2_B"]}}},
+                    {"key": {"ORTH": "a"}},
+                    {"key": {"LOWER": "gorilla"}, "data": {"package": "label_1"}}
+                ],
+                [
+                    {"key": {"ORTH": "i"}},
+                    {"key": {"LEMMA": "have"}, "data": {"_": {"labels": ["verb_B", "verb_E"]}}},
+                    {"key": {"ORTH": "a"}},
+                    {"key": {"LOWER": "gorilla"}},
+                    {"key": {"LOWER": "at"}, "data": {"_": {"labels": ["location_B"]}}},
+                    {"key": {"LOWER": "the"}},
+                    {"key": {"LOWER": "zoo"}, "data": {"_": {"labels": ["location_E", "place_B", "place_E"]}, "package": "label_2"}}
+                ],
+                [
+                    {"key": {"ORTH": "i"}},
+                    {"key": {"LEMMA": "have"}},
+                    {"key": {"ORTH": "a"}},
+                    {"key": {"LOWER": "gorilla"}},
+                    {"vars": [{"REF": "LOCATION", "LENGTH": 3, "MIN": 1, "MAX": 1}], "data": {"package": "door_1"}}
+                ]
+            ]
+          ],
+        "test_pairs": [
+            {
+                "input": [
+                    {"ORTH": "i", "LEMMA": "i", "LOWER": "i", "UPPER": "I"},
+                    {"ORTH": "am", "LEMMA": "be", "LOWER": "am", "UPPER": "AM", "POS": "VERB"},
+                    {"ORTH": "a", "LEMMA": "a", "LOWER": "a", "UPPER": "A"},
+                    {"ORTH": "gorilla", "LEMMA": "gorilla", "LOWER": "gorilla", "UPPER": "GORILLA"}
+                  ],
+                "expected": "{\"(0, 4)\": [{\"package\": \"label_1\", {\"_\": \"labels\": {\"be\": [1, 2], \"be_2\": [1, 2]}}}]}"
+            },
+            {
+                "input": [
+                    {"ORTH": "i", "LEMMA": "i", "LOWER": "i", "UPPER": "I"},
+                    {"ORTH": "have", "LEMMA": "have", "LOWER": "have", "UPPER": "HAVE", "POS": "VERB"},
+                    {"ORTH": "a", "LEMMA": "a", "LOWER": "a", "UPPER": "A"},
+                    {"ORTH": "gorilla", "LEMMA": "gorilla", "LOWER": "gorilla", "UPPER": "GORILLA"},
+                    {"ORTH": "at", "LEMMA": "at", "LOWER": "at", "UPPER": "AT"},
+                    {"ORTH": "the", "LEMMA": "the", "LOWER": "the", "UPPER": "THE"},
+                    {"ORTH": "zoo", "LEMMA": "zoo", "LOWER": "zoo", "UPPER": "ZOO"}
+                  ],
+                "expected": "{\"(0, 7)\": [{\"package\": \"label_2\", {\"_\": \"labels\": {\"location\": [4, 7], \"place\": [6, 7], \"verb\": [1, 2]}}}]}"
+            },
+            {
+                "input": [
+                    {"ORTH": "i", "LEMMA": "i", "LOWER": "i", "UPPER": "I"},
+                    {"ORTH": "have", "LEMMA": "have", "LOWER": "have", "UPPER": "HAVE", "POS": "VERB"},
+                    {"ORTH": "a", "LEMMA": "a", "LOWER": "a", "UPPER": "A"},
+                    {"ORTH": "gorilla", "LEMMA": "gorilla", "LOWER": "gorilla", "UPPER": "GORILLA"},
+                    {"ORTH": "at", "LEMMA": "at", "LOWER": "at", "UPPER": "AT"},
+                    {"ORTH": "the", "LEMMA": "the", "LOWER": "the", "UPPER": "THE"},
+                    {"ORTH": "bar", "LEMMA": "bar", "LOWER": "bar", "UPPER": "BAR"}
+                  ],
+                "expected": "{\"(0, 7)\": [{\"package\": \"door_1\", {\"_\": \"labels\": {\"location\": [4, 7]}}}]}"
+            }
+        ]
+    },
+    "partial": {
+        "test_pairs": [
+            {
+                "input": [
+                    {"lemma": "10"},
+                    {"lemma": "street"}
+              ],
+                "expected": "{\"(0, 2)\": [{\"package\": \"partial rule variable\"}], \"(1, 2)\": [{\"package\": \"partial rule variable\"}]}"
+            },
+            {
+                "input": [
+                    {"lemma": "street"}
+              ],
+                "expected": "{\"(0, 1)\": [{\"package\": \"partial rule variable\"}]}"
+            }
+        ]
+    }
+}

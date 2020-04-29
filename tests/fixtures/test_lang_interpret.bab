@@ -1,0 +1,312 @@
+################################
+name: 1. simple rule
+internal: [[],[[{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}},{"key": {"ORTH": "love", "LEMMA": "love", "POS": "VERB"}},{"key": {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ"}},{"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "1. fluffy sheep"}}]]]
+================================
+Law:
+    - package: "1. fluffy sheep"
+(
+    (ORTH: "I", LEMMA: "-PRON-", POS: "PRON")
+    (ORTH: "love", LEMMA: "love", POS: "VERB")
+    (ORTH: "fluffy", LEMMA: "fluffy", POS: "ADJ")
+    (ORTH: "sheep", LEMMA: "sheep", POS: "NOUN")
+)
+################################
+name: 2. optional rule
+internal: [[], [[{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}}, {"key": {"ORTH": "love", "LEMMA": "love", "POS": "VERB"}}, {"key": {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ"}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "2. optional fluffy sheep"}}], [{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}}, {"key": {"ORTH": "love", "LEMMA": "love", "POS": "VERB"}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "2. optional fluffy sheep"}}]]]
+================================
+Law:
+    - package: "2. optional fluffy sheep"
+(
+    (ORTH: "I", LEMMA: "-PRON-", POS: "PRON")
+    (ORTH: "love", LEMMA: "love", POS: "VERB")
+    optional (ORTH: "fluffy", LEMMA: "fluffy", POS: "ADJ")
+    (ORTH: "sheep", LEMMA: "sheep", POS: "NOUN")
+)
+################################
+name: 3. simple union rule
+internal: [[], [[{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}, "data": {"_": {"block_length": 2}}}, {"key": {"ORTH": "love", "LEMMA": "love", "POS": "VERB"}}, {"key": {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ"}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "3. fluffy sheep union"}}], [{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}, "data": {"_": {"block_length": 2}}}, {"key": {"ORTH": "like", "LEMMA": "like", "POS": "VERB"}}, {"key": {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ"}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "3. fluffy sheep union"}}], [{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}, "data": {"_": {"block_length": 2}}}, {"key": {"ORTH": "love", "LEMMA": "love", "POS": "VERB"}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "3. fluffy sheep union"}}], [{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}, "data": {"_": {"block_length": 2}}}, {"key": {"ORTH": "like", "LEMMA": "like", "POS": "VERB"}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "3. fluffy sheep union"}}]]]
+================================
+Law:
+    - package: "3. fluffy sheep union"
+(
+    (ORTH: "I", LEMMA: "-PRON-", POS: "PRON")
+    (
+        (ORTH: "love", LEMMA: "love", POS: "VERB")
+        or
+        (ORTH: "like", LEMMA: "like", POS: "VERB")
+    )
+    optional (ORTH: "fluffy", LEMMA: "fluffy", POS: "ADJ")
+    (ORTH: "sheep", LEMMA: "sheep", POS: "NOUN")
+)
+################################
+name: 4. nested union rule
+internal: [[], [[{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}, "data": {"_": {"block_length": 2}}}, {"key": {"ORTH": "love", "LEMMA": "love", "POS": "VERB"}, "data": {"_": {"labels": ["L2_B", "L2_E", "L1_B", "L1_E"], "block_length": 2}}}, {"key": {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ"}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "4. fluffy sheep nested union"}}], [{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}, "data": {"_": {"block_length": 2}}}, {"key": {"ORTH": "adore", "LEMMA": "adore", "POS": "VERB"}, "data": {"_": {"labels": ["L3_B", "L3_E", "L1_B", "L1_E"]}}}, {"key": {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ"}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "4. fluffy sheep nested union"}}], [{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}, "data": {"_": {"block_length": 2}}}, {"key": {"ORTH": "like", "LEMMA": "like", "POS": "VERB"}, "data": {"_": {"labels": ["L1_B", "L1_E"]}}}, {"key": {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ"}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "4. fluffy sheep nested union"}}], [{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}, "data": {"_": {"block_length": 2}}}, {"key": {"ORTH": "fancy", "LEMMA": "fancy", "POS": "VERB"}, "data": {"_": {"labels": ["L1_B", "L1_E"]}}}, {"key": {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ"}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "4. fluffy sheep nested union"}}], [{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}, "data": {"_": {"block_length": 2}}}, {"key": {"ORTH": "love", "LEMMA": "love", "POS": "VERB"}, "data": {"_": {"labels": ["L2_B", "L2_E", "L1_B", "L1_E"], "block_length": 2}}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "4. fluffy sheep nested union"}}], [{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}, "data": {"_": {"block_length": 2}}}, {"key": {"ORTH": "adore", "LEMMA": "adore", "POS": "VERB"}, "data": {"_": {"labels": ["L3_B", "L3_E", "L1_B", "L1_E"]}}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "4. fluffy sheep nested union"}}], [{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}, "data": {"_": {"block_length": 2}}}, {"key": {"ORTH": "like", "LEMMA": "like", "POS": "VERB"}, "data": {"_": {"labels": ["L1_B", "L1_E"]}}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "4. fluffy sheep nested union"}}], [{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}, "data": {"_": {"block_length": 2}}}, {"key": {"ORTH": "fancy", "LEMMA": "fancy", "POS": "VERB"}, "data": {"_": {"labels": ["L1_B", "L1_E"]}}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "4. fluffy sheep nested union"}}]]]
+================================
+Law:
+    - package: "4. fluffy sheep nested union"
+(
+    (ORTH: "I", LEMMA: "-PRON-", POS: "PRON")
+    L1 -> (
+        L2 -> (ORTH: "love", LEMMA: "love", POS: "VERB")
+        or
+        (
+            L3 -> (ORTH: "adore", LEMMA: "adore", POS: "VERB")
+            or
+            (ORTH: "fancy", LEMMA: "fancy", POS: "VERB")
+        )
+        or
+        (ORTH: "like", LEMMA: "like", POS: "VERB")
+    )
+    optional (ORTH: "fluffy", LEMMA: "fluffy", POS: "ADJ")
+    (ORTH: "sheep", LEMMA: "sheep", POS: "NOUN")
+)
+################################
+name: 5. double nested union rule
+internal: [[], [[{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}, "data": {"_": {"block_length": 2}}}, {"key": {"ORTH": "love", "LEMMA": "love", "POS": "VERB"}, "data": {"_": {"block_length": 2}}}, {"key": {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ"}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "5. fluffy sheep double nested union"}}], [{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}, "data": {"_": {"block_length": 2}}}, {"key": {"ORTH": "adore", "LEMMA": "adore", "POS": "VERB"}, "data": {"_": {"block_length": 3}}}, {"key": {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ"}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "5. fluffy sheep double nested union"}}], [{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}, "data": {"_": {"block_length": 2}}}, {"key": {"ORTH": "like", "LEMMA": "like", "POS": "VERB"}}, {"key": {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ"}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "5. fluffy sheep double nested union"}}], [{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}, "data": {"_": {"block_length": 2}}}, {"key": {"ORTH": "fancy", "LEMMA": "fancy", "POS": "VERB"}}, {"key": {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ"}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "5. fluffy sheep double nested union"}}], [{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}, "data": {"_": {"block_length": 2}}}, {"key": {"ORTH": "appreciate", "LEMMA": "appreciate", "POS": "VERB"}}, {"key": {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ"}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "5. fluffy sheep double nested union"}}], [{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}, "data": {"_": {"block_length": 2}}}, {"key": {"ORTH": "cherish", "LEMMA": "cherish", "POS": "VERB"}}, {"key": {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ"}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "5. fluffy sheep double nested union"}}], [{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}, "data": {"_": {"block_length": 2}}}, {"key": {"ORTH": "love", "LEMMA": "love", "POS": "VERB"}, "data": {"_": {"block_length": 2}}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "5. fluffy sheep double nested union"}}], [{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}, "data": {"_": {"block_length": 2}}}, {"key": {"ORTH": "adore", "LEMMA": "adore", "POS": "VERB"}, "data": {"_": {"block_length": 3}}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "5. fluffy sheep double nested union"}}], [{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}, "data": {"_": {"block_length": 2}}}, {"key": {"ORTH": "like", "LEMMA": "like", "POS": "VERB"}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "5. fluffy sheep double nested union"}}], [{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}, "data": {"_": {"block_length": 2}}}, {"key": {"ORTH": "fancy", "LEMMA": "fancy", "POS": "VERB"}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "5. fluffy sheep double nested union"}}], [{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}, "data": {"_": {"block_length": 2}}}, {"key": {"ORTH": "appreciate", "LEMMA": "appreciate", "POS": "VERB"}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "5. fluffy sheep double nested union"}}], [{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}, "data": {"_": {"block_length": 2}}}, {"key": {"ORTH": "cherish", "LEMMA": "cherish", "POS": "VERB"}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "5. fluffy sheep double nested union"}}]]]
+================================
+Law:
+    - package: "5. fluffy sheep double nested union"
+(
+    (ORTH: "I", LEMMA: "-PRON-", POS: "PRON")
+    (
+        (ORTH: "love", LEMMA: "love", POS: "VERB")
+        or
+        (
+            (ORTH: "adore", LEMMA: "adore", POS: "VERB")
+            or
+            (ORTH: "fancy", LEMMA: "fancy", POS: "VERB")
+            or
+            (
+                (ORTH: "appreciate", LEMMA: "appreciate", POS: "VERB")
+                or
+                (ORTH: "cherish", LEMMA: "cherish", POS: "VERB")
+            )
+        )
+        or
+        (ORTH: "like", LEMMA: "like", POS: "VERB")
+    )
+    optional (ORTH: "fluffy", LEMMA: "fluffy", POS: "ADJ")
+    (ORTH: "sheep", LEMMA: "sheep", POS: "NOUN")
+)
+################################
+name: 7. Simple sequence rule
+internal: [[], [[{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}}, {"key": {"ORTH": "absolutely", "LEMMA": "absolutely", "POS": "ADV"}}, {"key": {"ORTH": "love", "LEMMA": "love", "POS": "VERB"}}, {"key": {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ"}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "7. fluffy sheep sequence"}}], [{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}}, {"key": {"ORTH": "absolutely", "LEMMA": "absolutely", "POS": "ADV"}}, {"key": {"ORTH": "love", "LEMMA": "love", "POS": "VERB"}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "7. fluffy sheep sequence"}}]]]
+================================
+Law:
+    - package: "7. fluffy sheep sequence"
+(
+    (ORTH: "I", LEMMA: "-PRON-", POS: "PRON")
+    (
+        (ORTH: "absolutely", LEMMA: "absolutely", POS: "ADV")
+        (ORTH: "love", LEMMA: "love", POS: "VERB")
+    )
+    optional (ORTH: "fluffy", LEMMA: "fluffy", POS: "ADJ")
+    (ORTH: "sheep", LEMMA: "sheep", POS: "NOUN")
+)
+################################
+name: 8. Nested sequence rule
+internal: [[], [[{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}}, {"key": {"ORTH": "most", "LEMMA": "most", "POS": "ADV"}}, {"key": {"ORTH": "definitely", "LEMMA": "definitely", "POS": "ADV"}}, {"key": {"ORTH": "absolutely", "LEMMA": "absolutely", "POS": "ADV"}}, {"key": {"ORTH": "love", "LEMMA": "love", "POS": "VERB"}}, {"key": {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ"}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "8. fluffy sheep nested sequence"}}], [{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}}, {"key": {"ORTH": "most", "LEMMA": "most", "POS": "ADV"}}, {"key": {"ORTH": "definitely", "LEMMA": "definitely", "POS": "ADV"}}, {"key": {"ORTH": "absolutely", "LEMMA": "absolutely", "POS": "ADV"}}, {"key": {"ORTH": "love", "LEMMA": "love", "POS": "VERB"}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "8. fluffy sheep nested sequence"}}]]]
+================================
+Law:
+    - package: "8. fluffy sheep nested sequence"
+(
+    (ORTH: "I", LEMMA: "-PRON-", POS: "PRON")
+    (
+        (
+            (ORTH: "most", LEMMA: "most", POS: "ADV")
+            (ORTH: "definitely", LEMMA: "definitely", POS: "ADV")
+        )
+        (ORTH: "absolutely", LEMMA: "absolutely", POS: "ADV")
+        (ORTH: "love", LEMMA: "love", POS: "VERB")
+    )
+    optional (ORTH: "fluffy", LEMMA: "fluffy", POS: "ADJ")
+    (ORTH: "sheep", LEMMA: "sheep", POS: "NOUN")
+)
+################################
+name: 9. Star sequence rule
+internal: [[[[{"key": {"ORTH": "absolutely", "LEMMA": "absolutely", "POS": "ADV"}, "vars": [{"DEF": -3689023300316496749, "LENGTH": 2}], "data": {"_": {"block_length": 2}}}, {"key": {"ORTH": "love", "LEMMA": "love", "POS": "VERB"}, "data": {"_": {"var_end": true}}}]]], [[{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}}, {"key": {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ"}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "9. fluffy sheep star sequence"}}], [{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}}, {"vars": [{"REF": -3689023300316496749, "LENGTH": 2, "MIN": 1, "MAX": 10000000000}]}, {"key": {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ"}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "9. fluffy sheep star sequence"}}], [{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "9. fluffy sheep star sequence"}}], [{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}}, {"vars": [{"REF": -3689023300316496749, "LENGTH": 2, "MIN": 1, "MAX": 10000000000}]}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "9. fluffy sheep star sequence"}}]]]
+================================
+Law:
+    - package: "9. fluffy sheep star sequence"
+(
+    (ORTH: "I", LEMMA: "-PRON-", POS: "PRON")
+    zero or more (
+        (ORTH: "absolutely", LEMMA: "absolutely", POS: "ADV")
+        (ORTH: "love", LEMMA: "love", POS: "VERB")
+    )
+    optional (ORTH: "fluffy", LEMMA: "fluffy", POS: "ADJ")
+    (ORTH: "sheep", LEMMA: "sheep", POS: "NOUN")
+)
+################################
+name: 10. Plus sequence rule
+internal: [[[[{"key": {"ORTH": "absolutely", "LEMMA": "absolutely", "POS": "ADV"}, "vars": [{"DEF": -3689023300316496749, "LENGTH": 2}], "data": {"_": {"block_length": 2}}}, {"key": {"ORTH": "love", "LEMMA": "love", "POS": "VERB"}, "data": {"_": {"var_end": true}}}]]], [[{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}}, {"vars": [{"REF": -3689023300316496749, "LENGTH": 2, "MIN": 1, "MAX": 10000000000}]}, {"key": {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ"}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "10. fluffy sheep plus sequence"}}], [{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}}, {"vars": [{"REF": -3689023300316496749, "LENGTH": 2, "MIN": 1, "MAX": 10000000000}]}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "10. fluffy sheep plus sequence"}}]]]
+================================
+Law:
+    - package: "10. fluffy sheep plus sequence"
+(
+    (ORTH: "I", LEMMA: "-PRON-", POS: "PRON")
+    one or more (
+        (ORTH: "absolutely", LEMMA: "absolutely", POS: "ADV")
+        (ORTH: "love", LEMMA: "love", POS: "VERB")
+    )
+    optional (ORTH: "fluffy", LEMMA: "fluffy", POS: "ADJ")
+    (ORTH: "sheep", LEMMA: "sheep", POS: "NOUN")
+)
+################################
+name: 11. nested optional groups
+internal: [[], [[{"key": {"LEMMA": "like"}}, {"key": {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ"}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "11. fluffy sheep nested optional sequence"}}], [{"key": {"LEMMA": "like"}, "data": {"_": {"block_length": 2}}}, {"key": {"LEMMA": "much"}}, {"key": {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ"}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "11. fluffy sheep nested optional sequence"}}], [{"key": {"LEMMA": "like"}, "data": {"_": {"block_length": 2}}}, {"key": {"LEMMA": "way"}}, {"key": {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ"}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "11. fluffy sheep nested optional sequence"}}], [{"key": {"LEMMA": "like"}, "data": {"_": {"block_length": 3}}}, {"key": {"LEMMA": "a"}}, {"key": {"LEMMA": "lot"}}, {"key": {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ"}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "11. fluffy sheep nested optional sequence"}}], [{"key": {"LEMMA": "like"}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "11. fluffy sheep nested optional sequence"}}], [{"key": {"LEMMA": "like"}, "data": {"_": {"block_length": 2}}}, {"key": {"LEMMA": "much"}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "11. fluffy sheep nested optional sequence"}}], [{"key": {"LEMMA": "like"}, "data": {"_": {"block_length": 2}}}, {"key": {"LEMMA": "way"}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "11. fluffy sheep nested optional sequence"}}], [{"key": {"LEMMA": "like"}, "data": {"_": {"block_length": 3}}}, {"key": {"LEMMA": "a"}}, {"key": {"LEMMA": "lot"}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "11. fluffy sheep nested optional sequence"}}]]]
+================================
+Law:
+    - package: "11. fluffy sheep nested optional sequence"
+(
+    (LEMMA: "like")
+    optional (
+        (LEMMA: "much")
+        or
+        (LEMMA: "way")
+        or
+        (
+            (LEMMA: "a")
+            (LEMMA: "lot")
+        )
+    )
+    optional (ORTH: "fluffy", LEMMA: "fluffy", POS: "ADJ")
+    (ORTH: "sheep", LEMMA: "sheep", POS: "NOUN")
+)
+################################
+name: 12. plus nested optional sequence rule with star"
+internal: [[[[{"key": {"ORTH": "love", "LEMMA": "love", "POS": "VERB"}, "vars": [{"DEF": 6755193739395169876, "LENGTH": 1}], "data": {"_": {"var_end": true}}}]]], [[{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}}, {"key": {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ"}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "12. fluffy sheep plus nested optional sequence rule with star"}}], [{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}}, {"key": {"ORTH": "absolutely", "LEMMA": "absolutely", "POS": "ADV"}}, {"key": {"ORTH": "love", "LEMMA": "love", "POS": "VERB"}}, {"vars": [{"REF": 6755193739395169876, "LENGTH": 1, "MIN": 1, "MAX": 10000000000}]}, {"vars": [{"REF": 6755193739395169876, "LENGTH": 1, "MIN": 1, "MAX": 10000000000}]}, {"key": {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ"}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "12. fluffy sheep plus nested optional sequence rule with star"}}], [{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}}, {"key": {"ORTH": "absolutely", "LEMMA": "absolutely", "POS": "ADV"}}, {"vars": [{"REF": 6755193739395169876, "LENGTH": 1, "MIN": 1, "MAX": 10000000000}]}, {"vars": [{"REF": 6755193739395169876, "LENGTH": 1, "MIN": 1, "MAX": 10000000000}]}, {"key": {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ"}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "12. fluffy sheep plus nested optional sequence rule with star"}}], [{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}}, {"key": {"ORTH": "absolutely", "LEMMA": "absolutely", "POS": "ADV"}}, {"key": {"ORTH": "love", "LEMMA": "love", "POS": "VERB"}}, {"vars": [{"REF": 6755193739395169876, "LENGTH": 1, "MIN": 1, "MAX": 10000000000}]}, {"key": {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ"}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "12. fluffy sheep plus nested optional sequence rule with star"}}], [{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}}, {"key": {"ORTH": "absolutely", "LEMMA": "absolutely", "POS": "ADV"}}, {"vars": [{"REF": 6755193739395169876, "LENGTH": 1, "MIN": 1, "MAX": 10000000000}]}, {"key": {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ"}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "12. fluffy sheep plus nested optional sequence rule with star"}}], [{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "12. fluffy sheep plus nested optional sequence rule with star"}}], [{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}}, {"key": {"ORTH": "absolutely", "LEMMA": "absolutely", "POS": "ADV"}}, {"key": {"ORTH": "love", "LEMMA": "love", "POS": "VERB"}}, {"vars": [{"REF": 6755193739395169876, "LENGTH": 1, "MIN": 1, "MAX": 10000000000}]}, {"vars": [{"REF": 6755193739395169876, "LENGTH": 1, "MIN": 1, "MAX": 10000000000}]}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "12. fluffy sheep plus nested optional sequence rule with star"}}], [{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}}, {"key": {"ORTH": "absolutely", "LEMMA": "absolutely", "POS": "ADV"}}, {"vars": [{"REF": 6755193739395169876, "LENGTH": 1, "MIN": 1, "MAX": 10000000000}]}, {"vars": [{"REF": 6755193739395169876, "LENGTH": 1, "MIN": 1, "MAX": 10000000000}]}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "12. fluffy sheep plus nested optional sequence rule with star"}}], [{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}}, {"key": {"ORTH": "absolutely", "LEMMA": "absolutely", "POS": "ADV"}}, {"key": {"ORTH": "love", "LEMMA": "love", "POS": "VERB"}}, {"vars": [{"REF": 6755193739395169876, "LENGTH": 1, "MIN": 1, "MAX": 10000000000}]}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "12. fluffy sheep plus nested optional sequence rule with star"}}], [{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}}, {"key": {"ORTH": "absolutely", "LEMMA": "absolutely", "POS": "ADV"}}, {"vars": [{"REF": 6755193739395169876, "LENGTH": 1, "MIN": 1, "MAX": 10000000000}]}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "12. fluffy sheep plus nested optional sequence rule with star"}}]]]
+================================
+Law:
+    - package: "12. fluffy sheep plus nested optional sequence rule with star"
+(
+    (ORTH: "I", LEMMA: "-PRON-", POS: "PRON")
+    optional (
+        (ORTH: "absolutely", LEMMA: "absolutely", POS: "ADV")
+        optional (ORTH: "love", LEMMA: "love", POS: "VERB")
+        one or more (ORTH: "love", LEMMA: "love", POS: "VERB")
+        zero or more (ORTH: "love", LEMMA: "love", POS: "VERB" )
+    )
+    optional (ORTH: "fluffy", LEMMA: "fluffy", POS: "ADJ")
+    (ORTH: "sheep", LEMMA: "sheep", POS: "NOUN")
+)
+################################
+name: 13. Named variable reference
+internal: [[[[{"key": {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ"}, "vars": [{"DEF": "fluffy", "LENGTH": 1}], "data": {"_": {"var_end": true}}}]]],[[{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}},{"key": {"ORTH": "love", "LEMMA": "love", "POS": "VERB"}},{"vars": [{"REF": "fluffy", "LENGTH": 1, "MIN": 1, "MAX": 1}]},{"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"package": "13. named fluffy sheep"}}]]]
+================================
+Var fluffy:
+(
+    (ORTH: "fluffy", LEMMA: "fluffy", POS: "ADJ")
+)
+Law:
+    - package: "13. named fluffy sheep"
+(
+    (ORTH: "I", LEMMA: "-PRON-", POS: "PRON")
+    (ORTH: "love", LEMMA: "love", POS: "VERB")
+    $fluffy
+    (ORTH: "sheep", LEMMA: "sheep", POS: "NOUN")
+)
+################################
+name: 14. Variable reference with optional first element
+internal: [[[[{"key": {"lemma": "be"}, "vars": [{"DEF": "to_be", "LENGTH": 1}], "data": {"_": {"var_end": true}}}]]], [[{"key": {"lemma": "sheep", "pos": "NOUN"}}, {"vars": [{"REF": "to_be", "LENGTH": 1, "MIN": 1, "MAX": 1}], "data": {"package": "14. Variable reference with optional first element"}}]]]
+================================
+Var to_be:
+(
+    optional (lemma: "be")
+)
+
+Law:
+    - package: "14. Variable reference with optional first element"
+(
+    (lemma: "sheep", pos: "NOUN")
+    $to_be
+)
+################################
+name: 15. Multiple law attributes
+internal: [[[[{"key": {"lemma": "be"}, "vars": [{"DEF": "to_be", "LENGTH": 1}], "data": {"_": {"var_end": true}}}]]], [[{"key": {"lemma": "sheep", "pos": "NOUN"}}, {"vars": [{"REF": "to_be", "LENGTH": 1, "MIN": 1, "MAX": 1}], "data": {"package": "15. Multiple law attributes", "callback": "my_callback", "junk": "pointless strings I am passing around"}}]]]
+================================
+Var to_be:
+(
+    optional (lemma: "be")
+)
+
+Law:
+    - package: "15. Multiple law attributes"
+    - callback: "my_callback"
+    - junk: "pointless strings I am passing around"
+(
+    (lemma: "sheep", pos: "NOUN")
+    $to_be
+)
+################################
+name: 16. Multiple variable references
+internal: [[[[{"key": {"lemma": "be"}, "vars": [{"DEF": "to_be", "LENGTH": 1}], "data": {"_": {"var_end": true}}}]]], [[{"vars": [{"REF": "to_be", "LENGTH": 1, "MIN": 1, "MAX": 1}]}, {"key": {"lemma": "sheep", "pos": "NOUN"}}, {"vars": [{"REF": "to_be", "LENGTH": 1, "MIN": 1, "MAX": 1}], "data": {"package": "16. Multiple variable references"}}]]]
+================================
+Var to_be:
+(
+    optional (lemma: "be")
+)
+
+Law:
+    - package: "16. Multiple variable references"
+(
+    $to_be
+    (lemma: "sheep", pos: "NOUN")
+    $to_be
+)
+################################
+name: 17. Named laws
+internal: [[[[{"key": {"lemma": "be"}, "data": {"_": {"labels": ["L1_B", "L1_E"], "var_end": true}}, "vars": [{"DEF": "to_be", "LENGTH": 1}]}]], [[{"key": {"lemma": "sheep", "pos": "NOUN"}, "vars": [{"DEF": "law_name", "LENGTH": 2}]}, {"vars": [{"REF": "to_be", "LENGTH": 1, "MIN": 1, "MAX": 1}], "data": {"package": "17. Named laws"}}]]], [[{"vars": [{"REF": "law_name", "LENGTH": 2, "MIN": 1, "MAX": 1}]}]]]
+================================
+Var to_be:
+(
+    L1 -> optional (lemma: "be")
+)
+
+Law law_name:
+    - package: "17. Named laws"
+(
+    (lemma: "sheep", pos: "NOUN")
+    $to_be
+)
+################################
+name: 18. regex rule
+internal: [[],[[{"key":{"ORTH":"I","LEMMA":"-PRON-","POS":"PRON"}},{"key":{"ORTH":"love","LEMMA":"love","POS":"VERB"}},{"key":{"ORTH":{"regex":"fl*.fy"},"LEMMA":"fluffy","POS":{"regex":"ADJ|VERB"}}},{"key":{"ORTH":"sheep","LEMMA":"sheep","POS":"NOUN"},"data":{"package":"18. fluffy regex sheep"}}]]]
+================================
+Law:
+    - package: "18. fluffy regex sheep"
+(
+    (ORTH: "I", LEMMA: "-PRON-", POS: "PRON")
+    (ORTH: "love", LEMMA: "love", POS: "VERB")
+    (ORTH: regex("fl*.fy"), LEMMA: "fluffy", POS: regex("ADJ|VERB"))
+    (ORTH: "sheep", LEMMA: "sheep", POS: "NOUN")
+)
+################################
+name: 19. labels
+internal: [[[[{"key": {"ORTH": "love", "LEMMA": "love", "POS": "VERB"}, "vars": [{"DEF": 6755193739395169876, "LENGTH": 1}], "data": {"_": {"var_end": true}}}]]], [[{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}, "data": {"_": {"labels": ["L1_B", "L1_E"]}}}, {"key": {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ"}, "data": {"_": {"labels": ["L4_B", "L4_E"]}}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"_": {"labels": ["L5_B", "L5_E"]}, "package": "19. labels"}}], [{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}, "data": {"_": {"labels": ["L1_B", "L1_E"]}}}, {"key": {"ORTH": "absolutely", "LEMMA": "absolutely", "POS": "ADV"}, "data": {"_": {"labels": ["L3_B", "L3_E"]}}}, {"key": {"ORTH": "love", "LEMMA": "love", "POS": "VERB"}}, {"vars": [{"REF": 6755193739395169876, "LENGTH": 1, "MIN": 1, "MAX": 10000000000}]}, {"vars": [{"REF": 6755193739395169876, "LENGTH": 1, "MIN": 1, "MAX": 10000000000}]}, {"key": {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ"}, "data": {"_": {"labels": ["L4_B", "L4_E"]}}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"_": {"labels": ["L5_B", "L5_E"]}, "package": "19. labels"}}], [{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}, "data": {"_": {"labels": ["L1_B", "L1_E"]}}}, {"key": {"ORTH": "absolutely", "LEMMA": "absolutely", "POS": "ADV"}, "data": {"_": {"labels": ["L3_B", "L3_E"]}}}, {"vars": [{"REF": 6755193739395169876, "LENGTH": 1, "MIN": 1, "MAX": 10000000000}]}, {"vars": [{"REF": 6755193739395169876, "LENGTH": 1, "MIN": 1, "MAX": 10000000000}]}, {"key": {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ"}, "data": {"_": {"labels": ["L4_B", "L4_E"]}}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"_": {"labels": ["L5_B", "L5_E"]}, "package": "19. labels"}}], [{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}, "data": {"_": {"labels": ["L1_B", "L1_E"]}}}, {"key": {"ORTH": "absolutely", "LEMMA": "absolutely", "POS": "ADV"}, "data": {"_": {"labels": ["L3_B", "L3_E"]}}}, {"key": {"ORTH": "love", "LEMMA": "love", "POS": "VERB"}}, {"vars": [{"REF": 6755193739395169876, "LENGTH": 1, "MIN": 1, "MAX": 10000000000}]}, {"key": {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ"}, "data": {"_": {"labels": ["L4_B", "L4_E"]}}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"_": {"labels": ["L5_B", "L5_E"]}, "package": "19. labels"}}], [{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}, "data": {"_": {"labels": ["L1_B", "L1_E"]}}}, {"key": {"ORTH": "absolutely", "LEMMA": "absolutely", "POS": "ADV"}, "data": {"_": {"labels": ["L3_B", "L3_E"]}}}, {"vars": [{"REF": 6755193739395169876, "LENGTH": 1, "MIN": 1, "MAX": 10000000000}]}, {"key": {"ORTH": "fluffy", "LEMMA": "fluffy", "POS": "ADJ"}, "data": {"_": {"labels": ["L4_B", "L4_E"]}}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"_": {"labels": ["L5_B", "L5_E"]}, "package": "19. labels"}}], [{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}, "data": {"_": {"labels": ["L1_B", "L1_E"]}}}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"_": {"labels": ["L5_B", "L5_E"]}, "package": "19. labels"}}], [{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}, "data": {"_": {"labels": ["L1_B", "L1_E"]}}}, {"key": {"ORTH": "absolutely", "LEMMA": "absolutely", "POS": "ADV"}, "data": {"_": {"labels": ["L3_B", "L3_E"]}}}, {"key": {"ORTH": "love", "LEMMA": "love", "POS": "VERB"}}, {"vars": [{"REF": 6755193739395169876, "LENGTH": 1, "MIN": 1, "MAX": 10000000000}]}, {"vars": [{"REF": 6755193739395169876, "LENGTH": 1, "MIN": 1, "MAX": 10000000000}]}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"_": {"labels": ["L5_B", "L5_E"]}, "package": "19. labels"}}], [{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}, "data": {"_": {"labels": ["L1_B", "L1_E"]}}}, {"key": {"ORTH": "absolutely", "LEMMA": "absolutely", "POS": "ADV"}, "data": {"_": {"labels": ["L3_B", "L3_E"]}}}, {"vars": [{"REF": 6755193739395169876, "LENGTH": 1, "MIN": 1, "MAX": 10000000000}]}, {"vars": [{"REF": 6755193739395169876, "LENGTH": 1, "MIN": 1, "MAX": 10000000000}]}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"_": {"labels": ["L5_B", "L5_E"]}, "package": "19. labels"}}], [{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}, "data": {"_": {"labels": ["L1_B", "L1_E"]}}}, {"key": {"ORTH": "absolutely", "LEMMA": "absolutely", "POS": "ADV"}, "data": {"_": {"labels": ["L3_B", "L3_E"]}}}, {"key": {"ORTH": "love", "LEMMA": "love", "POS": "VERB"}}, {"vars": [{"REF": 6755193739395169876, "LENGTH": 1, "MIN": 1, "MAX": 10000000000}]}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"_": {"labels": ["L5_B", "L5_E"]}, "package": "19. labels"}}], [{"key": {"ORTH": "I", "LEMMA": "-PRON-", "POS": "PRON"}, "data": {"_": {"labels": ["L1_B", "L1_E"]}}}, {"key": {"ORTH": "absolutely", "LEMMA": "absolutely", "POS": "ADV"}, "data": {"_": {"labels": ["L3_B", "L3_E"]}}}, {"vars": [{"REF": 6755193739395169876, "LENGTH": 1, "MIN": 1, "MAX": 10000000000}]}, {"key": {"ORTH": "sheep", "LEMMA": "sheep", "POS": "NOUN"}, "data": {"_": {"labels": ["L5_B", "L5_E"]}, "package": "19. labels"}}]]]
+================================
+Law:
+    - package: "19. labels"
+(
+    L1 -> (ORTH: "I", LEMMA: "-PRON-", POS: "PRON")
+    L2 -> optional (
+        L3 -> (ORTH: "absolutely", LEMMA: "absolutely", POS: "ADV")
+        optional (ORTH: "love", LEMMA: "love", POS: "VERB")
+        one or more (ORTH: "love", LEMMA: "love", POS: "VERB")
+        zero or more (ORTH: "love", LEMMA: "love", POS: "VERB" )
+    )
+    L4 -> optional (ORTH: "fluffy", LEMMA: "fluffy", POS: "ADJ")
+    L5 -> (ORTH: "sheep", LEMMA: "sheep", POS: "NOUN")
+)
+################################
+name: 20. mega regex rule
+internal: [[],[[{"key":{"ORTH":"I","LEMMA":"-PRON-","POS":"PRON"}},{"key":{"ORTH":"love","LEMMA":"love","POS":"VERB"}},{"key":{"ORTH":{"regex":"^[0-9]+\\.$"},"LEMMA":"fluffy","POS":{"regex":"ADJ|VERB"}}},{"key":{"ORTH":"sheep","LEMMA":"sheep","POS":"NOUN"},"data":{"package":"20. escaped regex sheep"}}]]]
+================================
+Law:
+    - package: "20. escaped regex sheep"
+(
+    (ORTH: "I", LEMMA: "-PRON-", POS: "PRON")
+    (ORTH: "love", LEMMA: "love", POS: "VERB")
+    (ORTH: regex("^[0-9]+\\.$"), LEMMA: "fluffy", POS: regex("ADJ|VERB"))
+    (ORTH: "sheep", LEMMA: "sheep", POS: "NOUN")
+)

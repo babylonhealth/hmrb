@@ -1,0 +1,33 @@
+{
+    "md5_set": [{
+        "set_attributes" :
+            {"lemma_": ["was", "seen", "as", "god"], "pos_": "PROPN"},
+        "data": {"package": ""}
+    },
+    {
+        "set_attributes" :
+            {"lemma_": ["was", "seen", "as", "god"]},
+        "data": {"package": ""}
+    },
+    {
+        "set_attributes" :
+            {"lemma_": ["was", "seen", "as", "god"], "pos_": "PROPN"},
+        "data": {"package" : "set_with_data"}
+    }],
+    "md5_node": [{
+        "token" : {"key": {"lemma_": "hammurabi", "pos_": "PROPN"}},
+        "expected": "(frozenset({('lemma_', 'hammurabi'), ('pos_', 'PROPN')}), %%)"
+    },
+    {
+        "token" : {"key": {"lemma_": "hammurabi", "pos_": "PROPN"}, "data": {"package": "node_key_with_data"}},
+        "expected": "(frozenset({('lemma_', 'hammurabi'), ('pos_', 'PROPN')}), %%)"
+    },
+    {
+        "token" : {"key": {"lemma_": "hammurabi", "pos_": "PROPN"}, "data": {"package": "node_key_with_data_and_labels", "labels": ["B_label1", "O_label1"]}},
+        "expected": "(frozenset({('lemma_', 'hammurabi'), ('pos_', 'PROPN')}), %%)"
+    }],
+    "node_buildchild": [{
+        "token" : {"key": {"lemma_": "hammurabi", "pos_": "PROPN"}},
+        "expected" : "{'pos_': {'PROPN': {(frozenset({('pos_', 'PROPN'), ('lemma_', 'hammurabi')}), %%)}}, 'lemma_': {'hammurabi': {(frozenset({('pos_', 'PROPN'), ('lemma_', 'hammurabi')}), %%)}}}"
+    }]
+}
