@@ -17,7 +17,8 @@ $ make test
 
 ### 3. Documentation
 
-Documentation is currently provided through offline ReadtheDocs.
+Documentation is available at https://hmrb.readthedocs.io.
+Instructions to build and run locally:
 
 ```shell
 $ pip install -r doc_requirements.txt
