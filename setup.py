@@ -44,7 +44,7 @@ setup(
     author="Babylon Health",
     author_email="kristian.boda@babylonhealth.com",
     url="https://github.com/babylonhealth/hmrb",
-    license="Proprietary",
+    license="Apache License 2.0",
     long_description=long_description,
     long_description_content_type="text/markdown",
     setup_requires=["cython<0.30"],
