@@ -43,7 +43,7 @@ setup(
     description="Hammurabi",
     author="Babylon Health",
     author_email="kristian.boda@babylonhealth.com",
-    url="https://github.com/babylonpartners/hmrb",
+    url="https://github.com/babylonhealth/hmrb",
     license="Proprietary",
     long_description=long_description,
     long_description_content_type="text/markdown",
