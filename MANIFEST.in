@@ -1,4 +1,6 @@
 include HISTORY.rst
+include LICENSE
+include CONTRIBUTING
 include requirements.txt
 recursive-exclude * __pycache__
 recursive-exclude * *.py[co]
