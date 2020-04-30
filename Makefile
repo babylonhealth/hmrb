@@ -2,7 +2,7 @@ NAME=hmrb
 
 build:
 	python setup.py build_ext
-	python setup.py sdist bdist_wheel
+	python setup.py sdist
 
 build_protoc:
 	protoc -I=hmrb --python_out=hmrb hmrb/response.proto
