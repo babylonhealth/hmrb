@@ -8,9 +8,9 @@ build_protoc:
 	protoc -I=hmrb --python_out=hmrb hmrb/response.proto
 
 clean:
-	find . -name "*.py[cod]" -delete
-	find . -name "*.c" -delete
-	find . -name "*.so" -delete
+	find hmrb -name "*.py[cod]" -delete
+	find hmrb -name "*.c" -delete
+	find hmrb -name "*.so" -delete
 
 install-requirements:
 	pip3 install -r requirements.txt
