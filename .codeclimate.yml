@@ -1,0 +1,18 @@
+version: "2"
+checks:
+  argument-count:
+    config:
+      threshold: 10
+  file-lines:
+    config:
+      threshold: 1000
+  method-complexity:
+    config:
+      threshold: 15
+  method-lines:
+    config:
+      threshold: 60
+exclude_patterns:
+- "scripts/"
+- "setup.py"
+- "tests/"
