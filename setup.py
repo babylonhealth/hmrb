@@ -36,7 +36,7 @@ with open("README.md") as f:
 
 setup(
     name="hmrb",
-    version="1.0.1rc2",
+    version="1.0.0",
     packages=find_packages(".", exclude=("tests",)),
     zip_safe=False,
     include_package_data=False,

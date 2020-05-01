@@ -35,7 +35,7 @@ test:
 release: build
 	if python check_release.py;\
 	then\
-	  python -m twine upload --repository testpypi --repository-url https://test.pypi.org/legacy/ dist/* --verbose;\
+	  python -m twine upload --verbose;\
 	else\
 	  echo "Version already released";\
 	fi\

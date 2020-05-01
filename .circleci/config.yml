@@ -78,7 +78,7 @@ workflows:
         <<: *only_master
     - release:
         context: babylon
-        <<: *not_master
+        <<: *only_master
 
 jobs:
   prepare_env:
