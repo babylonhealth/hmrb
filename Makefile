@@ -32,6 +32,14 @@ test:
 	PYTHONHASHSEED=42 pytest -v --cov-config .coveragerc --cov .
 	coverage xml
 
+release: build
+	if python check_release.py;\
+	then\
+	  python -m twine upload --verbose;\
+	else\
+	  echo "Version already released";\
+	fi\
+
 docs:
 	rm -rf docs/_build
 	sphinx-build -M html "docs/" "docs/_build"
