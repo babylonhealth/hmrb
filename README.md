@@ -238,4 +238,16 @@ nlp('My head hurts')
 
 ### 6. Maintainers
 
-[@bodak](https://github.com/bodak) & [@savkov](https://github.com/savkov)
+<!-- HTML:START -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/bodak"><img src="https://avatars3.githubusercontent.com/u/6807878?v=4" width="100px;" alt=""/><br /><sub><b>Kristian Boda</b></sub></a></td>
+    <td align="center"><a href="http://sasho.io"><img src="https://avatars2.githubusercontent.com/u/1086604?v=4" width="100px;" alt=""/><br /><sub><b>Sasho Savkov</b></sub></a></td>
+    <td align="center"><a href="https://github.com/mlehl88"><img src="https://avatars2.githubusercontent.com/u/17163719?s=460&u=683f6b5583ed3df64b0e9812f7ec6bdd19b94a5e&v=4" width="100px;" alt=""/><br /><sub><b>Maria Lehl</b></sub></a></td>
+  </tr>
+</table>
+<!-- markdownlint-enable -->
+<!-- prettier-ignore-end -->
+<!-- HTML:END -->
