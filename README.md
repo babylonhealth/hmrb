@@ -9,13 +9,7 @@ To begin, simply install the package from PyPI:
 $ pip install hmrb
 ```
 
-### 2. Tests
-
-```shell
-$ make test
-```
-
-### 3. Documentation
+### 2. Documentation
 
 Documentation is available at https://hmrb.readthedocs.io.
 Instructions to build and run locally:
@@ -27,7 +21,7 @@ $ make docs
 $ make help
 ```
 
-### 4. Definitions
+### 3. Definitions
 
 Hammurabi works as a rule engine to parse input using a defined set of rules.
 It uses a simple and readable syntax to define complex rules to handle phrase matching.
@@ -48,7 +42,7 @@ Features:
 - User-defined rule-level callback functions triggered by a match
 - Labels to tag and retrieve matched sequence segments
 
-#### 4.1 Writing Rules
+#### 3.1 Writing Rules
 
 Rules are defined in a custom syntax. The syntax was defined 
 with the aim to keep it simple to read, but expressive at the same time.
@@ -76,7 +70,7 @@ Law:
 )
 ```
 
-#### 4.2 Input format
+#### 3.2 Input format
 
 Hammurabi requires a sequence of attribute dictionaries as input. 
 It will attempt to find matching rules in the given input.
@@ -90,7 +84,7 @@ The most widely-used input format is a simple JSON list of dictionaries:
 ]
 ```
 
-#### 4.3 Callbacks, labels and data
+#### 3.3 Callbacks, labels and data
 
 When a rule matches an input, the following information is returned as a 
 "match": the original input, a slice representing the span it was triggered on
@@ -120,9 +114,9 @@ callbacks = {
 }
 ```
 
-### 5. Usage
+### 4. Usage
 
-#### 5.1  Worked-out example with callbacks
+#### 4.1  Worked-out example with callbacks
 
 The rule engine is initialized through a `Core` instance. We can pass various optional 
 objects to the constructor of `Core` (callbacks, sets) that we intend to later use in our rules.
@@ -197,7 +191,7 @@ hmb_int(input_)
 
 You can find this worked out example under `examples/readme.py`.
 
-#### 5.2 spaCy component example (NLP)
+#### 4.2 spaCy component example (NLP)
 
 The spaCy component class `SpacyCore` extends the internal execution shown 
 above to allow the use of `hammurabi` in spaCy natural language processing 
@@ -234,6 +228,18 @@ nlp('My head hurts')
 #       'callback': 'mark_headache', 
 #       'junk_attribute': 'pointless strings I am passing down because I can'
 #  }"
+```
+
+### 5. Tests & debugging
+
+To run tests use (this inclused setting the correct `HASH_SEED`): 
+```shell
+$ make test
+```
+
+To display additional information for debugging purposes use `DEBUG=1` environment variable.
+```shell
+$ DEBUG=1 python example.py
 ```
 
 ### 6. Maintainers

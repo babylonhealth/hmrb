@@ -1,9 +1,14 @@
 from copy import deepcopy
+import logging
+import os
 from typing import Any, Callable, Dict, ItemsView, List, Optional, Tuple, Union
 
 from .lang import Grammar, unique
 from .node import BaseNode
 from .protobuffer import Responses
+
+if os.environ.get("DEBUG") == "1":
+    logging.getLogger().setLevel(logging.INFO)
 
 
 class Core:
@@ -70,6 +75,7 @@ class Core:
         bab = Grammar(_grammar, self.vars)
         vars, rules = list(bab.vars.values()), list(unique(bab.laws))
         self._load(rules=rules, vars=vars)
+        logging.info(f"load: {len(vars) + len(rules)} rule(s) loaded")
 
     def _match(
         self, spans: List[Tuple[int, list]]
@@ -110,13 +116,16 @@ class Core:
         for span, matches in responses:
             for data in matches:
                 callback_name = data.get("callback")
+                logging.info(f"_execute: callback <{callback_name}>")
                 callback = self.callbacks.get(
                     callback_name, Core.default_callback
                 )
                 try:
                     callback(input_, slice(*span), data)
                 except Exception as ex:
-                    print(ex)
+                    logging.error(
+                        f"_execute: callback <{callback_name} failed with {ex}"
+                    )
 
     def __call__(
         self, input_: List[Dict]
@@ -147,6 +156,7 @@ class Core:
             (start, input_[start:]) for start in range(len(input_))
         ]
         protobuf = self._match(spans)
+        logging.info(f"call: {len(protobuf)} match(es)")
         self._execute(protobuf, input_)
         return protobuf
 
@@ -211,5 +221,6 @@ class SpacyCore(Core):
             (start, mapped_doc[start:]) for start in range(len(doc))
         ]
         protobuf = self._match(spans)
+        logging.info(f"call: {len(protobuf)} match(es)")
         super()._execute(protobuf, doc)
         return doc
