@@ -17,6 +17,7 @@ install-requirements:
 
 install-test-requirements:
 	pip3 install -r test_requirements.txt
+	pip3 install -e .
 
 install-fast-re:
 	git clone https://github.com/google/re2
