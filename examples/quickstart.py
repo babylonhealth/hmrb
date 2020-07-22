@@ -2,7 +2,7 @@ import json
 from hmrb.core import Core
 from typing import Dict
 
-with open("my-input.json", "r") as fh:
+with open("examples/my-input.json", "r") as fh:
     input_ = json.load(fh)
 
 
