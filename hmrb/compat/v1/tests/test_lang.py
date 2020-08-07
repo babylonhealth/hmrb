@@ -19,7 +19,7 @@ from hmrb.compat.v1.lang import (
     unescape,
     unique,
 )
-from tests.utils import is_probably_equal, parse_babylonian_data
+from .utils import is_probably_equal, parse_babylonian_data
 
 TEST_DIR = Path(__file__).parents[0]
 

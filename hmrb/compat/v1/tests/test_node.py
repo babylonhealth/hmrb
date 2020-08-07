@@ -5,7 +5,7 @@ from pathlib import Path
 import pytest
 
 from hmrb.compat.v1.node import FrozenMap, make_key
-from tests.utils import is_probably_equal
+from .utils import is_probably_equal
 
 TEST_DIR = Path(__file__).parents[0]
 
