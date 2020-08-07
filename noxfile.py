@@ -50,7 +50,16 @@ def tests_v1(session: Session) -> None:
     session.install("pytest", "pytest-cov")
     session.run("pip", "install", "-r", "requirements.txt")
     session.run("pip", "install", "-e", ".")
-    session.run("pytest", "hmrb/compat", "--cov", env={"PYTHONHASHSEED": "42"})
+    session.run(
+        "pytest",
+        "hmrb/compat",
+        "--cov-config",
+        ".coveragerc",
+        "--cov",
+        ".",
+        env={"PYTHONHASHSEED": "42"},
+    )
+    session.run("coverage", "xml")
 
 
 @nox.session(python=["3.6", "3.7", "3.8"])
