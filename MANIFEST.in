@@ -1,8 +1,10 @@
-include HISTORY.rst
+include Changelog
 include LICENSE
 include CONTRIBUTING
+include MANIFEST.in
+include README.md
+include requirements-test.txt
 include requirements.txt
-recursive-exclude * __pycache__
-recursive-exclude * *.py[co]
-recursive-exclude * *.pyx
-recursive-exclude * *.so
+
+prune .venv
+global-exclude __pycache__ *.py[cod] *.pyx *.so
