@@ -664,12 +664,12 @@ def test_parse_block(string, member_types, valid, seg2letter):
 )
 def test_grammar(grammar_str, atts, seg2letter):
     if atts["loads"]:
-        grammar = Grammar(grammar_str)
+        grammar = Grammar(grammar_str, {})
         types = "".join([seg2letter[m.__class__] for m in grammar.segments])
         assert types == atts["segment_types"]
     else:
         with pytest.raises((KeyError, ValueError)):
-            Grammar(grammar_str)
+            Grammar(grammar_str, {})
 
 
 @pytest.mark.skipif(sys.version_info > (3, 8, 0), reason="hash values differ")
@@ -681,7 +681,7 @@ def test_grammar(grammar_str, atts, seg2letter):
 def test_babylonian_translator(grammar_str, atts):
     # needs export PYTHONHASHSEED=42 before Python interpreter
     internal = json.loads(atts["internal"])
-    bab = Grammar(grammar_str)
+    bab = Grammar(grammar_str, vars_={})
     vars, rules = list(bab.vars.values()), list(unique(bab.laws))
     assert is_probably_equal([vars, rules], internal)
 
@@ -748,5 +748,5 @@ def test_babylonian_labels(string, label, lbl_idx, valid):
 )
 def test_line_num_in_error(grammar_str, err_line_num):
     with pytest.raises(ValueError) as err:
-        _ = Grammar(grammar_str)
+        _ = Grammar(grammar_str, {})
     assert f"line {err_line_num}" in str(err.value)

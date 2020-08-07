@@ -464,7 +464,7 @@ class Grammar:
 
     parser_map = {Types.VAR: Var, Types.LAW: Law}
 
-    def __init__(self, string: str, vars_: Dict = {}) -> None:
+    def __init__(self, string: str, vars_: Dict) -> None:
         self.segments: List = []
         self.laws: List = []
         # add length helper integers
