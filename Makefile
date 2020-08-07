@@ -27,7 +27,7 @@ install-fast-re:
 
 lint-mypy:
 	flake8 hmrb
-	mypy hmrb
+	mypy hmrb/compat/v1
 
 test:
 	PYTHONHASHSEED=42 pytest -v --cov-config .coveragerc --cov .
