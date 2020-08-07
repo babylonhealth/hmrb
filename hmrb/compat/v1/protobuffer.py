@@ -1,6 +1,6 @@
 from typing import Any, Dict, ItemsView, List, Tuple, Union
 
-import hmrb.response_pb2 as pb
+import hmrb.compat.v1.response_pb2 as pb
 
 
 class Responses:

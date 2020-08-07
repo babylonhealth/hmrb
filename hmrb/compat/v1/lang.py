@@ -5,7 +5,7 @@ from typing import Any, Dict, Generator, Iterator, List, Optional, Tuple, Union
 
 from addict import Dict as addict
 
-from hmrb.node import make_key
+from hmrb.compat.v1.node import make_key
 
 # REGEXES
 NAME_PAT = r"(?:[a-zA-Z]|_+[a-zA-Z0-9.-])[a-zA-Z0-9_.-]*"
