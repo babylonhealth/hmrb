@@ -307,8 +307,7 @@ def test_char_iter(string, chars):
 
 
 @pytest.mark.parametrize(
-    "string, unescaped",
-    [('a\\"a', 'a"a'), ("a\\ a", "a a"), ("a\\\\a", "a\\a"), ],
+    "string, unescaped", [('a\\"a', 'a"a'), ("a\\ a", "a a"), ("a\\\\a", "a\\a"),],
 )
 def test_unescape(string, unescaped):
     assert unescape(string) == unescaped
@@ -375,18 +374,7 @@ def test_block_iter_open_bracket_err(start_level, start_buffer, error):
     "opened, it_size, member_type",
     [
         (1, 0, [], [], (False, 1, 1), False, True, False, 0, None),
-        (
-            2,
-            1,
-            [*'(att: "val"'],
-            [],
-            (False, 1, 1),
-            False,
-            True,
-            True,
-            1,
-            Types.UNIT,
-        ),
+        (2, 1, [*'(att: "val"'], [], (False, 1, 1), False, True, True, 1, Types.UNIT,),
         (
             2,
             1,
@@ -661,8 +649,7 @@ def test_parse_block(string, member_types, valid, seg2letter):
     if valid:
         block = parse_block(string, vars={})
         types = "".join(
-            f"{seg2letter[m.__class__]}"
-            f"{len(m.atts) if isinstance(m, Unit) else 1}"
+            f"{seg2letter[m.__class__]}" f"{len(m.atts) if isinstance(m, Unit) else 1}"
             for m in block.members
         )
         assert types == member_types
@@ -673,8 +660,7 @@ def test_parse_block(string, member_types, valid, seg2letter):
 
 
 @pytest.mark.parametrize(
-    "atts, grammar_str",
-    parse_babylonian_data(TEST_DIR / "fixtures/test_lang.bab"),
+    "atts, grammar_str", parse_babylonian_data(TEST_DIR / "fixtures/test_lang.bab"),
 )
 def test_grammar(grammar_str, atts, seg2letter):
     if atts["loads"]:
@@ -737,11 +723,7 @@ def test_babylonian_labels(string, label, lbl_idx, valid):
         ("4", 'Law:\n - foo: "goo"\n(\n(lemma: "foo))'),
         ("4", 'Law:\n - foo: "goo"\n(\n(lemma: foo"))'),
         ("4", 'Var foo:\n\n(\n(lemma: "foo")'),
-        (
-            "4",
-            'Law:\n - foo: "bar"\n((lemma: "foo"))\n'
-            'Var:\n\n(\n(lemma: "foo")',
-        ),
+        ("4", 'Law:\n - foo: "bar"\n((lemma: "foo"))\n' 'Var:\n\n(\n(lemma: "foo")',),
         ("1", 'Var:\n\n(\n(lemma: "foo")'),
         (
             "6",

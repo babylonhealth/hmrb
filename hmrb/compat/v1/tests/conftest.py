@@ -26,9 +26,9 @@ def testSetNode(scope="function"):
     return SetNode(rule_set={}, data={})
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope="session")
 def test_babylonian_grammars():
-    return parse_babylonian_data(TEST_DIR / 'fixtures/grammar.bab')
+    return parse_babylonian_data(TEST_DIR / "fixtures/grammar.bab")
 
 
 @pytest.fixture(scope="function")
@@ -43,12 +43,6 @@ def parallel_engine():
     return engine
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope="session")
 def seg2letter():
-    return {
-        Unit: 'U',
-        Block: 'B',
-        Ref: 'R',
-        Var: 'V',
-        Law: 'L'
-    }
+    return {Unit: "U", Block: "B", Ref: "R", Var: "V", Law: "L"}
