@@ -1,4 +1,4 @@
-SHELL = /bin/zsh
+SHELL = /bin/bash
 DOCKER_SHELL = /bin/bash
 
 
