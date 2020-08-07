@@ -1,5 +1,5 @@
 import json
-from hmrb.core import Core
+from hmrb.compat.v1.core import Core
 from typing import Dict
 
 with open("examples/my-input.json", "r") as fh:

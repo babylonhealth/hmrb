@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 
-from hmrb.lang import (
+from hmrb.compat.v1.lang import (
     UNIT_RE,
     BlockIterator,
     Grammar,

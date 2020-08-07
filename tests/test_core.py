@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 
-from hmrb.core import SpacyCore
+from hmrb.compat.v1.core import SpacyCore
 
 from .utils import FakeDocument, FakeToken, is_probably_equal
 

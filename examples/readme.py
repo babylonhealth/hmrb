@@ -29,7 +29,7 @@ input_ = [
 
 # Library use case
 
-from hmrb.core import Core
+from hmrb.compat.v1.core import Core
 
 spans = [(start, input_[start:]) for start in range(len(input_))]
 
