@@ -1,0 +1,7 @@
+[package]
+name = "hmrb"
+version = "2.0.0"
+authors = ["Kristian Boda"]
+
+[lib]
+crate-type = ["dylib"]
