@@ -1,2 +1,5 @@
 addict==2.2.1
 protobuf==3.12.2
+
+cffi>=1.0.0
+setuptools-rust>=0.6.0
