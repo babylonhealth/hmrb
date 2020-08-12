@@ -12,6 +12,18 @@ import hmrb as root
 extension_modules = ("core", "lang", "node", "protobuffer", "response_pb2")
 
 try:
+    from setuptools_rust import RustExtension, Binding
+except ImportError:
+    import subprocess
+
+    print(
+        "\nsetuptools_rust is required before install - https://pypi.python.org/pypi/setuptools-rust"
+    )
+    print("attempting to install with pip...")
+    print(subprocess.check_output(["pip", "install", "setuptools_rust"]))
+    from setuptools_rust import RustExtension
+
+try:
     from Cython.Build import cythonize
 
     # * Using Cython to compile
@@ -58,7 +70,15 @@ setup_params = dict(
     license="Apache License 2.0",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    setup_requires=["cython<0.30"],
+    setup_requires=["cython<0.30", "setuptools_rust"],
+    rust_extensions=[
+        RustExtension(
+            "hmrb",
+            "hmrb/rust/Cargo.toml",
+            debug=False,
+            binding=Binding.NoBinding,
+        )
+    ],
     ext_modules=extensions,
     install_requires=read_requirements('requirements.txt'),
     entry_points={

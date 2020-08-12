@@ -5,5 +5,7 @@ exclude_lines =
 [run]
 omit =
     .venv/*
-    tests/*
+    .direnv/*
+    hmrb/tests/*
     setup.py
+    .nox/*
