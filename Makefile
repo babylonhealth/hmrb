@@ -139,7 +139,7 @@ requirements:
 
 .PHONY: install
 # target: install - Install project sources in "development mode"
-install: requirements.txt requirements-test.txt
+install: requirements.txt
 	@echo
 	@if ! [[ -d "$(VENV_DIR)" ]]; then \
 		$(VIRTUALENV) -p $(PYTHON3_VER) "$(VENV_DIR)"; \
@@ -296,7 +296,9 @@ clean:
 		-name ".mypy_cache" -type d -exec rm -rf {} + -o \
 		-name ".pytest_cache" -type d -exec rm -rf {} + -o \
 		-name "__pycache__" -type d -exec rm -rf {} + -o \
-		-name "*.so" -exec rm -f {} + -o\
+		-name "*.so" -exec rm -f {} + -o \
+		-name "*.c" -path "hmrb/compat/v1" -exec rm -f {} + -o \
+		-name "target" -type d -exec rm -rf {} + -o \
 		-name "*.py[cod]" -exec rm -f {} +
 
 .PHONY: distclean
