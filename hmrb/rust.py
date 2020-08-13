@@ -4,9 +4,6 @@ import os
 import sys
 from cffi import FFI
 
-# See https://github.com/SimonSapin/hello-pyrust
-
-
 if sys.platform == "win32":
     DYNAMIC_LIB_FORMAT = "%s.dll"
 elif sys.platform == "darwin":
@@ -37,11 +34,6 @@ with open(h_rel_path) as h:
 
 rust_lib = ffi.dlopen(dlib_rel_path)
 
-
-def main():
+if __name__ == "__main__":
     assert rust_lib.is_prime(13) == 1
     assert rust_lib.is_prime(12) == 0
-
-
-if __name__ == "__main__":
-    main()
