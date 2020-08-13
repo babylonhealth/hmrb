@@ -2,7 +2,7 @@ import nox
 from nox.sessions import Session
 
 nox.options.sessions = "lint", "mypy", "tests"
-locations = "hmrb", "noxfile.py", "docs/conf.py"
+locations = "hmrb", "noxfile.py"
 
 
 @nox.session(python=["3.7"])
@@ -70,7 +70,6 @@ def tests_v2(session: Session) -> None:
     session.run("pytest", "hmrb/tests", "--cov-config=.coveragerc", "--cov")
     session.chdir("hmrb/rust")
     session.run("cargo", "test")
-
 
 
 @nox.session(python=["3.7"])
