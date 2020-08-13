@@ -17,6 +17,7 @@ upload_code_climate: &upload_code_climate
   run:
     name: upload coverage results
     command: |
+      apk add --no-cache git
       ./cc-test-reporter after-build -t coverage.py --exit-code $?
 only_master: &only_master
   filters:
