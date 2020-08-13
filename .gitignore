@@ -119,4 +119,4 @@ dmypy.json
 .pyre/
 
 # Cython
-hmrb/*.c
+hmrb/compat/v1/*.c
