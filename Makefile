@@ -1,5 +1,4 @@
-SHELL = /bin/bash
-DOCKER_SHELL = /bin/bash
+DOCKER_SHELL = /bin/sh
 
 
 ##
@@ -246,7 +245,7 @@ build_protoc:
 
 .PHONY: docker-build
 # target: docker-build - Build image from scratch
-docker-build: dist
+docker-build:
 	@echo
 	@$(DOCKER) build -f "$(CURDIR)/Dockerfile" -t $(PACKAGE_NAME):$(PACKAGE_VERSION) \
 		--no-cache .
@@ -258,12 +257,11 @@ docker-run:
 	@$(DOCKER) run -it --rm -p $(DOCKER_PORT):$(DOCKER_PORT) \
 		$(PACKAGE_NAME):$(PACKAGE_VERSION)
 
-.PHONY: docker-clean
-# target: docker-clean - Remove all unused images, built containers and volumes
-docker-clean:
+.PHONY: docker-tests
+# target: docker-test - Run tests inside docker
+docker-tests:
 	@echo
-	@$(DOCKER) ps -aq | xargs $(DOCKER) rm -fv
-	@$(DOCKER) system prune -af --volumes
+	@$(DOCKER) run $(PACKAGE_NAME):$(PACKAGE_VERSION) "$(DOCKER_SHELL)" -c "make tests"
 
 ##
 # Documentation
