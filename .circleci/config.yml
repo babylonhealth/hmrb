@@ -9,6 +9,7 @@ setup_code_climate: &setup_code_climate
   run:
     name: setup code climate
     command: |
+      apk add --no-cache curl
       curl -L -o cc-test-reporter https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64
       chmod +x cc-test-reporter
       ./cc-test-reporter before-build
