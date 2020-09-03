@@ -42,8 +42,8 @@ UNIT_ATTS_RE = re.compile(
 )
 
 # signature line parsing
-VAR_SIGN_RE = re.compile("^Var +[a-zA-Z_][a-zA-Z0-9_-]*: *\n?$")
-LAW_SIGN_RE = re.compile("^Law( +[a-zA-Z_][a-zA-Z0-9_-]*)?: *\n?$")
+VAR_SIGN_RE = re.compile("^[\t ]*Var +[a-zA-Z_][a-zA-Z0-9_-]*: *\n?$")
+LAW_SIGN_RE = re.compile("^[\t ]*Law( +[a-zA-Z_][a-zA-Z0-9_-]*)?: *\n?$")
 LAW_ATTS_RE = re.compile(f'\\s*-\\s(?P<name>{NAME_PAT}): *"(?P<value>[^\n]*)"')
 EMPTY_BLOCK_RE = re.compile(r"^\s*(\s*[()\s\n\r]*\s*)\s*$")
 OPTION_RE = re.compile(r"\s*optional(\s*not)?\s*")
