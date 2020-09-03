@@ -74,3 +74,20 @@ Law named_law:
     $var_name
     (att: "block_1_value")
 )
+################################
+name: leading tabs and spaces
+purpose: test if we parse grammars correctly when Var and Law declaration starts with a tab or space
+loads: true
+segment_types: VL
+outcomes: success
+inputs: [{"att": "var_1_value"}, {"att": "block_1_value"}]
+================================
+   Var var_name:
+(
+    (att: "var_1_value")
+)
+	Law named_law:
+(
+    $var_name
+    (att: "block_1_value")
+)
