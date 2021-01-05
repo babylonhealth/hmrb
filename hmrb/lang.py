@@ -163,9 +163,7 @@ class Block:
         self.parents: List = [[]]
         self.is_body: bool = is_body
 
-    def _add_var(
-        self, children: list, length: int, min_: int, max_: int
-    ) -> Any:
+    def _add_var(self, children: list, length: int, min_: int, max_: int) -> Any:
         var_key: int = make_key(children)
         if var_key not in self.vars:
             self.vars[var_key] = []
@@ -173,9 +171,7 @@ class Block:
                 new_var = deepcopy(var_part)
                 if "vars" not in new_var[0]:
                     new_var[0].vars = []
-                new_var[0].vars.insert(
-                    0, addict({"DEF": var_key, "LENGTH": length})
-                )
+                new_var[0].vars.insert(0, addict({"DEF": var_key, "LENGTH": length}))
                 new_var[-1].data._.var_end = True
                 self.vars[var_key].append(new_var)
             for p in self.vars[var_key]:
@@ -185,9 +181,7 @@ class Block:
                 p[0].data._.update(addict({"block_length": len(p)}))
         var = addict()
         var.vars = [
-            addict(
-                {"REF": var_key, "LENGTH": length, "MIN": min_, "MAX": max_}
-            )
+            addict({"REF": var_key, "LENGTH": length, "MIN": min_, "MAX": max_})
         ]
         return var
 
@@ -203,13 +197,9 @@ class Block:
             if make_var:
                 new_parent = deepcopy(parent)
                 min_length = len(min(block.parents, key=len))
-                var = self._add_var(
-                    block.parents, min_length, block.min, block.max
-                )
+                var = self._add_var(block.parents, min_length, block.min, block.max)
                 if block.label:
-                    var.data._.labels = set(
-                        [block.label + "_B", block.label + "_E"]
-                    )
+                    var.data._.labels = set([block.label + "_B", block.label + "_E"])
                     block.label = None
                 new_parent.append(var)
                 new_parents.append(new_parent)
@@ -235,9 +225,7 @@ class Block:
             for child in block.parents:
                 if make_var:
                     inner_part_list = [
-                        [inner_part]
-                        if not isinstance(inner_part, list)
-                        else inner_part
+                        [inner_part] if not isinstance(inner_part, list) else inner_part
                         for inner_part in deepcopy(child)
                     ]
                     min_length = len(min(child, key=len))
@@ -407,9 +395,7 @@ class Var:
             )
         body_lines_str = "\n".join(line[0].strip() for line in lines[1:])
         body_start = lines[1][1]
-        self.body = parse_block(
-            body_lines_str, vars=self.vars, start=body_start
-        )
+        self.body = parse_block(body_lines_str, vars=self.vars, start=body_start)
         self.body.is_body = True
 
 
@@ -449,9 +435,7 @@ class Law:
             try:
                 atts[m.group("name")] = m.group("value")  # type: ignore
             except AttributeError:
-                raise ValueError(
-                    f"Incorrect Law attribute: {line} " f"at (line {num})"
-                )
+                raise ValueError(f"Incorrect Law attribute: {line} " f"at (line {num})")
         return atts
 
     @staticmethod
@@ -471,9 +455,7 @@ class Law:
         body_lines_str = "\n".join(line[0].strip() for line in body_lines)
         body_start = body_lines[0][1]
         self.atts = self._parse_atts(att_lines)
-        self.body = parse_block(
-            body_lines_str, vars=self.vars, start=body_start
-        )
+        self.body = parse_block(body_lines_str, vars=self.vars, start=body_start)
         self.body.is_body = True
 
 
@@ -487,13 +469,11 @@ class Grammar:
 
     parser_map = {Types.VAR: Var, Types.LAW: Law}
 
-    def __init__(self, string: str, vars_: Dict = {}) -> None:
+    def __init__(self, string: str, vars_: Dict) -> None:
         self.segments: List = []
         self.laws: List = []
         # add length helper integers
-        self.vars: Dict = {
-            k: [[0] * v.min_length] for k, v in vars_.items()
-        }
+        self.vars: Dict = {k: [[0] * v.min_length] for k, v in vars_.items()}
         self._build(string)
         self._deploy()
 
@@ -519,9 +499,7 @@ class Grammar:
                             0, addict({"DEF": segment.name, "LENGTH": ln})
                         )
                     else:
-                        parent[0].vars = [
-                            addict({"DEF": segment.name, "LENGTH": ln})
-                        ]
+                        parent[0].vars = [addict({"DEF": segment.name, "LENGTH": ln})]
                     if segment.atts:
                         parent[-1].data.update(segment.atts)
                     else:
@@ -552,9 +530,7 @@ class Grammar:
                             0, addict({"DEF": segment.name, "LENGTH": ln})
                         )
                     else:
-                        parent[0].vars = [
-                            addict({"DEF": segment.name, "LENGTH": ln})
-                        ]
+                        parent[0].vars = [addict({"DEF": segment.name, "LENGTH": ln})]
                     self.end_var(parent[-1])
                 self.vars[segment.name] = handler.body.parents
         # clean up helper integers
@@ -661,9 +637,7 @@ def parse_block(
     block = Block(members, vars, neg=neg, min_=min_, max_=max_, label=label)
     for content, neg, min_, max_, label, type_, line_num in it:
         if type_ == Types.BLOCK:
-            members.append(
-                parse_block(content, vars, neg, min_, max_, label, line_num)
-            )
+            members.append(parse_block(content, vars, neg, min_, max_, label, line_num))
         elif type_ == Types.UNIT:
             members.append(parse_unit(content, neg, min_, max_, label))
         elif type_ == Types.VAR_REF:
@@ -878,8 +852,7 @@ class BlockIterator:
         ref_str = "".join(self.buffer)
         if not REF_RE.match(ref_str):
             raise ValueError(
-                f"Bad var reference name: {ref_str}"
-                f"at line {self.line_number}"
+                f"Bad var reference name: {ref_str}" f"at line {self.line_number}"
             )
         item = (
             ref_str[1:],
@@ -897,9 +870,7 @@ class BlockIterator:
     def _parse_label(self) -> None:
         label = "".join(self.buffer[:-1]).strip()
         if not LABEL_RE.match(label.strip()):
-            raise ValueError(
-                f'Invalid label: "{label}" ' f"at line {self.line_number}"
-            )
+            raise ValueError(f'Invalid label: "{label}" ' f"at line {self.line_number}")
         self.label_buffer = label
         self.buffer = []
 
@@ -1024,9 +995,7 @@ class BlockIterator:
                 f"Unmatched opening bracket " f"at line {self.line_number}"
             )
         if self.n_ors and not self.is_union:
-            raise ValueError(
-                f'Missing "or" operator ' f"at line {self.line_number}"
-            )
+            raise ValueError(f'Missing "or" operator ' f"at line {self.line_number}")
 
     def __iter__(self) -> Iterator:
         return self
