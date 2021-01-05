@@ -4,6 +4,8 @@ from setuptools import setup, find_packages, Extension
 
 extension_modules = ("core", "lang", "node", "protobuffer", "response_pb2")
 
+# test comment
+
 try:
     from Cython.Build import cythonize
 
