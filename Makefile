@@ -400,7 +400,4 @@ docs:
 livehtml:
 	sphinx-autobuild docs docs/_build/html
 
-html:
-	open docs/_build/html/index.html
-
 .PHONY: docs build
