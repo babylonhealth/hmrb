@@ -8,4 +8,4 @@ omit =
     .nox/*
     tests/*
     setup.py
-    nox.py
+    noxfile.py
