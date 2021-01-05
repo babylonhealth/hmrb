@@ -1,7 +1,6 @@
 include Changelog
 include LICENSE
 include CONTRIBUTING
-include MANIFEST.in
 include README.md
 include requirements-test.txt
 include requirements.txt
