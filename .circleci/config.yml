@@ -2,25 +2,8 @@ version: 2
 
 prelude: &prelude
   docker:
-  - image: circleci/python:3.6.8
+  - image: circleci/python:3.8.6
   working_directory: ~/hmrb
-
-prepare_venv: &prepare_venv
-  run:
-    name: Create venv
-    working_directory: ~/hmrb
-    command: python3 -m venv .venv
-
-save_venv: &save_venv
-  save_cache:
-    key: v1_pip-cache-{{ checksum "requirements.txt" }}-{{ checksum "test_requirements.txt" }}
-    paths:
-    - ".venv"
-
-restore_venv: &restore_venv
-  restore_cache:
-    keys:
-    key: v1_pip-cache-{{ checksum "requirements.txt" }}-{{ checksum "test_requirements.txt" }}
 
 setup_code_climate: &setup_code_climate
   run:
@@ -59,70 +42,36 @@ workflows:
   version: 2
   build-and-test:
     jobs:
-    - prepare_env:
-        context: babylon
     - lint:
-        context: babylon
-        requires:
-        - prepare_env
         <<: *not_master
     - test:
-        context: babylon
-        requires:
-        - prepare_env
         <<: *not_master
-    - test-coverage:
-        context: babylon
-        requires:
-        - prepare_env
-        <<: *only_master
     - release:
-        context: babylon
         <<: *only_master
 
 jobs:
-  prepare_env:
-    <<: *prelude
-    steps:
-    - checkout
-    - *restore_venv
-    - *prepare_venv
-    - run: |
-        source .venv/bin/activate
-        make install-fast-re
-        make install-test-requirements
-    - *save_venv
   test:
     <<: *prelude
     steps:
     - checkout
-    - *restore_venv
-    - run: |
-        source .venv/bin/activate
-        make test
-  test-coverage:
-    <<: *prelude
-    steps:
-    - checkout
-    - *restore_venv
     - *setup_code_climate
     - run: |
-        source .venv/bin/activate
-        make test
+        pip3 install nox
+        make tests
     - *upload_code_climate
   lint:
     <<: *prelude
     steps:
     - checkout
-    - *restore_venv
     - run: |
-        source .venv/bin/activate
-        make lint-mypy
+        pip3 install nox
+        make lint
+        make type
+        make safety
   release:
     <<: *prelude
     steps:
       - checkout
-      - *restore_venv
       - run: |
           pip install --user pypi-cli twine wheel
           make release
