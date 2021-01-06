@@ -3,4 +3,4 @@ ignore = E203, E266, E501, W503, F403, F401
 max-line-length = 79
 max-complexity = 18
 select = B,C,E,F,W,T4,B
-exclude = .venv,.git,__pycache__,.eggs,./hmrb/response_pb2.py
+exclude = .venv,.git,.nox,__pycache__,.eggs,./hmrb/response_pb2.py

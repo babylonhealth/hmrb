@@ -12,6 +12,11 @@ except ImportError:
     logging.warning("Google RE2 not available. Falling back to Python RE.")
     import re  # type: ignore
 
+try:
+    from collections.abc import Mapping, Set, Sequence  # noqa
+except ImportError:
+    from collections import Mapping, Set, Sequence  # noqa
+
 
 def _recurse(obj: Any, map_fn: Callable) -> Any:
     """
@@ -22,16 +27,14 @@ def _recurse(obj: Any, map_fn: Callable) -> Any:
         return obj
 
     cls = type(obj)
-    if isinstance(obj, collections.abc.Mapping):
-        return map_fn(
-            **cls((k, _recurse(v, map_fn=map_fn)) for k, v in obj.items())
-        )
-    if isinstance(obj, (collections.abc.Sequence, collections.abc.Set)):
+    if isinstance(obj, Mapping):
+        return map_fn(**cls((k, _recurse(v, map_fn=map_fn)) for k, v in obj.items()))
+    if isinstance(obj, (Sequence, Set)):
         return tuple(cls(_recurse(v, map_fn=map_fn) for v in obj))
     return obj
 
 
-class FrozenMap(collections.abc.Mapping):
+class FrozenMap(Mapping):
     """
     based on https://github.com/pcattori/maps
     Creates a hashable from any object using frozensets
@@ -93,12 +96,8 @@ class BaseNode:
 
     def __init__(self, data: Optional[Dict] = None):
         self.labels = data.get("_", {}).pop("labels", set()) if data else set()
-        self.var_end = (
-            data.get("_", {}).pop("var_end", False) if data else False
-        )
-        self.block_length = (
-            data.get("_", {}).pop("block_length", 1) if data else 1
-        )
+        self.var_end = data.get("_", {}).pop("var_end", False) if data else False
+        self.block_length = data.get("_", {}).pop("block_length", 1) if data else 1
         if data and not data.get("_"):
             data.pop("_", None)
         self.data = data if data else {}
@@ -148,9 +147,7 @@ class BaseNode:
         except AttributeError:
             return None
 
-    def _build_child(
-        self, child_key: Tuple[frozenset, int], child: "BaseNode"
-    ) -> None:
+    def _build_child(self, child_key: Tuple[frozenset, int], child: "BaseNode") -> None:
         """
         Adds new child to the children of BaseNode. Updates call order
         and attribute index with the new child.
@@ -176,12 +173,8 @@ class BaseNode:
         self, next_rule_token: Dict, rule: List[Dict], vars: Dict, sets: Dict
     ) -> None:
         # child_key needs to exclude var_end from underscore
-        var_end = (
-            next_rule_token.get("data", {}).get("_", {}).pop("var_end", False)
-        )
-        if next_rule_token.get("data") and not next_rule_token["data"].get(
-            "_"
-        ):
+        var_end = next_rule_token.get("data", {}).get("_", {}).pop("var_end", False)
+        if next_rule_token.get("data") and not next_rule_token["data"].get("_"):
             next_rule_token["data"].pop("_", None)
             if not next_rule_token["data"]:
                 next_rule_token.pop("data")
@@ -230,9 +223,7 @@ class BaseNode:
         set_attributes: Dict = {}
         for key, value in next_rule_token["key"].items():
             if isinstance(value, list):
-                value = {
-                    item for set_index in value for item in sets[set_index]
-                }
+                value = {item for set_index in value for item in sets[set_index]}
             else:
                 value = set(value)
             set_attributes[key] = value
@@ -275,10 +266,7 @@ class BaseNode:
         ):
             self._consume_regex(next_rule_token, rule, vars, sets)
         elif any(
-            [
-                isinstance(value, list)
-                for key, value in next_rule_token["key"].items()
-            ]
+            [isinstance(value, list) for key, value in next_rule_token["key"].items()]
         ):
             self._consume_set(next_rule_token, rule, vars, sets)
         else:
@@ -299,9 +287,7 @@ class BaseNode:
         """
         matched_children: set = self.children_keys.copy()
         for att_name in self.call_order:
-            token_value: Union[str, int, float, bool] = self.get_att(
-                token, att_name
-            )
+            token_value: Union[str, int, float, bool] = self.get_att(token, att_name)
             neg_att_values: Dict = dict(self.child_attribute_index[att_name])
             neg_att_values.pop(token_value, None)
             if neg_att_values:
@@ -312,9 +298,7 @@ class BaseNode:
                 break
         return matched_children
 
-    def __call__(
-        self, pattern: List[Dict], depth: int = 0
-    ) -> Union[Responses, Match]:
+    def __call__(self, pattern: List[Dict], depth: int = 0) -> Union[Responses, Match]:
         """
         Matches internal representation with list of pattern tokens
 
@@ -344,9 +328,7 @@ class BaseNode:
         if not pattern or not self.children:
             # Add labels if exists except if this is a var node with no runs
             if (self.labels and not isinstance(self, varNode)) or (
-                self.labels
-                and isinstance(self, varNode)
-                and not self.runs == 0
+                self.labels and isinstance(self, varNode) and not self.runs == 0
             ):
                 # Labels are offset if anchor is set i.e. self is var_node
                 protobuf += Labels(
@@ -435,9 +417,7 @@ class varNode(BaseNode):
         self.min_run = min_run
         self.max_run = max_run
 
-    def __call__(
-        self, pattern: list, depth: int = 0
-    ) -> Union[Responses, Match]:
+    def __call__(self, pattern: list, depth: int = 0) -> Union[Responses, Match]:
         """
         Matches both inner and outer parts of the varNode with list of
         pattern tokens
@@ -517,9 +497,7 @@ class SetNode(BaseNode):
         super().__init__(data)
         self.set = rule_set
 
-    def __call__(
-        self, pattern: List[Dict], depth: int = 0
-    ) -> Union[Responses, Match]:
+    def __call__(self, pattern: List[Dict], depth: int = 0) -> Union[Responses, Match]:
         """
         Matches a predefined set of tokens with list of pattern tokens
 
@@ -545,10 +523,7 @@ class SetNode(BaseNode):
                 # Set matching unsuccessfull
                 protobuf.active = False
                 return protobuf
-        if (
-            any([child.min_run for child in self.children.values()])
-            and not rest
-        ):
+        if any([child.min_run for child in self.children.values()]) and not rest:
             # Set matching unsuccessfull if no further input but node has
             # non-optional children
             protobuf.active = False
@@ -580,9 +555,7 @@ class RegexNode(BaseNode):
             finally:
                 self.regex[key] = regex_compiled
 
-    def __call__(
-        self, pattern: List[Dict], depth: int = 0
-    ) -> Union[Responses, Match]:
+    def __call__(self, pattern: List[Dict], depth: int = 0) -> Union[Responses, Match]:
         depth += 1
         protobuf = Match(self.data, depth=depth)
         if not pattern:
@@ -597,10 +570,7 @@ class RegexNode(BaseNode):
                 # Regex matching unsuccessfull
                 protobuf.active = False
                 return protobuf
-        if (
-            any([child.min_run for child in self.children.values()])
-            and not rest
-        ):
+        if any([child.min_run for child in self.children.values()]) and not rest:
             # Regex matching unsuccessfull if no further input but node has
             # non-optional childrenn
             protobuf.active = False

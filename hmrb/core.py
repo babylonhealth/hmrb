@@ -117,9 +117,7 @@ class Core:
             for data in matches:
                 callback_name = data.get("callback")
                 logging.info(f"_execute: callback <{callback_name}>")
-                callback = self.callbacks.get(
-                    callback_name, Core.default_callback
-                )
+                callback = self.callbacks.get(callback_name, Core.default_callback)
                 try:
                     callback(input_, slice(*span), data)
                 except Exception as ex:
@@ -190,9 +188,7 @@ class SpacyCore(Core):
         map_doc: Callable = _default_map,
         sort_length: bool = False,
     ):
-        super().__init__(
-            callbacks=callbacks, sets=sets, sort_length=sort_length
-        )
+        super().__init__(callbacks=callbacks, sets=sets, sort_length=sort_length)
         self.map_doc = map_doc
 
     def __call__(self, doc: Any) -> Any:

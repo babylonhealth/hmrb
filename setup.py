@@ -1,6 +1,13 @@
 #!/usr/bin/env python
+
 import os
-from setuptools import setup, find_packages, Extension
+import re
+from pathlib import Path
+from typing import List
+
+from setuptools import Extension, find_packages, setup
+
+import hmrb as root
 
 extension_modules = ("core", "lang", "node", "protobuffer", "response_pb2")
 
@@ -28,15 +35,19 @@ except ImportError:
         # * Using native Python
         extensions = []
 
-with open("requirements.txt") as f:
-    install_requires = f.read().splitlines()
-
 with open("README.md") as f:
     long_description = f.read()
 
-setup(
-    name="hmrb",
-    version="1.0.1",
+def read_requirements(file: str) -> List[str]:
+    if not Path(file).is_file():
+        raise FileNotFoundError(file)
+    with open(file) as fd:
+        unparsed_requirements = fd.read()
+        return re.findall(r"[\w-]+==[\d.]+", unparsed_requirements)
+
+setup_params = dict(
+    name='hmrb',
+    version=root.__version__,
     packages=find_packages(".", exclude=("tests",)),
     zip_safe=False,
     include_package_data=False,
@@ -49,11 +60,19 @@ setup(
     long_description_content_type="text/markdown",
     setup_requires=["cython<0.30"],
     ext_modules=extensions,
-    install_requires=install_requires,
+    install_requires=read_requirements('requirements.txt'),
     classifiers=[
         "Intended Audience :: Developers",
         "Operating System :: OS Independent",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3",
     ],
 )
+
+
+def main() -> None:
+    setup(**setup_params)
+
+
+if __name__ == '__main__':
+    main()
