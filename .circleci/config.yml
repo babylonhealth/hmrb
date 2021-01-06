@@ -2,7 +2,7 @@ version: 2
 
 prelude: &prelude
   docker:
-  - image: circleci/python:3.9.0
+  - image: circleci/python:3.8.6
   working_directory: ~/hmrb
 
 setup_code_climate: &setup_code_climate
@@ -17,11 +17,6 @@ upload_code_climate: &upload_code_climate
     name: upload coverage results
     command: |
       ./cc-test-reporter after-build -t coverage.py --exit-code $?
-only_master: &only_master
-  filters:
-    branches:
-      only:
-      - master
 
 not_master: &not_master
   filters:
@@ -46,8 +41,6 @@ workflows:
         <<: *not_master
     - test:
         <<: *not_master
-    - release:
-        <<: *only_master
 
 jobs:
   test:
@@ -74,4 +67,3 @@ jobs:
       - checkout
       - run: |
           pip install --user pypi-cli twine wheel
-          make release
