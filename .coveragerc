@@ -5,5 +5,7 @@ exclude_lines =
 [run]
 omit =
     .venv/*
+    .nox/*
     tests/*
     setup.py
+    noxfile.py
