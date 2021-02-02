@@ -24,14 +24,23 @@ not_master: &not_master
       ignore:
       - master
 
-only_tagged: &only_tagged
+release_tags: &release_tags
   filters:
     branches:
       ignore:
       - /^.*$/
     tags:
       only:
+      - /^(\d|\.)+$/
+
+release_candidate_tags: &release_candidate_tags
+  filters:
+    branches:
+      ignore:
       - /^.*$/
+    tags:
+      only:
+      - /^(\d|\.)+rc\d$/
 
 workflows:
   version: 2
@@ -41,6 +50,10 @@ workflows:
         <<: *not_master
     - test:
         <<: *not_master
+    - release-candidate:
+        <<: *release_candidate_tags
+    - release:
+        <<: *release_tags
 
 jobs:
   test:
@@ -61,9 +74,33 @@ jobs:
         make lint
         make type
         make safety
+  release-candidate:
+    <<: *prelude
+    steps:
+      - checkout
+      - run:
+          name: Create .pypirc
+          command: |
+            echo "[distutils]" > ~/.pypirc
+            echo "index-servers = testpypi" >> ~/.pypirc
+            echo "[testpypi]" >> ~/.pypirc
+            echo "username: __token__" >> ~/.pypirc
+            echo "password: ${PYPI_TEST_TOKEN}" >> ~/.pypirc
+      - run: |
+          pip install --user pypi-cli twine wheel
+          make publish
   release:
     <<: *prelude
     steps:
       - checkout
+      - run:
+          name: Create .pypirc
+          command: |
+            echo "[distutils]" > ~/.pypirc
+            echo "index-servers = pypi" >> ~/.pypirc
+            echo "[pypi]" >> ~/.pypirc
+            echo "username: __token__" >> ~/.pypirc
+            echo "password: ${PYPI_TOKEN}" >> ~/.pypirc
       - run: |
           pip install --user pypi-cli twine wheel
+          make publish-confirm
