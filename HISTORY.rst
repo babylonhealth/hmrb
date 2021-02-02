@@ -3,7 +3,7 @@
 - NLP-895: Improved logging
 - NLP-1596: Implement subprocess tests for examples
 - NLP-1642: Support leading whitespace in grammar
-- HCD-632: Loosen dependencies on librarires
+- HCD-632: Loosen dependencies on libraries
 
 1.0.0 (29.04.2020)
 ++++++++++++++++++
