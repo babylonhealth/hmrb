@@ -19,7 +19,7 @@ PACKAGE_VERSION = 1.0.1
 srcdir = $(CURDIR)/$(PACKAGE_NAME)
 builddir = $(CURDIR)/build
 distdir = $(CURDIR)/dist
-docdir = $(CURDIR)/doc
+docdir = $(CURDIR)/docs
 autodocdir = $(docdir)/autodoc
 
 
@@ -91,29 +91,6 @@ DOCKER_PS_ARGS = -s
 
 DOCKER_BASE_IMAGE = python:$(PYTHON3_VER)-slim-buster
 DOCKER_PORT = 8088
-
-
-### Documentation
-
-doctools =
-
-SPHINX_BUILDDIR = $(docdir)/_build
-SPHINX_STATIC = $(docdir)/_static
-SPHINX_TEMPLATES = $(docdir)/_templates
-
-AUTODOC_EXCLUDE_MODULES =
-
-SPHINX = sphinx-build
-ifeq ($(shell which ${SPHINX}),)
-	doctools += $(SPHINX)
-endif
-
-SPHINX_OPTS = -d "$(SPHINX_BUILDDIR)/doctrees" "$(docdir)"
-
-SPHINX_APIDOC = sphinx-apidoc
-ifeq ($(shell which ${SPHINX_APIDOC}),)
-	doctools += $(SPHINX_APIDOC)
-endif
 
 
 #############################################
@@ -307,25 +284,27 @@ docker-clean:
 ### Documentation
 #############################################
 
-.PHONY: doc
-doc:
-ifdef doctools
-	$(error Can't find tools:${doctools})
-endif
+SPHINX_BUILDDIR = $(docdir)/_build
+AUTODOC_EXCLUDE_MODULES =
+SPHINX_OPTS = -d "$(SPHINX_BUILDDIR)/doctrees" "$(docdir)"
+
+.PHONY: docs
+docs:
+	@echo
+	@nox -rs docs -- sphinx-build -b html $(SPHINX_OPTS) "$(SPHINX_BUILDDIR)/html"
 
 .PHONY: apidoc
 # target: apidoc - Create one reST file with automodule directives per package
-apidoc: doc
+apidoc: docs
 	@echo
-	@$(SPHINX_APIDOC) --force --private -o "$(autodocdir)" $(PACKAGE_NAME) \
+	@nox -rs docs -- sphinx-apidoc --force --private -o "$(autodocdir)" $(PACKAGE_NAME) \
 		$(foreach module,$(AUTODOC_EXCLUDE_MODULES),$(PACKAGE_NAME)/$(module))
 
 .PHONY: html
-# target: html - Render standalone HTML files
-html: doc
+# target: html - Render standalone HTML files
+html:
 	@echo
-	@$(SPHINX) -b html $(SPHINX_OPTS) "$(SPHINX_BUILDDIR)/html"
-
+	@nox -rs docs -- sphinx-autobuild $(SPHINX_OPTS) "$(SPHINX_BUILDDIR)/html"
 
 #############################################
 ### Auxiliary targets
@@ -379,10 +358,6 @@ mostlyclean: clean distclean
 	@find "$(CURDIR)" -name .DS_Store -exec rm -fv {} +
 	@rm -rf "$(VENV_DIR)"
 
-build:
-	python setup.py build_ext
-	python setup.py sdist
-
 build_protoc:
 	protoc -I=hmrb --python_out=hmrb hmrb/response.proto
 
@@ -391,13 +366,3 @@ install-fast-re:
 	cd re2; make
 	cd re2; sudo make install
 	pip3 install fb-re2==1.0.7
-
-
-docs:
-	rm -rf docs/_build
-	sphinx-build -M html "docs/" "docs/_build"
-
-livehtml:
-	sphinx-autobuild docs docs/_build/html
-
-.PHONY: docs build
