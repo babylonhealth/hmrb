@@ -87,7 +87,7 @@ jobs:
             echo "username: __token__" >> ~/.pypirc
             echo "password: ${PYPI_TEST_TOKEN}" >> ~/.pypirc
       - run: |
-          pip install --user pypi-cli twine wheel
+          pip3 install nox
           make publish
   release:
     <<: *prelude
@@ -102,5 +102,5 @@ jobs:
             echo "username: __token__" >> ~/.pypirc
             echo "password: ${PYPI_TOKEN}" >> ~/.pypirc
       - run: |
-          pip install --user pypi-cli twine wheel
+          pip3 install nox
           make publish-confirm
