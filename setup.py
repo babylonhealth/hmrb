@@ -43,7 +43,7 @@ def read_requirements(file: str) -> List[str]:
         raise FileNotFoundError(file)
     with open(file) as fd:
         unparsed_requirements = fd.read()
-        return re.findall(r"[\w-]+==[\d.]+", unparsed_requirements)
+        return re.findall(r"[\w-]+[=<>]=[\d.,=<>]+", unparsed_requirements)
 
 setup_params = dict(
     name='hmrb',
