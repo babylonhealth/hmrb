@@ -2,9 +2,9 @@ from pathlib import Path
 
 import pytest
 
-from hmrb.core import Core
-from hmrb.lang import Block, Law, Ref, Unit, Var
-from hmrb.node import BaseNode, SetNode
+from hmrb.compat.v1.core import Core
+from hmrb.compat.v1.lang import Block, Law, Ref, Unit, Var
+from hmrb.compat.v1.node import BaseNode, SetNode
 
 from .utils import parse_babylonian_data
 

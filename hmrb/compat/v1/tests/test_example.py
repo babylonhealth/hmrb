@@ -11,6 +11,7 @@ TEST_CASES = [
     ("examples/readme.py", 'External execution!!!\nI am acting on span "[{\'orth\': \'head\', \'lemma\': \'head\', \'pos\': \'NOUN\'}, {\'orth\': \'hurts\', \'lemma\': \'hurt\', \'pos\': \'VERB\'}]" with data "[{\'callback\': \'mark_headache\', \'junk_attribute\': \'some string\', \'package\': \'headache\'}]".\nI am acting on span "[{\'orth\': \'head\', \'lemma\': \'head\', \'pos\': \'NOUN\'}, {\'orth\': \'hurts\', \'lemma\': \'hurt\', \'pos\': \'VERB\'}]" with data "{\'junk_attribute\': \'some string\', \'package\': \'headache\', \'callback\': \'mark_headache\'}".\n'),
 ]
 
+
 @pytest.mark.parametrize(
     'src, expected',
     TEST_CASES

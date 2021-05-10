@@ -3,7 +3,7 @@ import logging
 import operator
 from typing import Any, Dict, Callable, Iterator, List, Optional, Tuple, Union
 
-from hmrb.protobuffer import Labels, Match, Responses
+from hmrb.compat.v1.protobuffer import Labels, Match, Responses
 
 try:
     import re2 as re

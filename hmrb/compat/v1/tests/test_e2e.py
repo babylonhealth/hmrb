@@ -3,8 +3,8 @@ from pathlib import Path
 
 import pytest
 
-from hmrb.core import Core
-from tests.utils import is_probably_equal, parse_babylonian_data
+from hmrb.compat.v1.core import Core
+from .utils import is_probably_equal, parse_babylonian_data
 
 TEST_DIR = Path(__file__).parents[0]
 
