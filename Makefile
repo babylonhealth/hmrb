@@ -1,3 +1,4 @@
+SHELL = /bin/bash
 DOCKER_SHELL = /bin/sh
 
 
@@ -138,7 +139,7 @@ requirements:
 
 .PHONY: install
 # target: install - Install project sources in "development mode"
-install: requirements.txt
+install: requirements.txt requirements-test.txt
 	@echo
 	@if ! [[ -d "$(VENV_DIR)" ]]; then \
 		$(VIRTUALENV) -p $(PYTHON3_VER) "$(VENV_DIR)"; \
@@ -209,7 +210,7 @@ tests:
 .PHONY: changelog
 changelog:
 	@echo
-	@nox -rs changelog	
+	@nox -rs changelog
 
 
 .PHONY: sdist
@@ -262,6 +263,13 @@ docker-run:
 docker-tests:
 	@echo
 	@$(DOCKER) run $(PACKAGE_NAME):$(PACKAGE_VERSION) "$(DOCKER_SHELL)" -c "make tests"
+
+.PHONY: docker-clean
+# target: docker-clean - Remove all unused images, built containers and volumes
+docker-clean:
+	@echo
+	@$(DOCKER) ps -aq | xargs $(DOCKER) rm -fv
+	@$(DOCKER) system prune -af --volumes
 
 ##
 # Documentation

@@ -1,4 +1,3 @@
-import collections
 import logging
 import operator
 from typing import Any, Dict, Callable, Iterator, List, Optional, Tuple, Union
@@ -12,6 +11,11 @@ except ImportError:
     logging.warning("Google RE2 not available. Falling back to Python RE.")
     import re  # type: ignore
 
+try:
+    from collections.abc import Mapping, Set, Sequence  # noqa
+except ImportError:
+    from collections import Mapping, Set, Sequence  # noqa
+
 
 def _recurse(obj: Any, map_fn: Callable) -> Any:
     """
@@ -22,14 +26,14 @@ def _recurse(obj: Any, map_fn: Callable) -> Any:
         return obj
 
     cls = type(obj)
-    if isinstance(obj, collections.abc.Mapping):
+    if isinstance(obj, Mapping):
         return map_fn(**cls((k, _recurse(v, map_fn=map_fn)) for k, v in obj.items()))
-    if isinstance(obj, (collections.abc.Sequence, collections.abc.Set)):
+    if isinstance(obj, (Sequence, Set)):
         return tuple(cls(_recurse(v, map_fn=map_fn) for v in obj))
     return obj
 
 
-class FrozenMap(collections.abc.Mapping):
+class FrozenMap(Mapping):
     """
     based on https://github.com/pcattori/maps
     Creates a hashable from any object using frozensets

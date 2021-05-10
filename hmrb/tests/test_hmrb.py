@@ -18,6 +18,5 @@ class TestHammurabi:
         assert rust.rust_lib.is_prime(12) == 0
         assert rust.rust_lib.is_prime(13) == 1
 
-
 if __name__ == "__main__":
     pytest.main(args=[__file__])
