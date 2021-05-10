@@ -335,7 +335,12 @@ class Block:
             new_node = addict(
                 {
                     "vars": [
-                        {"REF": ref.ref, "LENGTH": ln, "MIN": ref.min, "MAX": ref.max,}
+                        {
+                            "REF": ref.ref,
+                            "LENGTH": ln,
+                            "MIN": ref.min,
+                            "MAX": ref.max,
+                        }
                     ]
                 }
             )
