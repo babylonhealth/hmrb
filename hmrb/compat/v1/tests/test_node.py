@@ -41,14 +41,10 @@ def test_node_build_child(test, testBaseNode, testChildNode):
     )
     test_key = testBaseNode._make_node_key(token)
     testBaseNode._build_child(test_key, testBaseNode)
-    assert is_probably_equal(
-        str((testBaseNode.child_attribute_index)), expected
-    )
+    assert is_probably_equal(str((testBaseNode.child_attribute_index)), expected)
 
 
-@pytest.mark.parametrize(
-    "test_pairs", test_core_data["rules_simple"]["test_pairs"]
-)
+@pytest.mark.parametrize("test_pairs", test_core_data["rules_simple"]["test_pairs"])
 def test_object_input_simple(test_pairs, engine):
     class InputObject:
         pass

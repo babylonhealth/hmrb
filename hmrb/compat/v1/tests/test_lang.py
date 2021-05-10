@@ -308,7 +308,11 @@ def test_char_iter(string, chars):
 
 @pytest.mark.parametrize(
     "string, unescaped",
-    [('a\\"a', 'a"a'), ("a\\ a", "a a"), ("a\\\\a", "a\\a"), ],
+    [
+        ('a\\"a', 'a"a'),
+        ("a\\ a", "a a"),
+        ("a\\\\a", "a\\a"),
+    ],
 )
 def test_unescape(string, unescaped):
     assert unescape(string) == unescaped
@@ -661,8 +665,7 @@ def test_parse_block(string, member_types, valid, seg2letter):
     if valid:
         block = parse_block(string, vars={})
         types = "".join(
-            f"{seg2letter[m.__class__]}"
-            f"{len(m.atts) if isinstance(m, Unit) else 1}"
+            f"{seg2letter[m.__class__]}" f"{len(m.atts) if isinstance(m, Unit) else 1}"
             for m in block.members
         )
         assert types == member_types
@@ -678,14 +681,15 @@ def test_parse_block(string, member_types, valid, seg2letter):
 )
 def test_grammar(grammar_str, atts, seg2letter):
     if atts["loads"]:
-        grammar = Grammar(grammar_str)
+        grammar = Grammar(grammar_str, {})
         types = "".join([seg2letter[m.__class__] for m in grammar.segments])
         assert types == atts["segment_types"]
     else:
         with pytest.raises((KeyError, ValueError)):
-            Grammar(grammar_str)
+            Grammar(grammar_str, {})
 
 
+@pytest.mark.skipif(sys.version_info > (3, 8, 0), reason="hash values differ")
 @pytest.mark.skipif(sys.version_info < (3, 6, 8), reason="hash values differ")
 @pytest.mark.parametrize(
     "atts, grammar_str",
@@ -694,7 +698,7 @@ def test_grammar(grammar_str, atts, seg2letter):
 def test_babylonian_translator(grammar_str, atts):
     # needs export PYTHONHASHSEED=42 before Python interpreter
     internal = json.loads(atts["internal"])
-    bab = Grammar(grammar_str)
+    bab = Grammar(grammar_str, vars_={})
     vars, rules = list(bab.vars.values()), list(unique(bab.laws))
     assert is_probably_equal([vars, rules], internal)
 
@@ -738,8 +742,7 @@ def test_babylonian_labels(string, label, lbl_idx, valid):
         ("4", 'Var foo:\n\n(\n(lemma: "foo")'),
         (
             "4",
-            'Law:\n - foo: "bar"\n((lemma: "foo"))\n'
-            'Var:\n\n(\n(lemma: "foo")',
+            'Law:\n - foo: "bar"\n((lemma: "foo"))\n' 'Var:\n\n(\n(lemma: "foo")',
         ),
         ("1", 'Var:\n\n(\n(lemma: "foo")'),
         (
@@ -765,5 +768,5 @@ def test_babylonian_labels(string, label, lbl_idx, valid):
 )
 def test_line_num_in_error(grammar_str, err_line_num):
     with pytest.raises(ValueError) as err:
-        _ = Grammar(grammar_str)
+        _ = Grammar(grammar_str, {})
     assert f"line {err_line_num}" in str(err.value)

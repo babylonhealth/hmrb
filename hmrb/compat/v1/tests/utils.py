@@ -16,17 +16,23 @@ def is_probably_equal(arg1: object, arg2: object) -> bool:
         arg1 = {str(k): v for k, v in arg1.items()}
     if isinstance(arg2, dict):
         arg2 = {str(k): v for k, v in arg2.items()}
-    c_a = Counter(arg1) if isinstance(arg1, str) else \
-        Counter(str(json.dumps(arg1, cls=Encoder)))
-    c_b = Counter(arg2) if isinstance(arg2, str) else \
-        Counter(str(json.dumps(arg2, cls=Encoder)))
+    c_a = (
+        Counter(arg1)
+        if isinstance(arg1, str)
+        else Counter(str(json.dumps(arg1, cls=Encoder)))
+    )
+    c_b = (
+        Counter(arg2)
+        if isinstance(arg2, str)
+        else Counter(str(json.dumps(arg2, cls=Encoder)))
+    )
     return c_a == c_b
 
 
 def parse_babylonian_data(fp):
-    item_sep = '################################'
-    atts_sep = '================================'
-    with open(fp, encoding='utf-8') as fh:
+    item_sep = "################################"
+    atts_sep = "================================"
+    with open(fp, encoding="utf-8") as fh:
         s = fh.read()
     items = [itm for itm in s.split(item_sep) if itm.strip()]
     for itm in items:
@@ -35,13 +41,14 @@ def parse_babylonian_data(fp):
 
 
 def parse_bab_data_atts(atts_str):
-    lines = atts_str.split('\n')
-    atts = {line.split(':', 1)[0]: line.split(':', 1)[1].strip()
-            for line in lines if line}
+    lines = atts_str.split("\n")
+    atts = {
+        line.split(":", 1)[0]: line.split(":", 1)[1].strip() for line in lines if line
+    }
     for key in atts:
-        if key in ['outcomes', 'inputs']:
-            atts[key] = atts[key].strip().split(';')
-        elif key in ['loads']:
+        if key in ["outcomes", "inputs"]:
+            atts[key] = atts[key].strip().split(";")
+        elif key in ["loads"]:
             atts[key] = parse_bool(atts[key].strip())
         else:
             atts[key] = atts[key].strip()
@@ -49,12 +56,12 @@ def parse_bab_data_atts(atts_str):
 
 
 def parse_bool(s):
-    if s.lower() == 'true':
+    if s.lower() == "true":
         return True
-    elif s.lower() == 'false':
+    elif s.lower() == "false":
         return False
     else:
-        raise ValueError(f'Incorrect boolean value: {s}')
+        raise ValueError(f"Incorrect boolean value: {s}")
 
 
 class Underscore:
@@ -70,7 +77,6 @@ class FakeToken:
 
 
 class FakeDocument:
-
     def __init__(self, tokens):
         self.tokens = tokens
         self.pos_ = 0

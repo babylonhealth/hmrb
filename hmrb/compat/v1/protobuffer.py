@@ -354,16 +354,12 @@ class Labels:
             other.Unpack(other_labels)
             for key in self.proto_labels.items:
                 if key in other_labels.items:
-                    other_labels.items[key].MergeFrom(
-                        self.proto_labels.items[key]
-                    )
+                    other_labels.items[key].MergeFrom(self.proto_labels.items[key])
             self.proto_labels.MergeFrom(other_labels)
         return self
 
 
-def mirror_depth(
-    left: Union[Match, Responses], right: Union[Match, Responses]
-) -> None:
+def mirror_depth(left: Union[Match, Responses], right: Union[Match, Responses]) -> None:
     left.depth_reached = max(left.depth_reached, right.depth_reached)
 
 

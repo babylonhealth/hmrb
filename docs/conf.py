@@ -16,6 +16,7 @@
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
+import hmrb
 
 # -- Project information -----------------------------------------------------
 
@@ -24,9 +25,9 @@ copyright = "2019, Babylon Health"
 author = "Kristian Boda, Sasho Savkov"
 
 # The short X.Y version
-version = ""
+version = hmrb.__version__
 # The full version, including alpha/beta/rc tags
-release = ""
+release = hmrb.__release__
 
 
 # -- General configuration ---------------------------------------------------
@@ -108,7 +109,7 @@ htmlhelp_basename = "hmrbdoc"
 
 # -- Options for LaTeX output ------------------------------------------------
 
-latex_elements = {
+latex_elements: dict = {
     # The paper size ('letterpaper' or 'a4paper').
     #
     # 'papersize': 'letterpaper',
@@ -182,4 +183,3 @@ epub_exclude_files = ["search.html"]
 
 # -- Extension configuration -------------------------------------------------
 autodoc_default_options = {"members": True, "private-members": True}
-

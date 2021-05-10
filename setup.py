@@ -1,6 +1,13 @@
 #!/usr/bin/env python
+
 import os
-from setuptools import setup, find_packages, Extension
+import re
+from pathlib import Path
+from typing import List
+
+from setuptools import Extension, find_packages, setup
+
+import hmrb as root
 
 extension_modules = ("core", "lang", "node", "protobuffer", "response_pb2")
 
@@ -9,34 +16,38 @@ try:
 
     # * Using Cython to compile
     extensions = cythonize(
-        [f"hmrb/{module}.py" for module in extension_modules],
+        [f"hmrb/compat/v1/{module}.py" for module in extension_modules],
         compiler_directives={"language_level": "3str"},
     )
 except ImportError:
     if all(
         [
-            os.path.isfile(f"hmrb/{module}.c")
+            os.path.isfile(f"hmrb/compat/v1/{module}.c")
             for module in extension_modules
         ]
     ):
         # * Using pre-compiled C files
         extensions = [
-            Extension(module, [f"hmrb/{module}.c"])
+            Extension(module, [f"hmrb/compat/v1/{module}.c"])
             for module in extension_modules
         ]
     else:
         # * Using native Python
         extensions = []
 
-with open("requirements.txt") as f:
-    install_requires = f.read().splitlines()
-
 with open("README.md") as f:
     long_description = f.read()
 
-setup(
-    name="hmrb",
-    version="1.0.0",
+def read_requirements(file: str) -> List[str]:
+    if not Path(file).is_file():
+        raise FileNotFoundError(file)
+    with open(file) as fd:
+        unparsed_requirements = fd.read()
+        return re.findall(r"[\w-]+==[\d.]+", unparsed_requirements)
+
+setup_params = dict(
+    name='hmrb',
+    version=root.__version__,
     packages=find_packages(".", exclude=("tests",)),
     zip_safe=False,
     include_package_data=False,
@@ -49,11 +60,18 @@ setup(
     long_description_content_type="text/markdown",
     setup_requires=["cython<0.30"],
     ext_modules=extensions,
-    install_requires=install_requires,
-    classifiers=[
-        "Intended Audience :: Developers",
-        "Operating System :: OS Independent",
-        "Programming Language :: Python",
-        "Programming Language :: Python :: 3.6",
-    ],
+    install_requires=read_requirements('requirements.txt'),
+    entry_points={
+        'console_scripts': [
+            'hmrb = hmrb.__main__:main',
+        ]
+    }
 )
+
+
+def main() -> None:
+    setup(**setup_params)
+
+
+if __name__ == '__main__':
+    main()
