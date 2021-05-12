@@ -117,9 +117,7 @@ class Core:
             for data in matches:
                 callback_name = data.get("callback")
                 logging.info(f"_execute: callback <{callback_name}>")
-                callback = self.callbacks.get(
-                    callback_name, Core.default_callback
-                )
+                callback = self.callbacks.get(callback_name, Core.default_callback)
                 try:
                     callback(input_, slice(*span), data)
                 except Exception as ex:
@@ -190,9 +188,7 @@ class SpacyCore(Core):
         map_doc: Callable = _default_map,
         sort_length: bool = False,
     ):
-        super().__init__(
-            callbacks=callbacks, sets=sets, sort_length=sort_length
-        )
+        super().__init__(callbacks=callbacks, sets=sets, sort_length=sort_length)
         self.map_doc = map_doc
 
     def __call__(self, doc: Any) -> Any:
@@ -230,13 +226,20 @@ try:
     from spacy.language import Language
     from spacy import registry
 
-    def spacy_factory(nlp, name, callbacks, sets, map_doc, sort_length, rules):
-        map_doc = registry.get(*map_doc.split("."))
+    def spacy_factory(
+        nlp: object,
+        name: str,
+        callbacks: dict,
+        sets: dict,
+        map_doc: str,
+        sort_length: bool,
+        rules: str,
+    ) -> SpacyCore:
+        map_fn = registry.get(*map_doc.split("."))
         callbacks = {
-            key: registry.get(*value.split("."))
-            for key, value in callbacks.items()
+            key: registry.get(*value.split(".")) for key, value in callbacks.items()
         }
-        core = SpacyCore(callbacks, sets, map_doc, sort_length)
+        core = SpacyCore(callbacks, sets, map_fn, sort_length)
         core.load(rules)
         return core
 
