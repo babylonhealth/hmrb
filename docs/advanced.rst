@@ -1,11 +1,11 @@
-🤖 Advanced Usage
-=================
+🤖 spaCy and callbacks
+======================
 
 
-Hammurabi in spaCy pipelines
-----------------------------
+Hammurabi in spaCy 2.X pipelines
+---------------------------------
 We provide native support for spaCy through the ``SpacyCore`` object.
-The ``SpacyCore`` object can simply be integrated into your existing spaCy pipelines.
+The ``SpacyCore`` object can simply be integrated into your existing spaCy 2.X pipelines.
 
 
 .. code-block:: python
@@ -18,7 +18,45 @@ The ``SpacyCore`` object can simply be integrated into your existing spaCy pipel
    core.load(rules)
    nlp.add_pipe(core)
 
-``SpacyCore`` takes a *dict* of callbacks, an optional *function* that converts input (to_json) and a *bool* whether to sort and execute in ascending order according to match length.
+``SpacyCore`` takes a *dict* of callbacks, an optional *function* that converts spaCy doc type (to_json) to a representation that corresponds to your rules and a *bool* whether to sort and execute in ascending order according to match length.
+
+Once the object is instantiated, you can load rules using the ``.load`` method.
+
+
+Hammurabi in spaCy 3.X pipelines
+---------------------------------
+We also provide native support for spaCy 3.0+. You still have to import the `SpacyCore` object to run the component registration and the configuration syntax is slightly different versus 2.0.
+
+We follow the new custom pipeline component API under ``spacy.language`` `[Link] <https://spacy.io/usage/processing-pipelines#custom-components>`_:
+
+First, we have to register both our augmenter functions `map_doc` and any callback functions we would call in spaCy's registry.
+
+Second, we have to create a configuration dictionary that contains the rules and references the callbacks and mapping functions as shown in the example below.
+
+Finally, we can add the ``"hammurabi"`` pipeline component using our configuration to the spaCy pipeline.
+
+.. code-block:: python
+
+   from hmrb.core import SpacyCore
+
+   @spacy.registry.augmenters("jsonify_span")
+   def jsonify_span(span):
+     return [
+        {"lemma": token.lemma_, "pos": token.pos_, "lower": token.lower_}
+        for token in span
+    ]
+
+   @spacy.registry.callbacks("dummy_callback")
+   def dummy_callback(seq: list, span: slice, data: dict) -> None:
+    print("OK")
+
+   conf = {
+       "rules" = GRAMMAR
+       "callbacks" = {"my_callback": "callbacks.dummy_callback"}
+       "map_doc" = "augmenters.jsonify_span"
+   }
+   nlp.add_pipe("hammurabi", config=conf)
+
 
 Handling Callbacks
 ------------------
@@ -165,4 +203,3 @@ The ordinal validation behaviour is logically separated from the sentence valida
 Note that `validate_ordinal` is only responsible for validating the abbreviated ordinal.
 If successful, it persists its results in the `doc` object. These will be picked up by `validate_Nth_or_Nth_icecream`, which does not perform any additional validation of the ordinal syntax. Instead, it checks that the two compared ordinals are different.
 This example shows how frequent callback usage can be used to achieve better segregation of responsibility.
-
