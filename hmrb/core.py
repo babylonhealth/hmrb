@@ -117,7 +117,9 @@ class Core:
             for data in matches:
                 callback_name = data.get("callback")
                 logging.info(f"_execute: callback <{callback_name}>")
-                callback = self.callbacks.get(callback_name, Core.default_callback)
+                callback = self.callbacks.get(
+                    callback_name, Core.default_callback
+                )
                 try:
                     callback(input_, slice(*span), data)
                 except Exception as ex:
@@ -188,7 +190,9 @@ class SpacyCore(Core):
         map_doc: Callable = _default_map,
         sort_length: bool = False,
     ):
-        super().__init__(callbacks=callbacks, sets=sets, sort_length=sort_length)
+        super().__init__(
+            callbacks=callbacks, sets=sets, sort_length=sort_length
+        )
         self.map_doc = map_doc
 
     def __call__(self, doc: Any) -> Any:
@@ -220,3 +224,32 @@ class SpacyCore(Core):
         logging.info(f"call: {len(protobuf)} match(es)")
         super()._execute(protobuf, doc)
         return doc
+
+
+try:
+    from spacy.language import Language
+    from spacy import registry
+
+    def spacy_factory(nlp, name, callbacks, sets, map_doc, sort_length, rules):
+        map_doc = registry.get(*map_doc.split("."))
+        callbacks = {
+            key: registry.get(*value.split("."))
+            for key, value in callbacks.items()
+        }
+        core = SpacyCore(callbacks, sets, map_doc, sort_length)
+        core.load(rules)
+        return core
+
+    Language.factory(
+        "hammurabi",
+        default_config={
+            "callbacks": {},
+            "sets": {},
+            "map_doc": _default_map,
+            "sort_length": False,
+            "rules": "",
+        },
+        func=spacy_factory,
+    )
+except (ImportError, AttributeError):
+    logging.debug("disabling support for spaCy 3.0+")
