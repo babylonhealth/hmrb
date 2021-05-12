@@ -1,5 +1,8 @@
 import pytest
+spacy = pytest.importorskip("spacy")
 
+
+@spacy.registry.augmenters("jsonify_span")
 def jsonify_span(span):
     jsn = []
     for token in span:
@@ -10,6 +13,7 @@ def jsonify_span(span):
         })
     return jsn
 
+@spacy.registry.callbacks("dummy_callback")
 def dummy_callback(seq: list, span: slice, data: dict) -> None:
     print("OK")
 
@@ -24,11 +28,11 @@ Law:
     (lemma: "great")
 )
 """
-CLBS = {"pytest": dummy_callback}
+CLBS = {"pytest": "dummy_callback"}
 
 def test_spacyV2(capsys):
-    spacy = pytest.importorskip("spacy")
-    assert spacy.__version__ == "2.3.5"
+    if spacy.__version__ >= "3.0.0":
+        pytest.skip(f"Invalid spacy version {spacy.__version__}")
     nlp = spacy.load("en_core_web_sm")
 
     from hmrb.core import SpacyCore
@@ -37,6 +41,26 @@ def test_spacyV2(capsys):
                  sort_length=True)
     core.load(GRAMMAR)
     nlp.add_pipe(core)
+    nlp(TEXT)
+    captured = capsys.readouterr()
+    assert captured[0] == 'OK\n'
+    nlp(TEXT2)
+    captured = capsys.readouterr()
+    assert captured[0] == ''
+
+
+def test_spacyV3(capsys):
+    spacy = pytest.importorskip("spacy")
+    if spacy.__version__ <= "3.0.0":
+        pytest.skip(f"Invalid spacy version {spacy.__version__}")
+    nlp = spacy.load("en_core_web_sm")
+
+    conf = {}
+    conf['callbacks'] = CLBS
+    conf['map_doc']="jsonify_span"
+    conf['sort_length']=True
+    conf['rules']=GRAMMAR
+    nlp.add_pipe("hammurabi", config=conf)
     nlp(TEXT)
     captured = capsys.readouterr()
     assert captured[0] == 'OK\n'
