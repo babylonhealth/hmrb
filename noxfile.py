@@ -62,6 +62,32 @@ def tests(session: Session) -> None:
     session.run("coverage", "xml")
 
 
+@nox.session(python=["3.9"])
+def test_spacy2(session: Session) -> None:
+    session.install("pytest")
+    session.install("spacy<3.0.0")
+    session.run("spacy", "download", "en_core_web_sm")
+    session.install("-r", "requirements.txt")
+    session.install("-e", ".")
+    session.run(
+        "pytest",
+        "tests/test_spacy.py",
+        )
+
+
+@nox.session(python=["3.9"])
+def test_spacy3(session: Session) -> None:
+    session.install("pytest")
+    session.install("spacy>=3.0.0")
+    session.run("spacy", "download", "en_core_web_sm")
+    session.install("-r", "requirements.txt")
+    session.install("-e", ".")
+    session.run(
+        "pytest",
+        "tests/test_spacy.py",
+        )
+
+
 @nox.session(python=["3.7"])
 def changelog(session: Session) -> None:
     args = session.posargs or ["--unreleased"]
