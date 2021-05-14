@@ -220,3 +220,39 @@ class SpacyCore(Core):
         logging.info(f"call: {len(protobuf)} match(es)")
         super()._execute(protobuf, doc)
         return doc
+
+
+try:
+    from spacy.language import Language
+    from spacy import registry
+
+    def spacy_factory(
+        nlp: object,
+        name: str,
+        callbacks: dict,
+        sets: dict,
+        map_doc: str,
+        sort_length: bool,
+        rules: str,
+    ) -> SpacyCore:
+        map_fn = registry.get(*map_doc.split("."))
+        callbacks = {
+            key: registry.get(*value.split(".")) for key, value in callbacks.items()
+        }
+        core = SpacyCore(callbacks, sets, map_fn, sort_length)
+        core.load(rules)
+        return core
+
+    Language.factory(
+        "hmrb",
+        default_config={
+            "callbacks": {},
+            "sets": {},
+            "map_doc": _default_map,
+            "sort_length": False,
+            "rules": "",
+        },
+        func=spacy_factory,
+    )
+except (ImportError, AttributeError):
+    logging.debug("disabling support for spaCy 3.0+")

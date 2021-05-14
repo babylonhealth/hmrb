@@ -13,20 +13,20 @@ def conj_be(subj: str) -> str:
         return "is"
 
 
+@spacy.registry.callbacks("gorilla_callback")
 def gorilla_clb(seq: list, span: slice, data: dict) -> None:
     subj = seq[span.start].text
     be = conj_be(subj)
     print(f"{subj} {be} a gorilla person.")
 
 
+@spacy.registry.callbacks("lover_callback")
 def lover_clb(seq: list, span: slice, data: dict) -> None:
     print(
         f"{seq[span][-1].text} is a love interest of "
         f"{seq[span.start].text}."
     )
 
-
-clbs = {"loves_gorilla": gorilla_clb, "loves_someone": lover_clb}
 
 grammar = """
 Law:
@@ -46,6 +46,7 @@ Law:
 """
 
 
+@spacy.registry.augmenters("jsonify_span")
 def jsonify_span(span):
     return [
         {"lemma": token.lemma_, "pos": token.pos_, "lower": token.lower_}
@@ -55,8 +56,15 @@ def jsonify_span(span):
 
 from hmrb.core import SpacyCore
 
-core = SpacyCore(callbacks=clbs, map_doc=jsonify_span, sort_length=True)
+conf = {
+    "rules": grammar,
+    "callbacks": {
+        "loves_gorilla": "callbacks.gorilla_callback",
+        "loves_someone": "callbacks.lover_callback",
+    },
+    "map_doc": "augmenters.jsonify_span",
+    "sort_length": True,
+}
 
-core.load(grammar)
-nlp.add_pipe(core)
+nlp.add_pipe("hmrb", config=conf)
 nlp(sentences)
