@@ -33,7 +33,7 @@ First, we have to register both our augmenter functions `map_doc` and any callba
 
 Second, we have to create a configuration dictionary that contains the rules and references the callbacks and mapping functions as shown in the example below.
 
-Finally, we can add the ``"hammurabi"`` pipeline component using our configuration to the spaCy pipeline.
+Finally, we can add the ``"hmrb"`` pipeline component using our configuration to the spaCy pipeline.
 
 .. code-block:: python
 
@@ -51,11 +51,11 @@ Finally, we can add the ``"hammurabi"`` pipeline component using our configurati
     print("OK")
 
    conf = {
-       "rules" = GRAMMAR
-       "callbacks" = {"my_callback": "callbacks.dummy_callback"}
-       "map_doc" = "augmenters.jsonify_span"
+       "rules": GRAMMAR
+       "callbacks": {"my_callback": "callbacks.dummy_callback"}
+       "map_doc": "augmenters.jsonify_span"
    }
-   nlp.add_pipe("hammurabi", config=conf)
+   nlp.add_pipe("hmrb", config=conf)
 
 
 Handling Callbacks
