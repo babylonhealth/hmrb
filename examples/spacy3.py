@@ -66,5 +66,5 @@ conf = {
     "sort_length": True,
 }
 
-nlp.add_pipe("hammurabi", config=conf)
+nlp.add_pipe("hmrb", config=conf)
 nlp(sentences)

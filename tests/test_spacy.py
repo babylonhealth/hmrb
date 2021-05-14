@@ -68,7 +68,7 @@ def test_spacyV3(capsys):
     conf["map_doc"] = "augmenters.jsonify_span"
     conf["sort_length"] = True
 
-    nlp.add_pipe("hammurabi", config=conf)
+    nlp.add_pipe("hmrb", config=conf)
     nlp(TEXT)
     captured = capsys.readouterr()
     assert captured[0] == "OK\n"

@@ -244,7 +244,7 @@ try:
         return core
 
     Language.factory(
-        "hammurabi",
+        "hmrb",
         default_config={
             "callbacks": {},
             "sets": {},
