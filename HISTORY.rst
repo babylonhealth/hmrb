@@ -1,3 +1,8 @@
+1.2.0 (14.05.2021)
+++++++++++++++++++
+- NLP-1955: spaCy 3.0+ compatibility with example and test
+- NLP-1954: spaCy 2.2+ example and test
+
 1.1.1 (25.02.2021)
 ++++++++++++++++++
 - NLP-1915: Fix for setup.py regex
