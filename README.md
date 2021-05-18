@@ -244,6 +244,7 @@ $ DEBUG=1 python example.py
 
 ### 6. Maintainers
 
+
 <!-- HTML:START -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
@@ -256,4 +257,5 @@ $ DEBUG=1 python example.py
 </table>
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
+<h3> Made with <img src="https://user-images.githubusercontent.com/6807878/118643685-cae6b880-b7d4-11eb-976e-066aec9505da.png" alt="Babylon" width="50"/></h3>
 <!-- HTML:END -->
