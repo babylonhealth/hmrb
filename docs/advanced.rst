@@ -55,7 +55,7 @@ Finally, we can add the ``"hmrb"`` pipeline component using our configuration to
        "callbacks": {"my_callback": "callbacks.dummy_callback"}
        "map_doc": "augmenters.jsonify_span"
    }
-   nlp.add_pipe("hmrb", config=conf)
+   nlp.add_pipe(SpacyCore.name, config=conf)
 
 
 Handling Callbacks
