@@ -70,7 +70,6 @@ def tests_v2(session: Session) -> None:
     session.run("pytest", "hmrb/tests", "--cov-config=.coveragerc", "--cov")
     session.chdir("hmrb/rust")
     session.run("cargo", "test")
-    session.run("pytest", "hmrb/tests", "--cov")
 
 
 @nox.session(python=["3.7"])
