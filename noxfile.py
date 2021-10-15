@@ -52,7 +52,7 @@ def tests_v1(session: Session) -> None:
     session.run("pip", "install", "-e", ".")
     session.run(
         "pytest",
-        "hmrb/compat",
+        "hmrb/compat/v1",
         "--cov-config",
         ".coveragerc",
         "--cov",
