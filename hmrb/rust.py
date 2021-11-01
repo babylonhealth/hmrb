@@ -21,7 +21,12 @@ ffi = FFI()
 (file_path, _) = os.path.split(__file__)
 cwd = os.getcwd()
 
-h_path = os.path.join(file_path, "rust", "src", "hmrb.h",)
+h_path = os.path.join(
+    file_path,
+    "rust",
+    "src",
+    "hmrb.h",
+)
 h_rel_path = os.path.join(os.curdir, os.path.relpath(h_path, cwd))
 
 dlib_path = os.path.join(
