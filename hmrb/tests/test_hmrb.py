@@ -14,7 +14,7 @@ class TestHammurabi:
         assert True
         self._teardown()
 
-    def test_rust_example(self):
+    def test_rust_example(self) -> None:
         assert rust.rust_lib.is_prime(12) == 0
         assert rust.rust_lib.is_prime(13) == 1
 

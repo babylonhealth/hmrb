@@ -282,7 +282,7 @@ class Match:
                 self.proto_match.span.end = self.span_end
             other += self.proto_match.underscore["labels"]
             self.proto_match.underscore["labels"].Pack(other.proto_labels)
-        elif other.Is(pb.Labels.DESCRIPTOR):  # type: ignore
+        elif other.Is(pb.Labels.DESCRIPTOR):
             mirror_labels(self.proto_match.underscore["labels"], other)
         return self
 
@@ -349,7 +349,7 @@ class Labels:
             )
 
     def __iadd__(self, other: Any) -> Any:
-        if other.Is(pb.Labels.DESCRIPTOR):  # type: ignore
+        if other.Is(pb.Labels.DESCRIPTOR):
             other_labels = pb.Labels()
             other.Unpack(other_labels)
             for key in self.proto_labels.items:
@@ -368,7 +368,7 @@ def mirror_labels(left: Any, right: Any) -> None:
     right_labels = pb.Labels()
     if isinstance(right, Labels):
         right_labels.CopyFrom(right.proto_labels)
-    elif right.Is(pb.Labels.DESCRIPTOR):  # type: ignore
+    elif right.Is(pb.Labels.DESCRIPTOR):
         right.Unpack(right_labels)
     left.Unpack(left_labels)
     for key in left_labels.items:
