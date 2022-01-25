@@ -20,7 +20,7 @@ import hmrb
 # -- Project information -----------------------------------------------------
 
 project = "hmrb"
-copyright = "2021, Babylon Health"
+copyright = "2022, Babylon Health"
 author = "Kristian Boda, Sasho Savkov"
 
 # The short X.Y version

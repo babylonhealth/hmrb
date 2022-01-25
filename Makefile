@@ -14,7 +14,7 @@ ERROR_PYTHON_VERSION = 10
 ### Main defs
 
 PACKAGE_NAME = hmrb
-PACKAGE_VERSION = 1.2.0
+PACKAGE_VERSION = 1.2.1
 
 srcdir = $(CURDIR)/$(PACKAGE_NAME)
 builddir = $(CURDIR)/build

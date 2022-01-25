@@ -5,21 +5,21 @@ nox.options.sessions = "lint", "mypy", "tests"
 locations = "hmrb", "docs/conf.py"
 
 
-@nox.session(python=["3.7"])
+@nox.session(python=["3.8"])
 def requirements(session: Session) -> None:
     args = session.posargs or ["-o", "requirements.txt", "requirements.in"]
     session.install("pip-tools")
     session.run("pip-compile", *args)
 
 
-@nox.session(python=["3.7"])
+@nox.session(python=["3.8"])
 def black(session: Session) -> None:
     args = session.posargs or locations
     session.install("black")
     session.run("black", *args)
 
 
-@nox.session(python=["3.7"])
+@nox.session(python=["3.8"])
 def lint(session: Session) -> None:
     args = session.posargs or locations
     session.install(
@@ -32,14 +32,14 @@ def lint(session: Session) -> None:
     session.run("flake8", *args)
 
 
-@nox.session(python=["3.7"])
+@nox.session(python=["3.8"])
 def types(session: Session) -> None:
     args = session.posargs or locations
     session.install("mypy")
     session.run("mypy", *args)
 
 
-@nox.session(python=["3.7"])
+@nox.session(python=["3.8"])
 def safety(session: Session) -> None:
     session.install("safety")
     session.run("safety", "check", "--file=requirements.txt", "--full-report")
@@ -62,7 +62,7 @@ def tests(session: Session) -> None:
     session.run("coverage", "xml")
 
 
-@nox.session(python=["3.9"])
+@nox.session(python=["3.8"])
 def test_spacy2(session: Session) -> None:
     session.install("pytest")
     session.install("spacy<3.0.0")
@@ -75,7 +75,7 @@ def test_spacy2(session: Session) -> None:
         )
 
 
-@nox.session(python=["3.9"])
+@nox.session(python=["3.8"])
 def test_spacy3(session: Session) -> None:
     session.install("pytest")
     session.install("spacy>=3.0.0")
@@ -88,14 +88,14 @@ def test_spacy3(session: Session) -> None:
         )
 
 
-@nox.session(python=["3.7"])
+@nox.session(python=["3.8"])
 def changelog(session: Session) -> None:
     args = session.posargs or ["--unreleased"]
     session.install("auto-changelog")
     session.run("auto-changelog", *args)
 
 
-@nox.session(python=["3.7"])
+@nox.session(python=["3.8"])
 def docs(session: Session) -> None:
     args = session.posargs or locations
     session.install("-r", "doc_requirements.txt")
@@ -106,7 +106,7 @@ def docs(session: Session) -> None:
     session.run(*args)
 
 
-@nox.session(python=["3.7"])
+@nox.session(python=["3.8"])
 def publish(session: Session) -> None:
     args = session.posargs or ["-r","testpypi"]
     args += ["dist/*"]
