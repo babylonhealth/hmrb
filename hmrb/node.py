@@ -1,4 +1,3 @@
-import collections
 import logging
 import operator
 from typing import Any, Dict, Callable, Iterator, List, Optional, Tuple, Union
