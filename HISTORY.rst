@@ -1,3 +1,7 @@
+1.2.1 (25.01.2022)
+++++++++++++++++++
+- NLP-2233: bump dependency versions and general maintenance
+
 1.2.0 (14.05.2021)
 ++++++++++++++++++
 - NLP-1955: spaCy 3.0+ compatibility with example and test
