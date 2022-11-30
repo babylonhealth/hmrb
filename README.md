@@ -1,3 +1,6 @@
+> **Note**
+> This repository is no longer actively maintained by Babylon Health. For any issues and further releases please check [bodak/hmrb](https://github.com/bodak/hmrb).
+
 # Hammurabi [hmrb] 🏺
 
 Upholds the law for sequences.
